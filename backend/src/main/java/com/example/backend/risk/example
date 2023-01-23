@@ -1,0 +1,11 @@
+
+
+{
+        "projectId": "TEST PROJECT",
+        "riskName": "Dicyness",
+        "riskDescription": "Things could get quite dicy",
+        "riskReductionMeasures": ["Being aware of dicyness" ,"Don't let it get dicy"],
+        "healthHazard": 1,
+        "probability": 4,
+        "frequency": 1
+    }
