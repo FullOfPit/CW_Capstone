@@ -14,4 +14,8 @@ public class RiskService {
     public List<Risk> getAll() {
         return this.riskRepository.findAll();
     }
+
+    public Risk create(Risk risk) {
+        return this.riskRepository.save(risk);
+    }
 }

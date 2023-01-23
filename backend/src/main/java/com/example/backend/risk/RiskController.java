@@ -1,9 +1,7 @@
 package com.example.backend.risk;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +15,10 @@ public class RiskController {
     @GetMapping
     List<Risk> getAll() {
         return this.riskService.getAll();
+    }
+
+    @PostMapping
+    Risk create(@RequestBody Risk risk) {
+        return this.riskService.create(risk);
     }
 }
