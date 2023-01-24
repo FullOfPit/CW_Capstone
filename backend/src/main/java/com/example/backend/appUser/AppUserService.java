@@ -2,7 +2,6 @@ package com.example.backend.appUser;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,21 +28,7 @@ public class AppUserService {
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
-        if (
-                SecurityContextHolder.getContext().getAuthentication() == null ||
-                        !SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .isAuthenticated() ||
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getAuthorities()
-                                .stream()
-                                .noneMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN"))
-        ) {
-            appUser.setRole("BASIC");
-        }
+        appUser.setRole("BASIC");
 
         appUserRepository.save(appUser);
 
