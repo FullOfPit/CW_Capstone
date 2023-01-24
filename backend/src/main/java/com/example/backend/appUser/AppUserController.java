@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,11 @@ public class AppUserController {
         return appUserService.findByUsernameWithoutPassword(
                 SecurityContextHolder.getContext().getAuthentication().getName()
         );
+    }
+
+    @GetMapping("/logout")
+    public void logout (HttpSession httpSession) {
+        httpSession.invalidate();
     }
 
 
