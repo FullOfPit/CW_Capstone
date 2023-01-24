@@ -1,12 +1,12 @@
 package com.example.backend.risk;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RiskService {
 
     private final RiskRepository riskRepository;
