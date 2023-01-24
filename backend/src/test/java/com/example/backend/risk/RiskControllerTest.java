@@ -103,8 +103,8 @@ class RiskControllerTest {
         //When - Then
 
         mvc.perform(post("/api/risk")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
                 .andExpect(status().isOk())
                 .andExpect(content().json(request));
 
