@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RiskControllerTest {
 
     @Autowired
