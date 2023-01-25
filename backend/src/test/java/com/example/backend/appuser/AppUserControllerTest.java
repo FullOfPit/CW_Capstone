@@ -22,6 +22,7 @@ class AppUserControllerTest {
 
     @Autowired
     private MockMvc mvc;
+    
 
 
     @Test
