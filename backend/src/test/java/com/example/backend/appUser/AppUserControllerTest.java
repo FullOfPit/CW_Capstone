@@ -101,41 +101,27 @@ class AppUserControllerTest {
                                 "role": "BASIC"
                             }
                             """));
-
-
-
     }
+
+
 
     @Test
     @WithMockUser(username = "Test User", password = "Test Password", roles = "BASIC")
     void getMe_LoggedInWithRegisteredUser() throws Exception {
-        /*
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(appUserRepository.findByUsername("Test User"))
-                .thenReturn(
-                        Optional.of(new AppUser(
-                                "Test ID",
-                                "Test User",
-                                "Test Password",
-                                "BASIC")));
 
-
-
-        String response = """
-                    {
-                    "username": "Test User",
-                    "password": "",
-                    "role": "BASIC"
-                    }
-                """;
-
-         */
+        appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
 
         this.mvc.perform(get("/api/app-user/me"))
-                .andExpectAll(
-                        MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                        {
+                            "username": "Test User",
+                            "password": "",
+                            "role": "BASIC"
+                        }
+                        """));
 
-       //                 MockMvcResultMatchers.content().json(response));
 
     }
 

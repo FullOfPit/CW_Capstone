@@ -6,6 +6,7 @@ import NewProject from "./NewProject";
 import ProjectDetails from "./ProjectDetails";
 import RiskDetails from "./RiskDetails";
 import React, {useMemo} from "react";
+import Authentication from "../components/Authetication";
 
 export default function Root() {
 
@@ -18,12 +19,17 @@ export default function Root() {
 
     return (
         <Routes>
-            <Route path={"/"} element={<Dashboard/>}/>
             <Route path={"/login"} element={
-                //<NoAuth redirect={redirect}>
+                <NoAuth redirect={redirect}>
                     <Login/>
-                //</NoAuth>
+                </NoAuth>
             }/>
+            <Route path={"/"} element={
+                <Authentication>
+                    <Dashboard/>
+                </Authentication>
+            }/>
+
             <Route path={"/newproject"} element={<NewProject/>}></Route>
             <Route path={"/projectdetails"} element={<ProjectDetails/>}></Route>
             <Route path={"/riskdetails"} element={<RiskDetails/>}></Route>
