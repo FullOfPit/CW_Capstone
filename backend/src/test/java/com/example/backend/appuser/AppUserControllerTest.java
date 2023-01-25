@@ -22,6 +22,9 @@ class AppUserControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
     
 
 
@@ -139,17 +142,8 @@ class AppUserControllerTest {
     @Test
     @WithMockUser(username = "Test User", password = "Test Password", roles = "BASIC")
     void getMe_LoggedInWithRegisteredUser() throws Exception {
-        /*
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(appUserRepository.findByUsername("Test User"))
-                .thenReturn(
-                        Optional.of(new AppUser(
-                                "Test ID",
-                                "Test User",
-                                "Test Password",
-                                "BASIC")));
 
-
+        appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
 
         String response = """
                     {
@@ -159,13 +153,12 @@ class AppUserControllerTest {
                     }
                 """;
 
-         */
+
 
         this.mvc.perform(get("/api/appuser/me"))
                 .andExpectAll(
-                        MockMvcResultMatchers.status().isOk());
-
-       //                 MockMvcResultMatchers.content().json(response));
+                        MockMvcResultMatchers.status().isOk(),
+                        MockMvcResultMatchers.content().json(response));
 
     }
 
