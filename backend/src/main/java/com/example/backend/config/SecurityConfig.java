@@ -1,7 +1,7 @@
 package com.example.backend.config;
 
-import com.example.backend.appuser.AppUser;
-import com.example.backend.appuser.AppUserService;
+import com.example.backend.appUser.AppUser;
+import com.example.backend.appUser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +29,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().and()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/api/appuser").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/appuser/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/appuser/me").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/app-user").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/risk").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/risk").authenticated()
                 .anyRequest()
