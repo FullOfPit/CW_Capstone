@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .httpBasic().and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/app-user").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/app-user/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/risk").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/risk").authenticated()
                 .anyRequest()

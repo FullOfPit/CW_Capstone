@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,8 +23,9 @@ class AppUserControllerTest {
 
     @Autowired
     private MockMvc mvc;
-    
 
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     @Test
     void create_returnsCorrectUserData() throws Exception {
@@ -43,7 +45,7 @@ class AppUserControllerTest {
                 }
                 """;
 
-        this.mvc.perform(post("/api/appuser")
+        this.mvc.perform(post("/api/app-user")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(request))
                 .andExpect(status().isOk())
@@ -67,14 +69,14 @@ class AppUserControllerTest {
                     }
                 """;
 
-        this.mvc.perform(post("/api/appuser")
+        this.mvc.perform(post("/api/app-user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isOk(),
                         MockMvcResultMatchers.content().json(response));
 
-        this.mvc.perform(post("/api/appuser")
+        this.mvc.perform(post("/api/app-user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpectAll(
@@ -84,7 +86,7 @@ class AppUserControllerTest {
 
 
     @Test
-    @WithMockUser(username = "Test User", roles = "BASIC")
+    @WithMockUser(username = "Test User", password = "Test Password")
     void post_LoginWithRegisteredUser() throws Exception {
 
         /*
@@ -97,7 +99,6 @@ class AppUserControllerTest {
                                 "Test Password",
                                 "BASIC")));
 
-         */
 
 
 
@@ -107,7 +108,7 @@ class AppUserControllerTest {
                     "password": "Test Password"
                 }
                 """;
-        /*
+
         String response = """
                 {
                     "username": "Test User",
@@ -118,11 +119,8 @@ class AppUserControllerTest {
 
          */
 
-        this.mvc.perform(post("/api/appuser/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(request))
-                .andExpect(status().isOk());
-        /*
+        this.mvc.perform(post("/api/app-user/login/"))
+                .andExpect(status().isOk())
                 .andExpect(content().json(
                             """
                             {
@@ -131,7 +129,7 @@ class AppUserControllerTest {
                                 "role": "BASIC"
                             }
                             """));
-                            */
+
 
 
     }
@@ -161,7 +159,7 @@ class AppUserControllerTest {
 
          */
 
-        this.mvc.perform(get("/api/appuser/me"))
+        this.mvc.perform(get("/api/app-user/me"))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isOk());
 
@@ -171,7 +169,7 @@ class AppUserControllerTest {
 
     @Test
     void getMe_WhenNotLoggedInReturns401() throws Exception {
-        this.mvc.perform(get("/api/appuser/me"))
+        this.mvc.perform(get("/api/app-user/me"))
                 .andExpect(status().isUnauthorized());
 
     }
@@ -179,7 +177,7 @@ class AppUserControllerTest {
     @Test
     @WithMockUser(username = "Test User", roles = "BASIC")
     void logout_withRegisteredUser() throws Exception {
-        mvc.perform(get("/api/appuser/logout"))
+        mvc.perform(get("/api/app-user/logout"))
                 .andExpect(status().isOk());
     }
 
