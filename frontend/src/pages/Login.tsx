@@ -51,9 +51,7 @@ export default function Login () {
         <div>
             <h4>Login</h4>
 
-            {errors.length > 0 && (
-                <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>
-            )}
+
 
             <form onSubmit={login}>
                 <h4>Please enter your username</h4>
@@ -72,6 +70,10 @@ export default function Login () {
                 ></input>
                 <button>Login</button>
             </form>
+
+            {errors.length > 0 && (
+                <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>
+            )}
 
         </div>
 
