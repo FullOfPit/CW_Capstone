@@ -14,7 +14,7 @@ export default function Authentication ({children}:{children: React.ReactNode}) 
                 : "/"}/>
     );
 
-    return !isReady ? null : user ? <>{children}</> : navigate;
+    return !isReady ? null : user ? <div>{children}</div> : navigate;
 
 
 }

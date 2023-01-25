@@ -6,7 +6,7 @@ import NewProject from "./NewProject";
 import ProjectDetails from "./ProjectDetails";
 import RiskDetails from "./RiskDetails";
 import React, {useMemo} from "react";
-import Authentication from "../components/Authetication";
+import Authentication from "../components/Authentication";
 
 export default function Root() {
 
