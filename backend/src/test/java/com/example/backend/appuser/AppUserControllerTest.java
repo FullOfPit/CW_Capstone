@@ -90,52 +90,17 @@ class AppUserControllerTest {
     @WithMockUser(username = "Test User", roles = "BASIC")
     void post_LoginWithRegisteredUser() throws Exception {
 
-        /*
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(appUserRepository.findByUsername("Test User"))
-                .thenReturn(
-                        Optional.of(new AppUser(
-                                "Test ID",
-                                "Test User",
-                                "Test Password",
-                                "BASIC")));
-
-         */
-
-
-
         String request = """
                 {
                     "username": "Test User",
                     "password": "Test Password"
                 }
                 """;
-        /*
-        String response = """
-                {
-                    "username": "Test User",
-                    "password": "",
-                    "role": "BASIC"
-                }
-                """;
-
-         */
 
         this.mvc.perform(post("/api/appuser/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk());
-        /*
-                .andExpect(content().json(
-                            """
-                            {
-                                "username": "Test User",
-                                "password": "",
-                                "role": "BASIC"
-                            }
-                            """));
-                            */
-
 
     }
 
