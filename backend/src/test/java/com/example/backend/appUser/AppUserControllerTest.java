@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -89,35 +88,8 @@ class AppUserControllerTest {
     @WithMockUser(username = "Test User", password = "Test Password")
     void post_LoginWithRegisteredUser() throws Exception {
 
-        /*
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(appUserRepository.findByUsername("Test User"))
-                .thenReturn(
-                        Optional.of(new AppUser(
-                                "Test ID",
-                                "Test User",
-                                "Test Password",
-                                "BASIC")));
+        appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
 
-
-
-
-        String request = """
-                {
-                    "username": "Test User",
-                    "password": "Test Password"
-                }
-                """;
-
-        String response = """
-                {
-                    "username": "Test User",
-                    "password": "",
-                    "role": "BASIC"
-                }
-                """;
-
-         */
 
         this.mvc.perform(post("/api/app-user/login/"))
                 .andExpect(status().isOk())

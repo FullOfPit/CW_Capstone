@@ -1,12 +1,6 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, Routes, useSearchParams} from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import NewProject from "./pages/NewProject";
-import ProjectDetails from "./pages/ProjectDetails";
-import RiskDetails from "./pages/RiskDetails";
-import NoAuth from "./components/NoAuth";
+import {BrowserRouter} from "react-router-dom";
 import Root from "./pages/Root";
 
 
