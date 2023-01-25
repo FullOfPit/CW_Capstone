@@ -1,5 +1,12 @@
+import Logout from "../components/Logout";
+
+
 export default function Dashboard () {
     return(
-       <h4>Dashboard Page</h4>
+        <div>
+            <h4>Dashboard Page</h4>
+            <Logout/>
+        </div>
+
     );
 }

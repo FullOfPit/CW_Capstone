@@ -1,12 +1,14 @@
 import React, {FormEvent, useCallback, useMemo, useState} from "react";
 import axios from "axios";
-import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 export default function Login () {
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",
     })
+
+    const [errors, setErrors] = useState<string[]>([]);
 
     const changeCredentials = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +28,8 @@ export default function Login () {
         async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
 
+            setErrors([]);
+
             try {
                 await axios.post("/api/app-user/login", null, {
                     headers: {
@@ -33,8 +37,10 @@ export default function Login () {
                     }
                 })
                 navigate(redirect);
-            } catch (event) {
-                console.log(event)
+            } catch (error) {
+                console.log(error);
+                setErrors((errors) => [...errors]);
+
             }
         }, [credentials, navigate, redirect])
 
@@ -44,6 +50,11 @@ export default function Login () {
     return (
         <div>
             <h4>Login</h4>
+
+            {errors.length > 0 && (
+                <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>
+            )}
+
             <form onSubmit={login}>
                 <h4>Please enter your username</h4>
                 <input placeholder={"Username"}
