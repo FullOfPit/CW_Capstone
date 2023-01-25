@@ -1,3 +1,5 @@
+import "./Login.css"
+
 import React, {FormEvent, useCallback, useMemo, useState} from "react";
 import axios from "axios";
 import {useNavigate, useSearchParams} from "react-router-dom";
@@ -48,27 +50,25 @@ export default function Login () {
 
 
     return (
-        <div>
-            <h4>Login</h4>
+        <div className={"LoginPage"}>
+            <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
 
-
-
-            <form onSubmit={login}>
-                <h4>Please enter your username</h4>
+            <form onSubmit={login} className={"LoginPageInputForm"}>
+                <h4>Please enter your username below</h4>
                 <input placeholder={"Username"}
                        type={"text"}
                        name={"username"}
                        value={credentials.username}
                        onChange={changeCredentials}
                 ></input>
-                <h4>Please enter your password</h4>
+                <h4>Please enter your password below</h4>
                 <input placeholder={"Password"}
                        type={"text"}
                        name={"password"}
                        value={credentials.password}
                        onChange={changeCredentials}
                 ></input>
-                <button>Login</button>
+                <button className={"ButtonGeneral"}>Login</button>
             </form>
 
             {errors.length > 0 && (

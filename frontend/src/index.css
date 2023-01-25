@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ButtonGeneral {
+  height: 1.7rem;
+  width: 10.0rem;
+
+  border-radius: 15px;
+}

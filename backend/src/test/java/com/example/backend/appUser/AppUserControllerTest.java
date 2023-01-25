@@ -26,6 +26,8 @@ class AppUserControllerTest {
     @Autowired
     private AppUserRepository appUserRepository;
 
+
+
     @Test
     void create_returnsCorrectUserData() throws Exception {
 
