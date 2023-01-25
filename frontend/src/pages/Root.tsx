@@ -29,10 +29,21 @@ export default function Root() {
                     <Dashboard/>
                 </Authentication>
             }/>
-
-            <Route path={"/newproject"} element={<NewProject/>}></Route>
-            <Route path={"/projectdetails"} element={<ProjectDetails/>}></Route>
-            <Route path={"/riskdetails"} element={<RiskDetails/>}></Route>
+            <Route path={"/newproject"} element={
+                <Authentication>
+                    <NewProject/>
+                </Authentication>
+            }/>
+            <Route path={"/projectdetails"} element={
+                <Authentication>
+                    <ProjectDetails/>
+                </Authentication>
+            }/>
+            <Route path={"/riskdetails"} element={
+                <Authentication>
+                    <RiskDetails/>
+                </Authentication>
+            }/>
         </Routes>
     )
 }
