@@ -36,9 +36,9 @@ class RiskControllerTest {
                 "Test Risk",
                 "Test Description",
                 List.of("Test Measure 1", "Test Measure 2"),
-                1,
-                1,
-                1
+                HealthHazard.MINOR,
+                Probability.UNLIKELY,
+                Frequency.RARELY
         );
     }
 
@@ -68,9 +68,9 @@ class RiskControllerTest {
                         "riskName": "Test Risk",
                         "riskDescription": "Test Description",
                         "riskReductionMeasures": ["Test Measure 1", "Test Measure 2"],
-                        "healthHazard": 1,
-                        "probability": 1,
-                        "frequency": 1
+                        "healthHazard": "MINOR",
+                        "probability": "UNLIKELY",
+                        "frequency": "RARELY"
                     }]
                 
                 """;
@@ -93,9 +93,9 @@ class RiskControllerTest {
                         "riskName": "Test Risk",
                         "riskDescription": "Test Description",
                         "riskReductionMeasures": ["Test Measure 1", "Test Measure 2"],
-                        "healthHazard": 1,
-                        "probability": 1,
-                        "frequency": 1
+                        "healthHazard": "MINOR",
+                        "probability": "UNLIKELY",
+                        "frequency": "RARELY"
                     }
                
                 """;
