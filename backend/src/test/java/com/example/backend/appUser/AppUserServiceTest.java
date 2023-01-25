@@ -11,7 +11,12 @@ import static org.mockito.Mockito.*;
 
 class AppUserServiceTest {
 
-
+    AppUser testUser =
+            new AppUser(
+                    "Test ID",
+                    "Test User",
+                    "Test Password",
+                    "BASIC");
     @Test
     void findByUsername_returnsUsernameWhenFound() {
         //Given
@@ -19,7 +24,7 @@ class AppUserServiceTest {
         BCryptPasswordEncoder passwordEncoder = mock(BCryptPasswordEncoder.class);
 
         when(appUserRepository.findByUsername("Test User")).thenReturn(
-                Optional.of(new AppUser("Test ID", "Test User", "Test Password", "BASIC")));
+                Optional.of(testUser));
         //When
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);
         Optional<AppUser> actual = appUserService.findByUsername("Test User");
@@ -27,8 +32,12 @@ class AppUserServiceTest {
         //Then
         Assertions.assertEquals(
                 Optional.of(
-                        new AppUser("Test ID", "Test User", "Test Password", "BASIC")
-                ), actual);
+                        new AppUser(
+                                "Test ID",
+                                "Test User",
+                                "Test Password",
+                                "BASIC")),
+                actual);
         verify(appUserRepository).findByUsername("Test User");
     }
 
@@ -103,6 +112,7 @@ class AppUserServiceTest {
         BCryptPasswordEncoder passwordEncoder = mock(BCryptPasswordEncoder.class);
 
         when(appUserRepository.findByUsername("Test User")).thenReturn(Optional.empty());
+        when(passwordEncoder.encode("Test Password")).thenReturn("Encoded Test Password");
 
         when(appUserRepository.save(
                 new AppUser(
@@ -150,23 +160,12 @@ class AppUserServiceTest {
         BCryptPasswordEncoder passwordEncoder = mock(BCryptPasswordEncoder.class);
 
         when(appUserRepository.findByUsername("Test User")).thenReturn(
-                Optional.of(
-                    new AppUser(
-                            "Test ID",
-                            "Test User",
-                            "Test Password",
-                            "BASIC")
-                ));
+                Optional.of(testUser));
         //When
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);
 
         Assertions.assertThrows(ResponseStatusException.class,
-                () -> appUserService.create(
-                        new AppUser(
-                            "Test ID",
-                            "Test User",
-                            "Test Password",
-                            "BASIC")));
+                () -> appUserService.create(testUser));
 
     }
 
