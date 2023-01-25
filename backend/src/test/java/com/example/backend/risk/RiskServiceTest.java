@@ -14,11 +14,11 @@ class RiskServiceTest {
 
     private Risk generateTestRisk () {
         return new Risk(
-                "1",
-                "1",
-                "risk",
-                "description",
-                List.of("measure 1", "measure 2"),
+                "Test ID",
+                "Test Project ID",
+                "Test Risk",
+                "Test Description",
+                List.of("Test Measure 1", "Test Measure 2"),
                 1,
                 1,
                 1
