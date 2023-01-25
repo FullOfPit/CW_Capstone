@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,32 +55,19 @@ class AppUserControllerTest {
     @Test
     void create_throws409WhenAttemptAtCreatingRegisteredUsername() throws Exception {
 
+        appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
+
         String request = """
                 {
                     "username": "Test User",
                     "password": "Test Password"
                 }
                 """;
-        String response = """
-                   {
-                    "username": "Test User",
-                    "password": "",
-                    "role": "BASIC"
-                    }
-                """;
 
         this.mvc.perform(post("/api/app-user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpectAll(
-                        MockMvcResultMatchers.status().isOk(),
-                        MockMvcResultMatchers.content().json(response));
-
-        this.mvc.perform(post("/api/app-user")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(request))
-                .andExpectAll(
-                        MockMvcResultMatchers.status().isConflict());
+                .andExpect(status().isConflict());
 
     }
 
@@ -137,6 +123,7 @@ class AppUserControllerTest {
     @Test
     @WithMockUser(username = "Test User", roles = "BASIC")
     void logout_withRegisteredUser() throws Exception {
+
         mvc.perform(get("/api/app-user/logout"))
                 .andExpect(status().isOk());
     }
