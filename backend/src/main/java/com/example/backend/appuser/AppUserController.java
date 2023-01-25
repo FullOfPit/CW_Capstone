@@ -14,8 +14,6 @@ public class AppUserController {
 
     private final AppUserService appUserService;
 
-    //TODO TAKE OUT POST ENDPOINT CREATE AFTER PROPER TESTING
-
     @PostMapping
     public AppUser create(@RequestBody AppUser appUser) {
         return appUserService.create(appUser);

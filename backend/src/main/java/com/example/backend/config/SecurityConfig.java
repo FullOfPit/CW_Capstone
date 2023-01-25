@@ -28,7 +28,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().and()
                 .authorizeHttpRequests()
-                //ToDo Take THIS POST OUT AFTER PROPER TESTING
                 .antMatchers(HttpMethod.POST, "/api/appuser").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/appuser/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/appuser/me").authenticated()

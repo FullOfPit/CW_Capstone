@@ -15,7 +15,6 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //ToDo TAKE CREATE METHOD OUT AFTER PROPER TESTING
 
     public AppUser create (AppUser appUser) {
         Optional<AppUser> existingAppUser = findByUsername(
