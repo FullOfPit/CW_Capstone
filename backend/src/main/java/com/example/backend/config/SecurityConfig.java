@@ -26,6 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
+                .formLogin().disable()
                 .httpBasic().and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/appuser").permitAll()
