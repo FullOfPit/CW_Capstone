@@ -1,0 +1,36 @@
+.RiskSumCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 90%;
+    border: 1px solid black;
+
+    overflow-x: scroll;
+}
+
+.RiskSumCardName {
+    padding: 0 1.5rem 0 1.5rem;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.RiskFactor {
+    padding: 0 1rem 0 1rem;
+    width: 22%;
+}
+
+.RiskMetrics {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    width: 22%;
+    padding: 1rem 1rem 1rem 1rem;
+
+    text-align: center;
+}
+
+.RiskMetrics p{
+    margin: 0
+}

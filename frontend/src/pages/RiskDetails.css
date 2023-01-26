@@ -1,0 +1,12 @@
+.RiskDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.RiskMetricButtonBar {
+    display: flex;
+    flex-direction: row;
+
+    padding: 2rem 0 2rem 0;
+}

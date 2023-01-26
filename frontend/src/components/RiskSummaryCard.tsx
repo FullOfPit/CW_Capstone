@@ -1,3 +1,5 @@
+import "./RiskSummaryCard.css"
+
 export default function RiskSummaryCard({
     id,
     projectId,
@@ -14,19 +16,18 @@ export default function RiskSummaryCard({
     frequency: number
 }) {
     return (
-        <div>
-            <div>
-                <h4>Such Danger, Much Risk, Wow!</h4>
-                <button>Edit</button>
-                <button>Delete</button>
-            </div>
-            <div>
-                <h4>{id}</h4>
-                <h4>{projectId}</h4>
+        <div className={"RiskSumCard"}>
+            <div className={"RiskSumCardName"}>
                 <h4>{riskName}</h4>
-                <h4>{healthHazard}</h4>
-                <h4>{probability}</h4>
-                <h4>{frequency}</h4>
+            </div>
+            <div className={"RiskFactor"}>
+                <h4>Risk Factor</h4>
+
+            </div>
+            <div className={"RiskMetrics"}>
+                <p>{`Hazard to Health: ${healthHazard}`}</p>
+                <p>{`Probability: ${probability}`}</p>
+                <p>{`Frequency: ${frequency}`}</p>
             </div>
 
 
