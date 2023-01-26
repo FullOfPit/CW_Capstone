@@ -25,13 +25,13 @@ export default function Menu() {
                 <Navbar.Brand>Hello Member</Navbar.Brand>
                 <Nav>
                     <NavDropdown title={"Menu"}>
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                        <NavDropdown.Item>New Project</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/")}>Dashboard</NavDropdown.Item>
+                        <NavDropdown.Item href={"/newproject"}>New Project</NavDropdown.Item>
                         <NavDropdown.Divider/>
                         <NavDropdown.Item>Project</NavDropdown.Item>
-                        <NavDropdown.Item>Planned Projects</NavDropdown.Item>
-                        <NavDropdown.Item>Currently Ongoing Projects</NavDropdown.Item>
-                        <NavDropdown.Item>Finished Projects</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/")}>Planned Projects</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/")}>Currently Ongoing Projects</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/")}>Finished Projects</NavDropdown.Item>
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
 

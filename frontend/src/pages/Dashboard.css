@@ -8,32 +8,30 @@
 }
 
 .DashboardPageProjectCreatorCard {
+    width: 70%;
     display: flex;
     flex-direction: row;
     align-items: center;
 
 }
+
+.target {
+    width: 100%;
+}
+
 .DashboardPageProjectCreatorCard button{
     width: 2rem;
-    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
-    background-color: white;
-}
-.DashboardPageProjectCreatorCard button{
-    width: 2rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: white;
-}
-.DashboardPageProjectCreatorCard button:hover {
-    background-color: lightgray;
+    background-color: rgba(0, 0, 0, 0.03);
 }
 .DashboardPageProjectCreatorCard button:active {
-    background-color: dimgray;
+    background-color: white;
+}
+
+.ProjectAccordion {
+    width: 70%;
+    padding-top: 2rem;
 }
