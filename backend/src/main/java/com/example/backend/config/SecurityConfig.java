@@ -1,7 +1,7 @@
 package com.example.backend.config;
 
-import com.example.backend.appUser.AppUser;
-import com.example.backend.appUser.AppUserService;
+import com.example.backend.appuser.AppUser;
+import com.example.backend.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

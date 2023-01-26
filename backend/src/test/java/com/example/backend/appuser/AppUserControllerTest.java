@@ -1,4 +1,4 @@
-package com.example.backend.appUser;
+package com.example.backend.appuser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
