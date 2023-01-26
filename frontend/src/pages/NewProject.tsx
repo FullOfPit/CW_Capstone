@@ -1,5 +1,4 @@
 import Menu from "../components/Menu";
-import RiskSummaryCard from "../components/RiskSummaryCard";
 import {useNavigate} from "react-router-dom";
 
 export default function NewProject() {
@@ -21,7 +20,7 @@ export default function NewProject() {
                 <input placeholder={"Project Description"}/>
 
                 <div>
-                    <RiskSummaryCard/>
+
                     <button onClick={() => navigate("/riskdetails")}>Add</button>
                 </div>
 
