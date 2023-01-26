@@ -17,6 +17,7 @@
         <java.version>19</java.version>
         <sonar.organization>fullofpit</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.exclusions>**/config/**</sonar.exclusions>
     </properties>
     <dependencies>
         <dependency>
