@@ -1,14 +1,19 @@
 import Logout from "../components/Logout";
 import "./Dashboard.css";
 import Accordion from 'react-bootstrap/Accordion';
+import {BsPlusLg} from 'react-icons/bs';
+import {Card} from "react-bootstrap";
 
 
 export default function Dashboard () {
     return(
         <div className={"DashboardPage"}>
             <h4>Hello --Member--</h4>
-            <div><h4>Create a new project risk assessment</h4></div>
             <Accordion>
+                <Card className={"DashboardPageProjectCreatorCard"}>
+                    <Card.Header>Create a new project risk assessment</Card.Header>
+                    <button><BsPlusLg size={18}/></button>
+                </Card>
                 <Accordion.Item eventKey={"1"}>
                     <Accordion.Header>View your risk assessments for planned projects</Accordion.Header>
                     <Accordion.Body></Accordion.Body>

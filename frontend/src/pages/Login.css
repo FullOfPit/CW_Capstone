@@ -26,6 +26,10 @@
     border-radius: 5px;
 }
 
-.LoginPageInputForm input {
-    width: 75%;
+.LoginPageInputFormInputField {
+    width: 80%;
+}
+
+.LoginPageInputForm button {
+    margin-top: 0.5rem;
 }

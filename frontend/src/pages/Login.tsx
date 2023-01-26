@@ -1,4 +1,5 @@
 import "./Login.css"
+import Form from 'react-bootstrap/Form';
 
 import React, {FormEvent, useCallback, useMemo, useState} from "react";
 import axios from "axios";
@@ -53,23 +54,28 @@ export default function Login () {
         <div className={"LoginPage"}>
             <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
 
-            <form onSubmit={login} className={"LoginPageInputForm"}>
-                <h4>Please enter your username below</h4>
-                <input placeholder={"Username"}
-                       type={"text"}
-                       name={"username"}
-                       value={credentials.username}
-                       onChange={changeCredentials}
-                ></input>
-                <h4>Please enter your password below</h4>
-                <input placeholder={"Password"}
-                       type={"text"}
-                       name={"password"}
-                       value={credentials.password}
-                       onChange={changeCredentials}
-                ></input>
+            <Form onSubmit={login} className={"LoginPageInputForm"}>
+
+                <Form.Group className={"LoginPageInputFormInputField"}>
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type={"text"}
+                                  placeholder={"username"}
+                                  name={"username"}
+                                  value={credentials.username}
+                                  onChange={changeCredentials}/>
+                </Form.Group>
+
+                <Form.Group className={"LoginPageInputFormInputField"}>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type={"password"}
+                                  placeholder={"password"}
+                                  name={"password"}
+                                  value={credentials.password}
+                                  onChange={changeCredentials}/>
+                </Form.Group>
                 <button className={"ButtonGeneral"}>Login</button>
-            </form>
+
+            </Form>
 
             {errors.length > 0 && (
                 <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>

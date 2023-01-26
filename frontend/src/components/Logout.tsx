@@ -14,6 +14,6 @@ export default function Logout () {
     }, [location, navigate]);
 
     return (
-        <button onClick={logout}>Logout</button>
+        <button onClick={logout} className={"ButtonGeneral"}>Logout</button>
     )
 }

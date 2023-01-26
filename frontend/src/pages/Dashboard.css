@@ -9,3 +9,18 @@
     border: 1px solid black;
     text-align: center;
 }
+
+.DashboardPageProjectCreatorCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.DashboardPageProjectCreatorCard button{
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
