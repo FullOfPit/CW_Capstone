@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/appuser")
+@RequestMapping("/api/app-users")
 @RequiredArgsConstructor
 public class AppUserController {
 
