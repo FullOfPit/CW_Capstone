@@ -1,7 +1,10 @@
 import Menu from "../components/Menu";
 import RiskSummaryCard from "../components/RiskSummaryCard";
+import {useNavigate} from "react-router-dom";
 
 export default function NewProject() {
+
+    const navigate = useNavigate();
 
 
     return (
@@ -19,7 +22,7 @@ export default function NewProject() {
 
                 <div>
                     <RiskSummaryCard/>
-                    <button>Add</button>
+                    <button onClick={() => navigate("/riskdetails")}>Add</button>
                 </div>
 
                 <div>
