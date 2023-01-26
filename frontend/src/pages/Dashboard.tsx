@@ -4,12 +4,11 @@ import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
 import {Card} from "react-bootstrap";
 import Menu from "../components/Menu";
-import React, {useState} from "react";
+import React from "react";
 import {useNavigate} from "react-router-dom";
 
 export default function Dashboard () {
 
-    const [accordionKey, SetAccordionKey] = useState<string>("")
     const navigate = useNavigate();
 
     return(
@@ -21,7 +20,7 @@ export default function Dashboard () {
                     <button onClick={() => navigate("/newproject")}><BsPlusLg size={26}/></button>
                 </Card>
 
-                <Accordion defaultActiveKey={accordionKey} className={"ProjectAccordion"}>
+                <Accordion defaultActiveKey={""} className={"ProjectAccordion"}>
                     <Accordion.Item eventKey={"1"}>
                         <Accordion.Header>View your risk assessments for planned projects</Accordion.Header>
                         <Accordion.Body>
