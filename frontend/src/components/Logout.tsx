@@ -7,7 +7,7 @@ export default function Logout () {
     const location = useLocation();
 
     const logout = useCallback(async () => {
-        await axios.get("/api/app-user/logout");
+        await axios.get("/api/app-users/logout");
         navigate("/login?redirect=" + encodeURIComponent(location.pathname + location.search));
         window.document.cookie = "";
         window.localStorage.clear();
@@ -15,5 +15,5 @@ export default function Logout () {
 
     return (
         <button onClick={logout}>Logout</button>
-    )
+    );
 }

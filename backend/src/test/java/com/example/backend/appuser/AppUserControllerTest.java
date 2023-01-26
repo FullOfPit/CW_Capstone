@@ -45,7 +45,7 @@ class AppUserControllerTest {
                 }
                 """;
 
-        this.mvc.perform(post("/api/app-user")
+        this.mvc.perform(post("/api/app-users")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(request))
                 .andExpect(status().isOk())
@@ -64,7 +64,7 @@ class AppUserControllerTest {
                 }
                 """;
 
-        this.mvc.perform(post("/api/app-user")
+        this.mvc.perform(post("/api/app-users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isConflict());
@@ -79,7 +79,7 @@ class AppUserControllerTest {
         appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
 
 
-        this.mvc.perform(post("/api/app-user/login/"))
+        this.mvc.perform(post("/api/app-users/login/"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                             """
@@ -99,7 +99,7 @@ class AppUserControllerTest {
 
         appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
 
-        this.mvc.perform(get("/api/app-user/me"))
+        this.mvc.perform(get("/api/app-users/me"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         """
@@ -115,7 +115,7 @@ class AppUserControllerTest {
 
     @Test
     void getMe_WhenNotLoggedInReturns401() throws Exception {
-        this.mvc.perform(get("/api/app-user/me"))
+        this.mvc.perform(get("/api/app-users/me"))
                 .andExpect(status().isUnauthorized());
 
     }
@@ -124,7 +124,7 @@ class AppUserControllerTest {
     @WithMockUser(username = "Test User", roles = "BASIC")
     void logout_withRegisteredUser() throws Exception {
 
-        mvc.perform(get("/api/app-user/logout"))
+        mvc.perform(get("/api/app-users/logout"))
                 .andExpect(status().isOk());
     }
 
