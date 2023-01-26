@@ -1,4 +1,4 @@
-package com.example.backend.appuser;
+package com.example.backend.appUser;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

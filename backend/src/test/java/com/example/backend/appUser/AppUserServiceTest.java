@@ -1,4 +1,4 @@
-package com.example.backend.appuser;
+package com.example.backend.appUser;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
