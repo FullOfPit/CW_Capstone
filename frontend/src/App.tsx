@@ -4,10 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter} from "react-router-dom";
 import Root from "./pages/Root";
 
-
 function App() {
-
-
 
   return (
       <div>
@@ -21,3 +18,4 @@ function App() {
 }
 
 export default App;
+

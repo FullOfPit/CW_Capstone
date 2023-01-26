@@ -19,9 +19,9 @@ public class Risk {
     private String riskDescription;
     private List<String> riskReductionMeasures;
 
-    private HealthHazard healthHazard;
-    private Probability probability;
-    private Frequency frequency;
+    private int healthHazard;
+    private int probability;
+    private int frequency;
 
 
 }

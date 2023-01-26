@@ -19,9 +19,9 @@ class RiskServiceTest {
                 "Test Risk",
                 "Test Description",
                 List.of("Test Measure 1", "Test Measure 2"),
-                HealthHazard.MINOR,
-                Probability.UNLIKELY,
-                Frequency.RARELY
+                1,
+                1,
+                1
         );
     }
 

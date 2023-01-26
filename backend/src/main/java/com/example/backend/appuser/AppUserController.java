@@ -1,4 +1,4 @@
-package com.example.backend.appUser;
+package com.example.backend.appuser;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/app-user")
+@RequestMapping("/api/app-users")
 @RequiredArgsConstructor
 public class AppUserController {
 

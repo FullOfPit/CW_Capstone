@@ -5,7 +5,7 @@ import {Navigate} from "react-router-dom";
 export default function NoAuth({
     children,
     redirect
-                               }:{
+}:{
     children: React.ReactNode;
     redirect: string|null
 }) {

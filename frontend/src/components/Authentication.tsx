@@ -15,10 +15,10 @@ export default function Authentication ({children}:{children: React.ReactNode}) 
     );
 
     if (isReady && user) {
-        return <>{children}</>
+        return <>{children}</>;
     } else if (isReady) {
-        return navigate
+        return navigate;
     } else {
-        return null
+        return null;
     }
 }

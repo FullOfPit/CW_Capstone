@@ -4,7 +4,6 @@ import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
 import {Card} from "react-bootstrap";
 
-
 export default function Dashboard () {
     return(
         <div className={"DashboardPage"}>
