@@ -83,7 +83,7 @@ export default function RiskDetails() {
                         <Form.Group className={"RiskDetailsTextForm"}>
                             <Form.Label>Risk Factor Description</Form.Label>
                             <Form.Control className={"RiskDetailsFactorDescription"}
-                                          placeholder={"Please enter specific details on your project"}
+                                          placeholder={"Please enter specific details on the risk you are assessing"}
                                           name={"riskDescription"}
                                           value={currentRisk.riskDescription}
                                           as={"textarea"}
@@ -93,7 +93,7 @@ export default function RiskDetails() {
                         <Form.Group className={"RiskDetailsTextForm"}>
                             <Form.Label>Risk Reduction measures</Form.Label>
                             <Form.Control className={"RiskDetailsTextArea"}
-                                          placeholder={"Please enter specific details on your project"}
+                                          placeholder={"Please enter specific details on how you are taking measure to reduce this risk and any potentially arising situation"}
                                           name={"riskReductionMeasures"}
                                           value={currentRisk.riskReductionMeasures}
                                           as={"textarea"}

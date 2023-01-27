@@ -21,6 +21,4 @@ public class Risk {
     private int healthHazard;
     private int probability;
     private int frequency;
-
-
 }

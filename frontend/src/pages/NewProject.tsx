@@ -1,5 +1,19 @@
+import "./NewProject.css"
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router-dom";
+import {Button, Form} from "react-bootstrap";
+import RiskSummaryCard from "../components/RiskSummaryCard";
+
+type Project = {
+    id: string,
+    projectName: string,
+    createdAt: string,
+    plannedStartDate: string,
+    plannedFinishDate: string,
+    projectStatus: string,
+    assessorName: string,
+    projectDetails: string
+}
 
 export default function NewProject() {
 
@@ -10,18 +24,40 @@ export default function NewProject() {
             <Menu/>
             <h4>New Project Page</h4>
 
+            <Form>
+                <Form.Group className={"NewProjectName"}>
+                    <Form.Label>Project Name:</Form.Label>
+                    <Form.Control placeholder={"Project Name"}
+                                  name={"ProjectName"}></Form.Control>
+                </Form.Group>
+                <Form.Group className={"NewProjectDates"}>
+                    <div>
+                        <Form.Label>Planned Start Date</Form.Label>
+                        <Form.Control placeholder={"Planned Start Date"}
+                                      type={"date"}></Form.Control>
+                    </div>
+                    <div>
+                        <Form.Label>Planned Finish Date</Form.Label>
+                        <Form.Control placeholder={"Planned Start Date"}
+                                      type={"date"}></Form.Control>
+                    </div>
+                </Form.Group>
+                <Form.Group className={"NewProjectDescription"}>
+                    <Form.Label>Project Description</Form.Label>
+                    <Form.Control placeholder={"Please enter specific details on your project"}
+                                  as={"textarea"}
+
+                    ></Form.Control>
+                </Form.Group>
+            </Form>
+
+            <div className={"RiskDetailCards"}>
+                <RiskSummaryCard projectId={"Test"} riskName={"Test"} healthHazard={1} probability={1} frequency={1}/>
+                <Button onClick={() => navigate("/riskdetails")}>Add</Button>
+            </div>
             <div>
-                <input placeholder={"Project Name"}/>
-                <input placeholder={"Planned Start Date"}/>
-                <input placeholder={"Planned End Date"}/>
-                <input placeholder={"Project Description"}/>
-                <div>
-                    <button onClick={() => navigate("/riskdetails")}>Add</button>
-                </div>
-                <div>
-                    <button>Cancel</button>
-                    <button>Save</button>
-                </div>
+                <Button>Cancel</Button>
+                <Button>Save</Button>
             </div>
         </div>
     )
