@@ -2,14 +2,15 @@ import "./RiskDetails.css"
 import Menu from "../components/Menu";
 import React, {useState} from "react";
 import RiskSummaryCard from "../components/RiskSummaryCard";
-import {Dropdown} from "react-bootstrap";
+import {Button, Dropdown, Form} from "react-bootstrap";
+import axios from "axios";
 
 type Risk = {
     id: string,
     projectId: string,
     riskName: string,
     riskDescription: string,
-    riskReductionMeasures: string[],
+    riskReductionMeasures: string,
     healthHazard: number,
     probability: number,
     frequency: number
@@ -19,7 +20,7 @@ const initialRiskState = {
     projectId: "",
     riskName: "",
     riskDescription: "",
-    riskReductionMeasures: [],
+    riskReductionMeasures: "",
     healthHazard: 0,
     probability: 0,
     frequency: 0
@@ -37,6 +38,7 @@ export default function RiskDetails() {
             [name]: value,
         })
     }
+
 
     const healthHazardModifier = (int: number) => {
         setRisk({
@@ -59,29 +61,46 @@ export default function RiskDetails() {
         })
     }
 
+    const saveRisk = () => {(async () => {
+        const response = await axios.post("/api/risks", {...currentRisk});
+        console.log(response);
+    })()}
+
     return (
         <div className={"ScreenLimit"}>
             <Menu/>
             <div className={"RiskDetails"}>
                 <h4>Risk Detail Page</h4>
-                <div>
-                    <form>
-                        <div>
-                            <h4>Risk factor</h4>
-                            <input placeholder={"Risk Factor Name"}
-                                   name={"riskName"}
-                                   value={currentRisk.riskName}
-                                   onInput={editRisk}></input>
-                            <input placeholder={"Risk Factor description"}
-                                   name={"riskDescription"}
-                                   value={currentRisk.riskDescription}
-                                   onChange={editRisk}></input>
-                        </div>
-                        <div>
-                            <h4>Risk Reduction measures</h4>
-                            <input placeholder={"Please enter specific details on how the " +
-                                "above mentioned risk factor will be "}></input>
-                        </div>
+                <div className={"RiskDetailsContent"}>
+                    <Form onSubmit={() => saveRisk()}>
+                        <Form.Group className={"RiskDetailsFactor"}>
+                            <Form.Label>Risk factor: </Form.Label>
+                            <Form.Control className={"RiskDetailsFactorName"}
+                                          placeholder={"Risk Factor Name"}
+                                          name={"riskName"}
+                                          value={currentRisk.riskName}
+                                          onInput={editRisk}></Form.Control>
+                        </Form.Group>
+                        <Form.Group className={"RiskDetailsTextForm"}>
+                            <Form.Label>Risk Factor Description</Form.Label>
+                            <Form.Control className={"RiskDetailsFactorDescription"}
+                                          placeholder={"Please enter specific details on your project"}
+                                          name={"riskDescription"}
+                                          value={currentRisk.riskDescription}
+                                          as={"textarea"}
+                                          onInput={editRisk}></Form.Control>
+
+                        </Form.Group>
+                        <Form.Group className={"RiskDetailsTextForm"}>
+                            <Form.Label>Risk Reduction measures</Form.Label>
+                            <Form.Control className={"RiskDetailsTextArea"}
+                                          placeholder={"Please enter specific details on your project"}
+                                          name={"riskReductionMeasures"}
+                                          value={currentRisk.riskReductionMeasures}
+                                          as={"textarea"}
+                                          onInput={editRisk}></Form.Control>
+                        </Form.Group>
+
                         <div className={"RiskMetricButtonBar"}>
                             <Dropdown>
                                 <Dropdown.Toggle className={"RiskMetricsButtons"}>
@@ -132,11 +151,11 @@ export default function RiskDetails() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
-                    </form>
+                        <div>
+                            <Button>Save</Button>
+                        </div>
+                    </Form>
                 </div>
-                <br></br>
-                <br></br>
-                <br></br>
                 <RiskSummaryCard {...currentRisk}/>
             </div>
         </div>

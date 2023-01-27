@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +16,7 @@ public class Risk {
 
     private String riskName;
     private String riskDescription;
-    private List<String> riskReductionMeasures;
+    private String riskReductionMeasures;
 
     private int healthHazard;
     private int probability;
