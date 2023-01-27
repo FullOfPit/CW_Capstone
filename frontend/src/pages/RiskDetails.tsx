@@ -59,11 +59,8 @@ export default function RiskDetails() {
         })
     }
 
-
     return (
-
         <div className={"ScreenLimit"}>
-
             <Menu/>
             <div className={"RiskDetails"}>
                 <h4>Risk Detail Page</h4>
@@ -134,9 +131,7 @@ export default function RiskDetails() {
                                         Regularly: Level 4</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
-
                         </div>
-
                     </form>
                 </div>
                 <br></br>
@@ -145,7 +140,5 @@ export default function RiskDetails() {
                 <RiskSummaryCard {...currentRisk}/>
             </div>
         </div>
-
-
     );
 }
