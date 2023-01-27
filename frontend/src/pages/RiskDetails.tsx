@@ -77,6 +77,7 @@ export default function RiskDetails() {
                                           placeholder={"Risk Factor Name"}
                                           name={"riskName"}
                                           value={currentRisk.riskName}
+                                          maxLength={56}
                                           onInput={editRisk}></Form.Control>
                         </Form.Group>
                         <Form.Group className={"RiskDetailsTextForm"}>
