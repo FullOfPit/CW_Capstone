@@ -1,14 +1,12 @@
 import "./RiskSummaryCard.css"
 
 export default function RiskSummaryCard({
-    id,
     projectId,
     riskName,
     healthHazard,
     probability,
     frequency
 }:{
-    id: string,
     projectId: string,
     riskName: string,
     healthHazard: number,
