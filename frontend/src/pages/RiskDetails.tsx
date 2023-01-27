@@ -1,12 +1,11 @@
 import "./RiskDetails.css"
 import Menu from "../components/Menu";
-import React, {useState} from "react";
+import React, {FormEvent, useState} from "react";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import {Button, Dropdown, Form} from "react-bootstrap";
 import axios from "axios";
 
 type Risk = {
-    id: string,
     projectId: string,
     riskName: string,
     riskDescription: string,
@@ -16,14 +15,13 @@ type Risk = {
     frequency: number
 }
 const initialRiskState = {
-    id: "",
     projectId: "",
     riskName: "",
     riskDescription: "",
     riskReductionMeasures: "",
-    healthHazard: 0,
-    probability: 0,
-    frequency: 0
+    healthHazard: 1,
+    probability: 1,
+    frequency: 1
 }
 
 export default function RiskDetails() {
@@ -38,7 +36,6 @@ export default function RiskDetails() {
             [name]: value,
         })
     }
-
 
     const healthHazardModifier = (int: number) => {
         setRisk({
@@ -61,7 +58,8 @@ export default function RiskDetails() {
         })
     }
 
-    const saveRisk = () => {(async () => {
+    const saveRisk = (e: FormEvent<HTMLFormElement>) => {(async () => {
+        e.preventDefault();
         const response = await axios.post("/api/risks", {...currentRisk});
         console.log(response);
     })()}
@@ -72,7 +70,7 @@ export default function RiskDetails() {
             <div className={"RiskDetails"}>
                 <h4>Risk Detail Page</h4>
                 <div className={"RiskDetailsContent"}>
-                    <Form onSubmit={() => saveRisk()}>
+                    <Form onSubmit={saveRisk}>
                         <Form.Group className={"RiskDetailsFactor"}>
                             <Form.Label>Risk factor: </Form.Label>
                             <Form.Control className={"RiskDetailsFactorName"}
@@ -152,7 +150,7 @@ export default function RiskDetails() {
                             </Dropdown>
                         </div>
                         <div>
-                            <Button>Save</Button>
+                            <Button type={"submit"}>Save</Button>
                         </div>
                     </Form>
                 </div>
