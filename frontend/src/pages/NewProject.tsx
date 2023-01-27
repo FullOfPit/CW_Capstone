@@ -9,6 +9,7 @@ export default function NewProject() {
         <div className={"ScreenLimit"}>
             <Menu/>
             <h4>New Project Page</h4>
+
             <div>
                 <input placeholder={"Project Name"}/>
                 <input placeholder={"Planned Start Date"}/>

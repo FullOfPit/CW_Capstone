@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +34,7 @@ class RiskControllerTest {
                 "Test Project ID",
                 "Test Risk",
                 "Test Description",
-                List.of("Test Measure 1", "Test Measure 2"),
+                "Test Measure 1",
                 1,
                 1,
                 1
@@ -44,14 +43,14 @@ class RiskControllerTest {
 
     @Test
     void getAll_returns401WhenNotLoggedIn () throws Exception {
-        mvc.perform(get("/api/risk"))
+        mvc.perform(get("/api/risks"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser
     void getAll_returnsEmptyWhenNoRisksRegistered () throws Exception {
-        mvc.perform(get("/api/risk"))
+        mvc.perform(get("/api/risks"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]", true));
     }
@@ -67,7 +66,7 @@ class RiskControllerTest {
                         "projectId": "Test Project ID",
                         "riskName": "Test Risk",
                         "riskDescription": "Test Description",
-                        "riskReductionMeasures": ["Test Measure 1", "Test Measure 2"],
+                        "riskReductionMeasures": "Test Measure 1",
                         "healthHazard": 1,
                         "probability": 1,
                         "frequency": 1
@@ -76,7 +75,7 @@ class RiskControllerTest {
                 """;
 
         //When - Then
-        mvc.perform(get("/api/risk"))
+        mvc.perform(get("/api/risks"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
 
@@ -92,7 +91,7 @@ class RiskControllerTest {
                         "projectId": "Test Project ID",
                         "riskName": "Test Risk",
                         "riskDescription": "Test Description",
-                        "riskReductionMeasures": ["Test Measure 1", "Test Measure 2"],
+                        "riskReductionMeasures": "Test Measure 1",
                         "healthHazard": 1,
                         "probability": 1,
                         "frequency": 1
@@ -102,7 +101,7 @@ class RiskControllerTest {
 
         //When - Then
 
-        mvc.perform(post("/api/risk")
+        mvc.perform(post("/api/risks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())

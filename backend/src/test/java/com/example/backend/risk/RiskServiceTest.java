@@ -18,7 +18,7 @@ class RiskServiceTest {
                 "Test Project ID",
                 "Test Risk",
                 "Test Description",
-                List.of("Test Measure 1", "Test Measure 2"),
+                "Test Measure 1",
                 1,
                 1,
                 1
