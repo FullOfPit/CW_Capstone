@@ -16,7 +16,6 @@ export default function Root() {
         [searchParams]
     );
 
-
     return (
         <Routes>
             <Route path={"/login"} element={

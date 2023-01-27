@@ -1,5 +1,5 @@
 .LoginPage {
-    margin: 10% 15% 0 15%;
+    margin: 10% 15% 15% 15%;
     padding: 5% 0 15% 0;
 
     display: flex;
@@ -26,6 +26,10 @@
     border-radius: 5px;
 }
 
-.LoginPageInputForm input {
-    width: 75%;
+.LoginPageInputFormInputField {
+    width: 80%;
+}
+
+.LoginPageInputForm button {
+    margin-top: 0.5rem;
 }

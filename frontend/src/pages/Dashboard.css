@@ -1,0 +1,37 @@
+.DashboardPage {
+    padding: 5% 0 10% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.DashboardPageProjectCreatorCard {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.target {
+    width: 100%;
+}
+
+.DashboardPageProjectCreatorCard button{
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+.DashboardPageProjectCreatorCard button:active {
+    background-color: white;
+}
+
+.ProjectAccordion {
+    width: 70%;
+    padding-top: 2rem;
+}
