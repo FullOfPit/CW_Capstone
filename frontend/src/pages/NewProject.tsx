@@ -24,13 +24,12 @@ export default function NewProject() {
             <h4>New Project Page</h4>
 
             <Form>
-                <Form.Group>
-                    <Form.Label>Project Name</Form.Label>
+                <Form.Group className={"NewProjectName"}>
+                    <Form.Label>Project Name:</Form.Label>
                     <Form.Control placeholder={"Project Name"}
                                   name={"ProjectName"}></Form.Control>
                 </Form.Group>
-                <Form.Group>
-                    <Form.Label>Project Dates</Form.Label>
+                <Form.Group className={"NewProjectDates"}>
                     <div>
                         <Form.Label>Planned Start Date</Form.Label>
                         <Form.Control placeholder={"Planned Start Date"}
@@ -42,13 +41,16 @@ export default function NewProject() {
                                       type={"date"}></Form.Control>
                     </div>
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className={"NewProjectDescription"}>
                     <Form.Label>Project Description</Form.Label>
-                    <Form.Control placeholder={"Please enter specific details on your project"}></Form.Control>
+                    <Form.Control placeholder={"Please enter specific details on your project"}
+                                  as={"textarea"}
+
+                    ></Form.Control>
                 </Form.Group>
-
-
             </Form>
+
+
 
             <div>
                 <div>
