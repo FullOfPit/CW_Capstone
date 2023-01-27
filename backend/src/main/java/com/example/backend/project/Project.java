@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -14,9 +14,9 @@ public class Project {
     @Id
     private String id;
     private String projectName;
-    private LocalDateTime createdAt;
-    private LocalDateTime plannedStartDate;
-    private LocalDateTime plannedFinishDate;
+    private LocalDate createdAt;
+    private LocalDate plannedStartDate;
+    private LocalDate plannedFinishDate;
     private ProjectStatus projectStatus;
     private String assessorName;
     private String projectDetails;

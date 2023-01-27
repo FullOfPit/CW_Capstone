@@ -3,6 +3,7 @@ package com.example.backend.project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class ProjectService {
     }
 
     public Project create(Project project) {
+        project.setCreatedAt(LocalDate.now());
         return this.projectRepository.save(project);
     }
 }
