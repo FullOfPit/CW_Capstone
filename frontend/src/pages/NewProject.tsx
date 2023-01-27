@@ -1,7 +1,8 @@
 import "./NewProject.css"
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router-dom";
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
+import RiskSummaryCard from "../components/RiskSummaryCard";
 
 type Project = {
     id: string,
@@ -50,16 +51,13 @@ export default function NewProject() {
                 </Form.Group>
             </Form>
 
-
-
+            <div className={"RiskDetailCards"}>
+                <RiskSummaryCard projectId={"Test"} riskName={"Test"} healthHazard={1} probability={1} frequency={1}/>
+                <Button onClick={() => navigate("/riskdetails")}>Add</Button>
+            </div>
             <div>
-                <div>
-                    <button onClick={() => navigate("/riskdetails")}>Add</button>
-                </div>
-                <div>
-                    <button>Cancel</button>
-                    <button>Save</button>
-                </div>
+                <Button>Cancel</Button>
+                <Button>Save</Button>
             </div>
         </div>
     )
