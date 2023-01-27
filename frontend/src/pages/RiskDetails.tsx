@@ -142,9 +142,7 @@ export default function RiskDetails() {
                 <br></br>
                 <br></br>
                 <br></br>
-
                 <RiskSummaryCard {...currentRisk}/>
-
             </div>
         </div>
 

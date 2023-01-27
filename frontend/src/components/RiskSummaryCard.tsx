@@ -30,8 +30,6 @@ export default function RiskSummaryCard({
                 <p>{`Frequency: ${frequency}`}</p>
             </div>
 
-
         </div>
-
     )
 }
