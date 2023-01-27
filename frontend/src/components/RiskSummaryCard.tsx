@@ -16,10 +16,10 @@ export default function RiskSummaryCard({
     return (
         <div className={"RiskSumCard"}>
             <div className={"RiskSumCardName"}>
-                <h4>{riskName}</h4>
+                <h5>{riskName}</h5>
             </div>
             <div className={"RiskFactor"}>
-                <h4>Risk Factor</h4>
+                <h5>Risk Factor</h5>
 
             </div>
             <div className={"RiskMetrics"}>

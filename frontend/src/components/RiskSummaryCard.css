@@ -3,18 +3,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
+    margin: 0.5rem 0 0.5rem 0;
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
 }
 
 .RiskSumCardName {
-    padding: 0 1.5rem 0 1.5rem;
-    text-align: left;
     flex-grow: 1;
     max-width: 56%;
+    padding: 0 1.5rem 0 1.5rem;
+    text-align: left;
     overflow-wrap: break-word;
-
 }
 
 .RiskFactor {
