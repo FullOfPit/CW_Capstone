@@ -28,6 +28,7 @@
     width: 100%;
     padding: 1rem 1.5rem 1rem 1.5rem;
     text-align: left;
+    border-bottom: 1px black solid;
 }
 
 .RiskDetailCards {
