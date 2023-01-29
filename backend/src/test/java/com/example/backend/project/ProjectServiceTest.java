@@ -11,7 +11,10 @@ import static org.mockito.Mockito.*;
 
 class ProjectServiceTest {
 
-    Project testProject = new Project("Test Project ID",
+    Project testProject = new Project(
+            "Test ID",
+            "Test User",
+            "Test Project ID",
             "Test Project Name",
             LocalDate.of(1, 1, 1),
             LocalDate.of(1, 1, 1),
@@ -54,7 +57,10 @@ class ProjectServiceTest {
         ProjectService projectService = new ProjectService(projectRepository);
         Project actual = projectService.create(testProject);
         //Then
-        Assertions.assertEquals(new Project(
+        Assertions.assertEquals(
+                new Project(
+                "Test ID",
+                "Test User",
                 "Test Project ID",
                 "Test Project Name",
                 LocalDate.now(),
@@ -63,7 +69,10 @@ class ProjectServiceTest {
                 ProjectStatus.CURRENT,
                 "Test Assessor",
                 "Test Details"), actual);
+
         verify(projectRepository).save(new Project(
+                "Test ID",
+                "Test User",
                 "Test Project ID",
                 "Test Project Name",
                 LocalDate.now(),

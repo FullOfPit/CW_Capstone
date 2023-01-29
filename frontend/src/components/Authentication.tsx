@@ -4,6 +4,8 @@ import React from "react";
 
 export default function Authentication ({children}:{children: React.ReactNode}) {
 
+    //TODO useContext for the distribution of the member name and id
+
     const location = useLocation();
     const {user, isReady} = useAuth();
 

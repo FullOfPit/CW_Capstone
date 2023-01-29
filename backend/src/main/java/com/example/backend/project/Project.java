@@ -13,6 +13,8 @@ import java.time.LocalDate;
 public class Project {
     @Id
     private String id;
+    private String createdBy;
+    private String projectId;
     private String projectName;
     private LocalDate createdAt;
     private LocalDate plannedStartDate;
