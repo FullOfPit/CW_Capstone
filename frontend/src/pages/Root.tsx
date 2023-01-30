@@ -33,6 +33,7 @@ export default function Root() {
                     <NewProject/>
                 </Authentication>
             }/>
+
             <Route path={"/projectdetails"} element={
                 <Authentication>
                     <ProjectDetails/>

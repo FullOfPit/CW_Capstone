@@ -1,6 +1,6 @@
 import "./NewProject.css"
 import Menu from "../components/Menu";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
 import React, {useState} from "react";
 import Project from "../types/Project";
@@ -25,6 +25,7 @@ export default function NewProject() {
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -34,16 +35,17 @@ export default function NewProject() {
             [name]: value,
         })
         console.log(project);
-        console.log()
+        console.log(location.search);
     };
 
     const projectCreation = (event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         event.preventDefault();
         try {
             const userId = await axios.get("/api/app-users/me");
+            emptyProject.createdBy = userId.data.id;
             const response = await axios.post("/api/projects", {...emptyProject});
-            navigate(`/newproject?redirect=${encodeURIComponent(response.data.id)}`);
-            setProject({...project, "id": response.data.id, "createdBy": userId.data.id})
+            navigate(`/newproject?${encodeURIComponent(response.data.id)}`);
+            setProject({...response.data});
         } catch (e) {
             console.log("Error while creating a new project has occurred", e);
         } finally {
