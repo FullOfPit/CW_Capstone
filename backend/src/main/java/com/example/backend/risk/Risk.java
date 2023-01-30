@@ -13,11 +13,9 @@ public class Risk {
     @Id
     private String id;
     private String projectId;
-
     private String riskName;
     private String riskDescription;
     private String riskReductionMeasures;
-
     private int healthHazard;
     private int probability;
     private int frequency;
