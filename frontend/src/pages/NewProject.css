@@ -1,4 +1,4 @@
-.NewProjectName {
+.NewProjectHead {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -7,9 +7,12 @@
     padding: 1rem 1.5rem 1rem 0;
 }
 
-.NewProjectName input {
-    width: 80%;
+.NewProjectHead label{
+    width: 25%;
+    padding: 0 2rem 0 1rem;
 }
+
+
 
 .NewProjectDates {
     display: flex;
@@ -25,6 +28,7 @@
     width: 100%;
     padding: 1rem 1.5rem 1rem 1.5rem;
     text-align: left;
+    border-bottom: 1px black solid;
 }
 
 .RiskDetailCards {

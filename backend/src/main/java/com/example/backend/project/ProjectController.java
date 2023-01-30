@@ -1,5 +1,7 @@
 package com.example.backend.project;
 
+import com.example.backend.exception.ProjectNotRegisteredException;
+import com.example.backend.exception.UserNotRegisteredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,26 @@ public class ProjectController {
     @PostMapping
     Project create(@RequestBody Project project) {
         return this.projectService.create(project);
+    }
+
+    @GetMapping("/{id}")
+    public Project getById(@PathVariable String id) throws ProjectNotRegisteredException {
+        return this.projectService.getById(id);
+    }
+
+    @PostMapping("/{id}")
+    public List<Project> getAllByUserId(@PathVariable String id) throws UserNotRegisteredException {
+        return this.projectService.getAllByUserId(id);
+    }
+
+    @PutMapping("/{id}")
+    public Project update(@PathVariable String id, @RequestBody Project project) throws ProjectNotRegisteredException {
+        return this.projectService.update(id, project);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) throws ProjectNotRegisteredException {
+        this.projectService.deleteById(id);
     }
 
 }
