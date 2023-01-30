@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -89,4 +90,189 @@ class ProjectControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @WithMockUser
+    void create_ReturnsCorrectProject() throws Exception {
+
+        String request = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+
+        String response = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": """ + LocalDate.now() + "," +  """
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+
+        mvc.perform(post("/api/projects")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(request))
+                .andExpect(status().isOk())
+                .andExpect(content().json(response));
+    }
+
+    @Test
+    void create_Returns401WhenNotLoggedIn() throws Exception {
+
+        String request = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+        mvc.perform(post("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    void deleteById_Returns405WhenProjectNotRegistered() throws Exception {
+        mvc.perform(delete("/api/projects/testid"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser
+    void deleteById_ListSizeReducesWhenProjectCorrectlyDeleted() throws Exception {
+
+        String response = """
+                [{
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": "0001-01-01",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }]
+                """;
+
+        this.projectRepository.save(generateTestProject);
+
+        mvc.perform(get("/api/projects")).andExpect(status().isOk()).andExpect(content().json(response));
+
+
+        mvc.perform(delete("/api/projects/testid"))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/api/projects"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+    }
+
+    @Test
+    @WithMockUser
+    void update_Returns405WhenProjectNotRegistered() throws Exception {
+
+        String request = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": "0001-01-01",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+        mvc.perform(put("/api/projects/testid")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(request))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser
+    void update_correctlyUpdatesProjectAndReturnsChanges() throws Exception {
+        this.projectRepository.save(generateTestProject);
+
+        String request = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": "0001-01-01",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Altered Test Details"
+                }
+                """;
+
+        mvc.perform(put("/api/projects/testid")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isOk())
+                .andExpect(content().json(request));
+    }
+
+    @Test
+    @WithMockUser(username = "Test User 1")
+    void getAllByUserId_ReturnsCorrectListOfProjectsWhenCorrectUser() {
+
+        String userOneProjectString = """
+                {
+                    "id": "testid1",
+                    "createdBy":"Test User 1",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": "0001-01-01",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Altered Test Details"
+                }
+                """;
+        String userTwoProjectString = """
+                {
+                    "id": "testid2",
+                    "createdBy":"Test User 2",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": "0001-01-01",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Altered Test Details"
+                }
+                """;
+    }
 }

@@ -215,14 +215,14 @@ class ProjectServiceTest {
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(appUserRepository.existsById("Test User ID")).thenReturn(true);
-        when(projectRepository.findAll()).thenReturn(new ArrayList<>());
+        when(projectRepository.findAllByCreatedBy("Test User ID")).thenReturn(new ArrayList<>());
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
         List<Project> actual = projectService.getAllByUserId("Test User ID");
         //Then
         Assertions.assertEquals(new ArrayList<>(), actual);
         verify(appUserRepository).existsById("Test User ID");
-        verify(projectRepository).findAll();
+        verify(projectRepository).findAllByCreatedBy("Test User ID");
     }
 
     @Test
@@ -231,30 +231,14 @@ class ProjectServiceTest {
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(appUserRepository.existsById("Test User ID")).thenReturn(true);
-        when(projectRepository.findAll()).thenReturn(List.of(testProject));
+        when(projectRepository.findAllByCreatedBy("Test User ID")).thenReturn(List.of(testProject));
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
         List<Project> actual = projectService.getAllByUserId("Test User ID");
         //Then
         Assertions.assertEquals(List.of(testProject), actual);
         verify(appUserRepository).existsById("Test User ID");
-        verify(projectRepository).findAll();
-    }
-
-    @Test
-    void getAllByUserId_returnFilteredProjectListWhenUserCorrectAndProjectForMultipleUsersRegistered() throws UserNotRegisteredException {
-        //Given
-        ProjectRepository projectRepository = mock(ProjectRepository.class);
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(appUserRepository.existsById("Test User ID")).thenReturn(true);
-        when(projectRepository.findAll()).thenReturn(List.of(testProject, alternativeUserTestProject));
-        //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
-        List<Project> actual = projectService.getAllByUserId("Test User ID");
-        //Then
-        Assertions.assertEquals(List.of(testProject), actual);
-        verify(appUserRepository).existsById("Test User ID");
-        verify(projectRepository).findAll();
+        verify(projectRepository).findAllByCreatedBy("Test User ID");
     }
 
     @Test

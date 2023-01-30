@@ -47,10 +47,7 @@ public class ProjectService {
 
     public List<Project> getAllByUserId(String id) throws UserNotRegisteredException {
         if(appUserRepository.existsById(id)) {
-            List<Project> fullProjectList = this.projectRepository.findAll();
-            return fullProjectList.stream()
-                    .filter(project -> project.getCreatedBy().equals(id))
-                    .toList();
+            return this.projectRepository.findAllByCreatedBy(id);
         }
         throw new UserNotRegisteredException();
     }
