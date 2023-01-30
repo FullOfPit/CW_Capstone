@@ -33,16 +33,19 @@ export default function NewProject() {
             ...project,
             [name]: value,
         })
+        console.log(project);
+        console.log()
     };
 
     const projectCreation = (event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         event.preventDefault();
         try {
+            const userId = await axios.get("/api/app-users/me");
             const response = await axios.post("/api/projects", {...emptyProject});
-            navigate(`/newproject?=redirect=${encodeURIComponent(response.data.id)}`)
-
+            navigate(`/newproject?redirect=${encodeURIComponent(response.data.id)}`);
+            setProject({...project, "id": response.data.id, "createdBy": userId.data.id})
         } catch (e) {
-            console.log("Error while creating a new project has occurred", e)
+            console.log("Error while creating a new project has occurred", e);
         } finally {
             setIsReady(true);
         }
