@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -91,8 +92,41 @@ class ProjectControllerTest {
 
     @Test
     @WithMockUser
-    void create_ReturnsCorrectProject() {
+    void create_ReturnsCorrectProject() throws Exception {
 
+        String request = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+
+        String response = """
+                {
+                    "id": "testid",
+                    "createdBy":"Test User",
+                    "projectId": "Test Project ID",
+                    "projectName": "Test Project Name",
+                    "createdAt": """ + LocalDate.now() + "," +  """
+                    "plannedStartDate": "0001-01-01",
+                    "plannedFinishDate": "0001-01-01",
+                    "projectStatus": "CURRENT",
+                    "assessorName": "Test Assessor",
+                    "projectDetails": "Test Details"
+                }
+                """;
+
+        mvc.perform(post("/api/projects")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(request))
+                .andExpect(status().isOk())
+                .andExpect(content().json(response));
     }
-
 }
