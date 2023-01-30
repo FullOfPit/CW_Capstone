@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class ProjectNotFoundException extends CustomException{
-    public ProjectNotFoundException() {
+public class ProjectNotRegisteredException extends CustomException{
+    public ProjectNotRegisteredException() {
         super("Project not found");
     }
 }

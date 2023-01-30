@@ -1,7 +1,7 @@
 package com.example.backend.project;
 
 import com.example.backend.appuser.AppUserRepository;
-import com.example.backend.exception.ProjectNotFoundException;
+import com.example.backend.exception.ProjectNotRegisteredException;
 import com.example.backend.exception.UserNotRegisteredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,23 +24,23 @@ public class ProjectService {
         return this.projectRepository.save(project);
     }
 
-    public Project getById(String id) throws Exception{
-        return this.projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
+    public Project getById(String id) throws ProjectNotRegisteredException {
+        return this.projectRepository.findById(id).orElseThrow(ProjectNotRegisteredException::new);
     }
 
-    public void deleteById(String id) throws ProjectNotFoundException {
+    public void deleteById(String id) throws ProjectNotRegisteredException {
         if (this.projectRepository.existsById(id)) {
             this.projectRepository.deleteById(id);
         } else {
-            throw new ProjectNotFoundException();
+            throw new ProjectNotRegisteredException();
         }
     }
 
-    public Project update(String id, Project project) throws ProjectNotFoundException {
+    public Project update(String id, Project project) throws ProjectNotRegisteredException {
         project.setId(id);
 
         if(!this.projectRepository.existsById(id)) {
-            throw new ProjectNotFoundException();
+            throw new ProjectNotRegisteredException();
         }
         return this.projectRepository.save(project);
     }
@@ -49,7 +49,7 @@ public class ProjectService {
         if(appUserRepository.existsById(id)) {
             List<Project> fullProjectList = this.projectRepository.findAll();
             return fullProjectList.stream()
-                    .filter((project) -> project.getCreatedBy().equals(id))
+                    .filter(project -> project.getCreatedBy().equals(id))
                     .toList();
         }
         throw new UserNotRegisteredException();

@@ -1,7 +1,7 @@
 package com.example.backend.project;
 
 import com.example.backend.appuser.AppUserRepository;
-import com.example.backend.exception.ProjectNotFoundException;
+import com.example.backend.exception.ProjectNotRegisteredException;
 import com.example.backend.exception.UserNotRegisteredException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -137,11 +137,11 @@ class ProjectServiceTest {
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
         //Then
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.getById("Test ID"));
+        Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.getById("Test ID"));
     }
 
     @Test
-    void deleteById_correctlyDeletesProject() throws ProjectNotFoundException {
+    void deleteById_correctlyDeletesProject() throws ProjectNotRegisteredException {
         //Given
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -162,11 +162,11 @@ class ProjectServiceTest {
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
         //Then
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.deleteById("Test ID"));
+        Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.deleteById("Test ID"));
     }
 
     @Test
-    void update_correctlyReturnsProjectWhenProjectRegistered() throws ProjectNotFoundException {
+    void update_correctlyReturnsProjectWhenProjectRegistered() throws ProjectNotRegisteredException {
         //Given
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -182,7 +182,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    void update_correctlyUpdatesProjectWhenProjectRegistered() throws ProjectNotFoundException {
+    void update_correctlyUpdatesProjectWhenProjectRegistered() throws ProjectNotRegisteredException {
         //Given
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -206,7 +206,7 @@ class ProjectServiceTest {
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
         //Then
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.update("Test ID", testProject));
+        Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.update("Test ID", testProject));
     }
 
     @Test
@@ -269,5 +269,4 @@ class ProjectServiceTest {
         Assertions.assertThrows(UserNotRegisteredException.class, () -> projectService.getAllByUserId("Test User ID"));
         verify(appUserRepository).existsById("Test User ID");
     }
-
 }
