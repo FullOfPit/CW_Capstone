@@ -89,10 +89,4 @@ class ProjectControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    @WithMockUser
-    void create_ReturnsCorrectProject() {
-
-    }
-
 }
