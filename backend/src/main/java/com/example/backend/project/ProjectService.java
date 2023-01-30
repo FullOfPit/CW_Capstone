@@ -1,5 +1,6 @@
 package com.example.backend.project;
 
+import com.example.backend.exception.ProjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,9 @@ public class ProjectService {
     public Project create(Project project) {
         project.setCreatedAt(LocalDate.now());
         return this.projectRepository.save(project);
+    }
+
+    public Project getById(String id) throws Exception{
+        return this.projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
     }
 }

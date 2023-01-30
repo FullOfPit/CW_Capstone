@@ -22,4 +22,9 @@ public class ProjectController {
         return this.projectService.create(project);
     }
 
+    @GetMapping("/{id}")
+    public Project getById(@PathVariable String id) throws Exception {
+        return this.projectService.getById(id);
+    }
+
 }

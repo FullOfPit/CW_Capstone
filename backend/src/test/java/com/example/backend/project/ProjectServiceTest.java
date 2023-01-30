@@ -1,11 +1,13 @@
 package com.example.backend.project;
 
+import com.example.backend.exception.ProjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -81,6 +83,30 @@ class ProjectServiceTest {
                 ProjectStatus.CURRENT,
                 "Test Assessor",
                 "Test Details"));
+    }
+
+    @Test
+    void getById_ReturnsCorrectProject() throws Exception {
+        //Given
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+        //When
+        ProjectService projectService = new ProjectService(projectRepository);
+        Project actual = projectService.getById("Test ID");
+        //Then
+        Assertions.assertEquals(testProject, actual);
+        verify(projectRepository).findById("Test ID");
+    }
+
+    @Test
+    void getById_ThrowsExceptionWhenIdNotRegistered() {
+        //Given
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.empty());
+        //When
+        ProjectService projectService = new ProjectService(projectRepository);
+        //Then
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.getById("Test ID"));
     }
 
 }
