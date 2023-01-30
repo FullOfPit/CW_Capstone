@@ -1,5 +1,7 @@
 package com.example.backend.project;
 
+import com.example.backend.appuser.AppUser;
+import com.example.backend.appuser.AppUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,6 +26,9 @@ class ProjectControllerTest {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     Project generateTestProject = new Project(
             "testid",
@@ -243,27 +248,53 @@ class ProjectControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "Test User 1")
-    void getAllByUserId_ReturnsCorrectListOfProjectsWhenCorrectUser() {
+    @WithMockUser(username = "Test User 2")
+    void getAllByUserId_ReturnsCorrectListOfProjectsWhenCorrectUser() throws Exception {
 
-        String userOneProjectString = """
-                {
-                    "id": "testid1",
-                    "createdBy":"Test User 1",
-                    "projectId": "Test Project ID",
-                    "projectName": "Test Project Name",
-                    "createdAt": "0001-01-01",
-                    "plannedStartDate": "0001-01-01",
-                    "plannedFinishDate": "0001-01-01",
-                    "projectStatus": "CURRENT",
-                    "assessorName": "Test Assessor",
-                    "projectDetails": "Altered Test Details"
-                }
-                """;
+        this.appUserRepository.save(
+                new AppUser(
+                        "testuser1",
+                        "Test User 1",
+                        "Test Password 1",
+                        "BASIC"));
+        this.appUserRepository.save(
+                new AppUser(
+                        "testuser2",
+                        "Test User 2",
+                        "Test Password 2",
+                        "BASIC"));
+
+        Project userOneProject = new Project(
+                "testid1",
+                "testuser1",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1,1,1),
+                LocalDate.of(1,1,1),
+                LocalDate.of(1,1,1),
+                ProjectStatus.CURRENT,
+                "Test Assessor",
+                "Test Details");
+
+        Project userTwoProject = new Project(
+                "testid2",
+                "testuser2",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1,1,1),
+                LocalDate.of(1,1,1),
+                LocalDate.of(1,1,1),
+                ProjectStatus.CURRENT,
+                "Test Assessor",
+                "Altered Test Details");
+
+        this.projectRepository.save(userOneProject);
+        this.projectRepository.save(userTwoProject);
+
         String userTwoProjectString = """
-                {
+                [{
                     "id": "testid2",
-                    "createdBy":"Test User 2",
+                    "createdBy":"testuser2",
                     "projectId": "Test Project ID",
                     "projectName": "Test Project Name",
                     "createdAt": "0001-01-01",
@@ -272,7 +303,11 @@ class ProjectControllerTest {
                     "projectStatus": "CURRENT",
                     "assessorName": "Test Assessor",
                     "projectDetails": "Altered Test Details"
-                }
+                }]
                 """;
+
+        mvc.perform(post("/api/projects/testuser2"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(userTwoProjectString));
     }
 }
