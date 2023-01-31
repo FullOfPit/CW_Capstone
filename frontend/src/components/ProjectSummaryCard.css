@@ -1,0 +1,14 @@
+.ProjectSummaryCard {
+    display: flex;
+    justify-content: space-between;
+    border: 1px black solid;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+}
+
+.ProjectSummaryCardButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
