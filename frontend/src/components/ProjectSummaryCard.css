@@ -1,14 +1,37 @@
 .ProjectSummaryCard {
     display: flex;
-    justify-content: space-between;
     border: 1px black solid;
+    border-radius: 0.375rem;
     margin: 0.5rem 1rem 0.5rem 1rem;
     padding: 1rem 0.5rem 1rem 0.5rem;
 }
 
 .ProjectSummaryCardButtons {
     display: flex;
+    padding-left: 1rem;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
+}
+
+.ProjectSummaryCardContent {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    border-right: 1px solid black;
+}
+
+.ProjectSummaryCardContent p {
+    margin: 0;
+    padding: 0;
+}
+
+.CardContentHeader {
+    border-bottom: 1px solid black;
+    padding-bottom: 0.5rem;
+}
+.CardContentDates {
+    border-bottom: 1px solid black;
+    padding: 0.5rem 0 0.5rem 0;
 }

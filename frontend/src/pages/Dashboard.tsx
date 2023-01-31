@@ -39,21 +39,21 @@ export default function Dashboard () {
                         <Accordion.Header>View your risk assessments for planned projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "PLANNED"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"2"}>
                         <Accordion.Header>View your risk assessments for current projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "CURRENT"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"3"}>
                         <Accordion.Header>View your risk assessments for finished projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "FINISHED"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
