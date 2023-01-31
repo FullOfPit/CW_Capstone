@@ -2,7 +2,6 @@ import Project from "../types/Project";
 import "./ProjectSummaryCard.css"
 import {Button} from "react-bootstrap";
 import axios from "axios";
-import {useState} from "react";
 
 export default function ProjectSummaryCard({
     project,
@@ -13,9 +12,6 @@ export default function ProjectSummaryCard({
 })
 
 {
-    const [flags, setFlags] = useState<string[]>([])
-
-
 
     const onDelete = (id: string) => {(
         (async () => {
