@@ -1,32 +1,25 @@
 import "./RiskDetails.css"
-import Menu from "../components/Menu";
-import React, {FormEvent, useState} from "react";
-import RiskSummaryCard from "../components/RiskSummaryCard";
+
+import React, {useState} from "react";
 import {Button, Dropdown, Form} from "react-bootstrap";
 import axios from "axios";
+import Risk from "../types/Risk";
 
-type Risk = {
-    projectId: string,
-    riskName: string,
-    riskDescription: string,
-    riskReductionMeasures: string,
-    healthHazard: number,
-    probability: number,
-    frequency: number
-}
-const initialRiskState = {
-    projectId: "",
-    riskName: "",
-    riskDescription: "",
-    riskReductionMeasures: "",
-    healthHazard: 1,
-    probability: 1,
-    frequency: 1
-}
+export default function RiskDetails({id, setRiskOpen, setRisks}:
+{id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
+{
+    const emptyRisk = {
+        id: "",
+        projectId: id,
+        riskName: "",
+        riskDescription: "",
+        riskReductionMeasures: "",
+        healthHazard: 1,
+        probability: 1,
+        frequency: 1
+    }
 
-export default function RiskDetails() {
-
-    const [currentRisk, setRisk] = useState<Risk>(initialRiskState)
+    const [currentRisk, setRisk] = useState<Risk>(emptyRisk)
 
     const editRisk = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -58,19 +51,24 @@ export default function RiskDetails() {
         })
     }
 
-    const saveRisk = (e: FormEvent<HTMLFormElement>) => {(async () => {
+    const saveRisk = (e: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         e.preventDefault();
-        const response = await axios.post("/api/risks", {...currentRisk});
-        console.log(response);
+        try {
+            await axios.post("/api/risks", {...currentRisk, "id": null});
+        } catch (e) {
+            console.log("Error posting new risk", e)
+        } finally {
+            const response = await axios.post(`/api/risks/${id}`);
+            setRisks(response.data)
+            setRiskOpen(false);
+        }
     })()}
 
     return (
         <div className={"ScreenLimit"}>
-            <Menu/>
             <div className={"RiskDetails"}>
-                <h4>Risk Detail Page</h4>
                 <div className={"RiskDetailsContent"}>
-                    <Form onSubmit={saveRisk}>
+                    <Form>
                         <Form.Group className={"RiskDetailsFactor"}>
                             <Form.Label>Risk factor: </Form.Label>
                             <Form.Control className={"RiskDetailsFactorName"}
@@ -151,12 +149,13 @@ export default function RiskDetails() {
                             </Dropdown>
                         </div>
                         <div>
-                            <Button type={"submit"}>Save</Button>
+                            <Button type={"submit"} onClick={(event) => saveRisk(event)}>Save</Button>
                         </div>
                     </Form>
                 </div>
-                <RiskSummaryCard {...currentRisk}/>
             </div>
         </div>
     );
+
 }
+
