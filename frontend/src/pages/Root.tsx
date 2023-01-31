@@ -4,7 +4,6 @@ import NoAuth from "../components/NoAuth";
 import Login from "./Login";
 import NewProject from "./NewProject";
 import ProjectDetails from "./ProjectDetails";
-import RiskDetails from "./RiskDetails";
 import React, {useMemo} from "react";
 import Authentication from "../components/Authentication";
 
@@ -37,11 +36,6 @@ export default function Root() {
             <Route path={"/projectdetails"} element={
                 <Authentication>
                     <ProjectDetails/>
-                </Authentication>
-            }/>
-            <Route path={"/riskdetails"} element={
-                <Authentication>
-                    <RiskDetails/>
                 </Authentication>
             }/>
         </Routes>

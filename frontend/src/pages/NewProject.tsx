@@ -5,6 +5,9 @@ import {Button, Form} from "react-bootstrap";
 import React, {useCallback, useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
+import Risk from "../types/Risk";
+import RiskSummaryCard from "../components/RiskSummaryCard";
+import RiskDetails from "../components/RiskDetails";
 
 const emptyProject = {
     createdBy: "",
@@ -22,7 +25,9 @@ export default function NewProject() {
 
     const [isReady, setIsReady] = useState<boolean>(false);
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
-    const [projectSet, setProjectSet] = useState<boolean>(false)
+    const [projectSet, setProjectSet] = useState<boolean>(false);
+    const [risks, setRisks] = useState<Risk[]>([]);
+    const [riskOpen, setRiskOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -140,7 +145,18 @@ export default function NewProject() {
 
                         <div>
                             <div className={"RiskDetailCards"}>
-                                <Button onClick={() => navigate("/riskdetails")}>Assess New Risk Factor</Button>
+                                {risks.filter((risk) => (risk.projectId === project.id))
+                                    .map((risk) => <RiskSummaryCard key={risk.id} risk={risk}/>)}
+
+                                {!riskOpen &&
+                                    <Button onClick={() => {setRiskOpen(true)}}>
+                                        Assess New Risk Factor</Button>}
+
+                                {riskOpen &&
+                                    <RiskDetails id={project.id}
+                                                 setRiskOpen={setRiskOpen}
+                                                 setRisks={setRisks}/>}
+
                             </div>
 
                             <Form.Group className={"NewProjectHead"}>
