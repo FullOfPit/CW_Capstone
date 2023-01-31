@@ -33,7 +33,7 @@ export default function Root() {
                 </Authentication>
             }/>
 
-            <Route path={"/projectdetails"} element={
+            <Route path={`/projectdetails/*`} element={
                 <Authentication>
                     <ProjectDetails/>
                 </Authentication>

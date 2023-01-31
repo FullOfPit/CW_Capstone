@@ -29,8 +29,6 @@ export default function RiskSummaryCard({risk}:{risk: Risk})
             <div className={"RiskEval"}>
                 <h6>{riskFactorEvalutaion.finalEval}</h6>
             </div>
-
-
         </div>
     )
 }
