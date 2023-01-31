@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {Button, Dropdown, Form} from "react-bootstrap";
 import axios from "axios";
 import Risk from "../types/Risk";
+import RiskSummaryCard from "./RiskSummaryCard";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -65,7 +66,10 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
     })()}
 
     return (
-        <div className={"ScreenLimit"}>
+        <div>
+            <div>
+                <RiskSummaryCard risk={currentRisk}/>
+            </div>
             <div className={"RiskDetails"}>
                 <div className={"RiskDetailsContent"}>
                     <Form>
@@ -154,6 +158,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                     </Form>
                 </div>
             </div>
+
         </div>
     );
 
