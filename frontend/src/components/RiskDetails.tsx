@@ -6,8 +6,8 @@ import axios from "axios";
 import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 
-export default function RiskDetails({id, setRiskOpen, setRisks}:
-{id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
+export default function RiskDetails({id, setRiskOpen, setRisks, onDelete}:
+{id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void, onDelete: (id: string) => void})
 {
     const emptyRisk = {
         id: "",
@@ -15,9 +15,9 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
         riskName: "",
         riskDescription: "",
         riskReductionMeasures: "",
-        healthHazard: 1,
-        probability: 1,
-        frequency: 1
+        healthHazard: 0,
+        probability: 0,
+        frequency: 0
     }
 
     const [currentRisk, setRisk] = useState<Risk>(emptyRisk)
@@ -68,7 +68,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
     return (
         <div>
             <div>
-                <RiskSummaryCard risk={currentRisk}/>
+                <RiskSummaryCard risk={currentRisk} onDelete={onDelete}/>
             </div>
             <div className={"RiskDetails"}>
                 <div className={"RiskDetailsContent"}>
@@ -153,6 +153,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                             </Dropdown>
                         </div>
                         <div>
+                            <Button onClick={() => setRiskOpen(false)}>Cancel</Button>
                             <Button type={"submit"} onClick={(event) => saveRisk(event)}>Save</Button>
                         </div>
                     </Form>

@@ -79,6 +79,17 @@ export default function NewProject() {
             }
         })()}
 
+    const onDelete = (id: string) => {
+        (async () => {
+            try {
+                await axios.delete(`/api/risks/${id}`)
+                setRisks(risks.filter((risk) => risk.id !== id))
+            } catch (e) {
+                console.log("Error while delete this risk", e)
+            }
+        })()
+    }
+
     return (
         <div className={"ScreenLimit"}>
             <Menu/>
@@ -145,7 +156,7 @@ export default function NewProject() {
                         <div>
                             <div className={"RiskDetailCards"}>
                                 {risks.filter((risk) => (risk.projectId === project.id))
-                                    .map((risk) => <RiskSummaryCard key={risk.id} risk={risk}/>)}
+                                    .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
 
                                 {!riskOpen &&
                                     <Button onClick={() => {setRiskOpen(true)}}>
@@ -154,7 +165,9 @@ export default function NewProject() {
                                 {riskOpen &&
                                     <RiskDetails id={project.id}
                                                  setRiskOpen={setRiskOpen}
-                                                 setRisks={setRisks}/>}
+                                                 setRisks={setRisks}
+                                                 onDelete={onDelete}
+                                    />}
 
                             </div>
 
