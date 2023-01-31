@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
 class ProjectServiceTest {
@@ -187,12 +188,13 @@ class ProjectServiceTest {
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.existsById("Test ID")).thenReturn(true);
-        when(projectRepository.save(alternativeTestProject)).thenReturn(testProject);
+        when(projectRepository.save(any())).then(returnsFirstArg());
         //When
         ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        projectService.create(testProject);
         Project actual = projectService.update("Test ID", alternativeTestProject);
         //Then
-        Assertions.assertEquals(testProject, actual);
+        Assertions.assertEquals(alternativeTestProject, actual);
         verify(projectRepository).existsById("Test ID");
         verify(projectRepository).save(alternativeTestProject);
     }
