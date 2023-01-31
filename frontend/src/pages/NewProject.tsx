@@ -54,7 +54,6 @@ export default function NewProject() {
             console.log("Error while creating a new project has occurred", e);
         } finally {
             setIsReady(true);
-
         }
     })()
     }, [navigate, project]);
