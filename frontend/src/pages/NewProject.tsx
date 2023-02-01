@@ -203,7 +203,6 @@ export default function NewProject() {
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
                 </div>
             }
-
         </div>
     )
 }
