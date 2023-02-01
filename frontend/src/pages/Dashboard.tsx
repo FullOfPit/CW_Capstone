@@ -27,7 +27,6 @@ export default function Dashboard () {
     const onNewProject = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         event.preventDefault();
         try {
-            const userId = await axios.get("/api/app-users/me");
             navigate(`/newproject`);
         } catch (e) {
             console.log("Error while creating a new project has occurred", e);

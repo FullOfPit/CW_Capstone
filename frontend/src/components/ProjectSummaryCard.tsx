@@ -2,6 +2,7 @@ import Project from "../types/Project";
 import "./ProjectSummaryCard.css"
 import {Button} from "react-bootstrap";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export default function ProjectSummaryCard({
     project,
@@ -12,6 +13,7 @@ export default function ProjectSummaryCard({
 })
 
 {
+    const navigate = useNavigate();
 
     const onDelete = (id: string) => {(
         (async () => {
@@ -39,7 +41,7 @@ export default function ProjectSummaryCard({
 
             </div>
             <div className={"ProjectSummaryCardButtons"}>
-                <Button>Details</Button>
+                <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>Details</Button>
                 <Button onClick={() => onDelete(project.id)}>Delete Project</Button>
             </div>
         </div>

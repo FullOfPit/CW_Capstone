@@ -4,11 +4,11 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
 
         let riskFactor = healthHazard * probability * frequency;
 
-        if(riskFactor > 9 && healthHazard > 1) {
+        if(riskFactor > 9 && healthHazard > 2) {
             return "Extreme Risk";
-        } else if (riskFactor > 7) {
+        } else if (riskFactor > 7 && !(healthHazard === 2 && probability === 2 && frequency === 2)) {
             return "High Risk";
-        } else if (riskFactor > 5) {
+        } else if (riskFactor > 5 || (healthHazard === 2 && probability === 2 && frequency === 2)) {
             return "Moderate Risk";
         } else if (riskFactor > 3) {
             return "Low Risk";

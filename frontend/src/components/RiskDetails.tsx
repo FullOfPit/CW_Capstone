@@ -6,8 +6,8 @@ import axios from "axios";
 import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 
-export default function RiskDetails({id, setRiskOpen, setRisks, onDelete}:
-{id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void, onDelete: (id: string) => void})
+export default function RiskDetails({id, setRiskOpen, setRisks}:
+{id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
 {
     const emptyRisk = {
         id: "",
@@ -64,6 +64,8 @@ export default function RiskDetails({id, setRiskOpen, setRisks, onDelete}:
             setRiskOpen(false);
         }
     })()}
+
+    const onDelete = (id: string) => {}
 
     return (
         <div>

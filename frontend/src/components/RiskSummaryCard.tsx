@@ -2,9 +2,11 @@ import "./RiskSummaryCard.css"
 import Risk from "../types/Risk";
 import riskFactorEval from "../evaluation/riskFactorEval";
 import React, {useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
 
-export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(riskId: string) => void})
-{
+export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(id: string) => void})
+
+    {
     const [assessmentReady, setAssessmentReady] = useState<boolean>(false)
     let riskFactorEvaluation = riskFactorEval(risk.healthHazard, risk.probability, risk.frequency);
 
@@ -18,11 +20,8 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
             }
         },[risk.frequency, risk.healthHazard, risk.probability, risk.riskDescription, risk.riskName])
 
-
-
     return (
         <div className={"RiskSumCard"}>
-            {risk.id ? <button onClick={() => onDelete(risk.id)}>X</button> : null}
             <div className={"RiskBody"}>
                 <div className={"RiskSumCardName"}>
                     <h5>{risk.riskName}</h5>
@@ -46,17 +45,21 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                 <p>{risk.riskReductionMeasures}</p>
             </div>
 
-                {assessmentReady &&
-                    <div>
-                        <div className={"RiskComponents"}>
-                            <p>{riskFactorEvaluation.healthComponent}</p>
-                            <p>{riskFactorEvaluation.probabilityComponent}</p>
-                        </div>
-                        <div className={"RiskEval"}>
-                            <h6>{riskFactorEvaluation.finalEval}</h6>
-                        </div>
+            {assessmentReady &&
+                <div className={"RiskEval"}>
+                    <div className={"RiskComponents"}>
+                        <p>{riskFactorEvaluation.healthComponent}</p>
+                        <p>{riskFactorEvaluation.probabilityComponent}</p>
                     </div>
-                }
+                    <div>
+                        <h6>{riskFactorEvaluation.finalEval}</h6>
+                    </div>
+                </div>
+            }
+            {risk.id &&
+                <Button onClick={() => onDelete(risk.id)}>Delete</Button>
+            }
+
         </div>
     )
-}
+    }

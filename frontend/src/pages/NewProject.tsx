@@ -4,6 +4,9 @@ import {Button, Form} from "react-bootstrap";
 import React, {useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
+import RiskSummaryCard from "../components/RiskSummaryCard";
+import Risk from "../types/Risk";
+import RiskDetails from "../components/RiskDetails";
 
 const emptyProject = {
     createdBy: "",
@@ -21,6 +24,8 @@ export default function NewProject() {
 
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
     const [assessmentRdy, setAssessmentRdy] = useState<boolean>(false);
+    const [risks, setRisks] = useState<Risk[]>([]);
+    const [riskOpen, setRiskOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -42,17 +47,51 @@ export default function NewProject() {
                 const response = await axios.post(`/api/projects`, {...project, "id":null, "createdBy": userId.data.id})
                 setProject(response.data);
             } catch (e) {
-                console.log("Error while deleting the project", e)
+                console.log("Error while posting the project", e)
             } finally {
                 setAssessmentRdy(true);
             }
         })()}
 
+    const onFinish = (event: React.MouseEvent<HTMLButtonElement>) => {
+        (async () => {
+            event.preventDefault();
+            try {
+                await axios.put(`/api/projects/${project.id}`, {...project})
+            } catch (e) {
+                console.log("Error while posting the project", e)
+            } finally {
+                navigate("/")
+            }
+        })()}
+
+    const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+        (async () => {
+            event.preventDefault();
+            try {
+                await axios.delete(`/api/projects/${project.id}`)
+            } catch (e) {
+                console.log("Error while deleting the project", e)
+            } finally {
+                navigate("/")
+            }
+        })()}
+
+    const onDelete = (id: string) => {
+        (async () => {
+            try {
+                await axios.delete(`/api/risks/${id}`)
+                setRisks(risks.filter((risk) => risk.id !== id));
+            } catch (e) {
+                console.log("Error while deleting the project", e)
+            } finally {
+            }
+        })()
+    }
 
     return (
         <div className={"ScreenLimit"}>
             <h4>New Project</h4>
-
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
@@ -110,12 +149,36 @@ export default function NewProject() {
                             ></Form.Control>
                             </Form.Group>
 
-                            <div>
-                                <Button onClick={() => navigate("/")}>Back</Button>
-                                <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
-                            </div>
+                            {!assessmentRdy &&
+                                <div>
+                                    <Button onClick={() => navigate("/")}>Back</Button>
+                                    <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
+                                </div>
+                            }
                         </div>
                 </Form>
+
+            {assessmentRdy &&
+                <div className={"RiskSummaryCards"}>
+                    {risks.filter((risk) => (risk.projectId === project.id))
+                        .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
+
+                    {!riskOpen &&
+                        <Button onClick={() => {setRiskOpen(true)}}>
+                            Assess New Risk Factor</Button>}
+
+                    {riskOpen &&
+                        <RiskDetails id={project.id}
+                                     setRiskOpen={setRiskOpen}
+                                     setRisks={setRisks}/>}
+                </div>
+            }
+            {assessmentRdy &&
+                <div>
+                    <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>
+                    <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
+                </div>
+            }
 
         </div>
     )
