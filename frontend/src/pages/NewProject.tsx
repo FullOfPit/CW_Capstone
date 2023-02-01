@@ -1,12 +1,9 @@
 import "./NewProject.css"
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
-import Risk from "../types/Risk";
-import RiskSummaryCard from "../components/RiskSummaryCard";
-import RiskDetails from "../components/RiskDetails";
 
 const emptyProject = {
     createdBy: "",
@@ -23,17 +20,9 @@ const emptyProject = {
 export default function NewProject() {
 
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
-    const [risks, setRisks] = useState<Risk[]>([]);
-    const [riskOpen, setRiskOpen] = useState<boolean>(false);
+    const [assessmentRdy, setAssessmentRdy] = useState<boolean>(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
-
-    useEffect(() => {(async () => {
-        const projectId = location.pathname.toString().split("/").pop();
-        const response = await axios.get(`/api/projects/${projectId}`);
-        setProject(response.data);
-    })()}, [location.pathname])
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -43,30 +32,22 @@ export default function NewProject() {
             [name]: value,
         })
         console.log(project);
-        console.log(location.search);
     };
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
             try {
-                const response = await axios.put(`/api/projects/${project.id}`, {...project})
+                const userId = await axios.get(`/api/app-users/me`)
+                const response = await axios.post(`/api/projects`, {...project, "id":null, "createdBy": userId.data.id})
                 setProject(response.data);
             } catch (e) {
                 console.log("Error while deleting the project", e)
+            } finally {
+                setAssessmentRdy(true);
             }
         })()}
 
-    const onDelete = (id: string) => {
-        (async () => {
-            try {
-                await axios.delete(`/api/risks/${id}`)
-                setRisks(risks.filter((risk) => risk.id !== id))
-            } catch (e) {
-                console.log("Error while delete this risk", e)
-            }
-        })()
-    }
 
     return (
         <div className={"ScreenLimit"}>
@@ -120,23 +101,6 @@ export default function NewProject() {
                         ></Form.Control>
                     </Form.Group>
                         <div>
-                            <div className={"RiskDetailCards"}>
-                                {risks.filter((risk) => (risk.projectId === project.id))
-                                    .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
-
-                                {!riskOpen &&
-                                    <Button onClick={() => {setRiskOpen(true)}}>
-                                        Assess New Risk Factor</Button>}
-
-                                {riskOpen &&
-                                    <RiskDetails id={project.id}
-                                                 setRiskOpen={setRiskOpen}
-                                                 setRisks={setRisks}
-                                                 onDelete={onDelete}
-                                    />}
-
-                            </div>
-
                             <Form.Group className={"NewProjectHead"}>
                             <Form.Label>Assessed By:</Form.Label>
                             <Form.Control placeholder={"Name of project assessor"}
@@ -148,10 +112,11 @@ export default function NewProject() {
 
                             <div>
                                 <Button onClick={() => navigate("/")}>Back</Button>
-                                <Button type={"submit"} onClick={(event) => onSave(event)}>Save</Button>
+                                <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
                             </div>
                         </div>
                 </Form>
+
         </div>
     )
 }

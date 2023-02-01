@@ -28,8 +28,7 @@ export default function Dashboard () {
         event.preventDefault();
         try {
             const userId = await axios.get("/api/app-users/me");
-            const response = await axios.post("/api/projects", {"createdBy": userId.data.id, "projectStatus": "PLANNED"});
-            navigate(`/newproject/${encodeURIComponent(response.data.id)}`);
+            navigate(`/newproject`);
         } catch (e) {
             console.log("Error while creating a new project has occurred", e);
         }
