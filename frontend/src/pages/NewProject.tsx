@@ -40,7 +40,6 @@ export default function NewProject() {
                 setProject(projectResponse.data);
                 const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
                 setRisks(riskList.data);
-                setRiskOpen(true);
                 setAssessmentRdy(true);
                 setReAssessment(true)
             } catch (e) {
@@ -186,11 +185,11 @@ export default function NewProject() {
                     {risks.filter((risk) => (risk.projectId === project.id))
                         .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
 
-                    {!riskOpen &&
+                    {(!riskOpen || reAssessment) &&
                         <Button onClick={() => {setRiskOpen(true)}}>
                             Assess New Risk Factor</Button>}
 
-                    {riskOpen &&
+                    {(riskOpen || !reAssessment) &&
                         <RiskDetails id={project.id}
                                      setRiskOpen={setRiskOpen}
                                      setRisks={setRisks}/>}
