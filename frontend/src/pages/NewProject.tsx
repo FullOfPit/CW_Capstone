@@ -1,12 +1,11 @@
 import "./NewProject.css"
-import Menu from "../components/Menu";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
-import Risk from "../types/Risk";
 import RiskSummaryCard from "../components/RiskSummaryCard";
+import Risk from "../types/Risk";
 import RiskDetails from "../components/RiskDetails";
 
 const emptyProject = {
@@ -23,14 +22,12 @@ const emptyProject = {
 
 export default function NewProject() {
 
-    const [isReady, setIsReady] = useState<boolean>(false);
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
-    const [projectSet, setProjectSet] = useState<boolean>(false);
+    const [assessmentRdy, setAssessmentRdy] = useState<boolean>(false);
     const [risks, setRisks] = useState<Risk[]>([]);
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -40,51 +37,60 @@ export default function NewProject() {
             [name]: value,
         })
         console.log(project);
-        console.log(location.search);
     };
-    const projectCreation = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
-        event.preventDefault();
-        try {
-            const userId = await axios.get("/api/app-users/me");
-            const response = await axios.post("/api/projects", {...project, "createdBy": userId.data.id, "id": null});
-            navigate(`/newproject?${encodeURIComponent(response.data.id)}`);
-            setProject({...response.data});
-            setProjectSet(true);
-        } catch (e) {
-            console.log("Error while creating a new project has occurred", e);
-        } finally {
-            setIsReady(true);
-
-        }
-    })()
-    }, [navigate, project]);
-
-    const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
-        (async () => {
-            event.preventDefault();
-            try {
-                navigate("/")
-            } catch (e) {
-                console.log("Error while deleting the project", e)
-            }
-        })()};
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
             try {
-                await axios.put(`/api/projects/${project.id}`, {...project})
-                navigate("/")
+                const userId = await axios.get(`/api/app-users/me`)
+                const response = await axios.post(`/api/projects`, {...project, "id":null, "createdBy": userId.data.id})
+                setProject(response.data);
             } catch (e) {
-                console.log("Error while deleting the project", e)
+                console.log("Error while posting the project", e)
+            } finally {
+                setAssessmentRdy(true);
             }
         })()}
 
+    const onFinish = (event: React.MouseEvent<HTMLButtonElement>) => {
+        (async () => {
+            event.preventDefault();
+            try {
+                await axios.put(`/api/projects/${project.id}`, {...project})
+            } catch (e) {
+                console.log("Error while posting the project", e)
+            } finally {
+                navigate("/")
+            }
+        })()}
+
+    const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+        (async () => {
+            event.preventDefault();
+            try {
+                await axios.delete(`/api/projects/${project.id}`)
+            } catch (e) {
+                console.log("Error while deleting the project", e)
+            } finally {
+                navigate("/")
+            }
+        })()}
+
+    const onDelete = (id: string) => {
+        (async () => {
+            try {
+                await axios.delete(`/api/risks/${id}`)
+                setRisks(risks.filter((risk) => risk.id !== id));
+            } catch (e) {
+                console.log("Error while deleting the project", e)
+            }
+        })()
+    }
+
     return (
         <div className={"ScreenLimit"}>
-            <Menu/>
             <h4>New Project</h4>
-
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
@@ -132,33 +138,7 @@ export default function NewProject() {
                                       onInput={editProject}
                         ></Form.Control>
                     </Form.Group>
-
-                    {!isReady &&
                         <div>
-                            {!projectSet &&
-                                <Button onClick={(event) => onCancel(event)}>Cancel</Button>}
-                            <Button onClick={(event) => projectCreation(event)}>Assess Risks</Button>
-                        </div>
-                    }
-
-                    {isReady &&
-
-                        <div>
-                            <div className={"RiskDetailCards"}>
-                                {risks.filter((risk) => (risk.projectId === project.id))
-                                    .map((risk) => <RiskSummaryCard key={risk.id} risk={risk}/>)}
-
-                                {!riskOpen &&
-                                    <Button onClick={() => {setRiskOpen(true)}}>
-                                        Assess New Risk Factor</Button>}
-
-                                {riskOpen &&
-                                    <RiskDetails id={project.id}
-                                                 setRiskOpen={setRiskOpen}
-                                                 setRisks={setRisks}/>}
-
-                            </div>
-
                             <Form.Group className={"NewProjectHead"}>
                             <Form.Label>Assessed By:</Form.Label>
                             <Form.Control placeholder={"Name of project assessor"}
@@ -168,14 +148,37 @@ export default function NewProject() {
                             ></Form.Control>
                             </Form.Group>
 
-                            <div>
-                                {projectSet &&
-                                    <Button onClick={() => navigate("/")}>Back</Button>}
-                            <Button type={"submit"} onClick={(event) => onSave(event)}>Save</Button>
-                            </div>
+                            {!assessmentRdy &&
+                                <div>
+                                    <Button onClick={() => navigate("/")}>Back</Button>
+                                    <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
+                                </div>
+                            }
                         </div>
-                    }
                 </Form>
+
+            {assessmentRdy &&
+                <div className={"RiskSummaryCards"}>
+                    {risks.filter((risk) => (risk.projectId === project.id))
+                        .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
+
+                    {!riskOpen &&
+                        <Button onClick={() => {setRiskOpen(true)}}>
+                            Assess New Risk Factor</Button>}
+
+                    {riskOpen &&
+                        <RiskDetails id={project.id}
+                                     setRiskOpen={setRiskOpen}
+                                     setRisks={setRisks}/>}
+                </div>
+            }
+            {assessmentRdy &&
+                <div>
+                    <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>
+                    <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
+                </div>
+            }
+
         </div>
     )
 }

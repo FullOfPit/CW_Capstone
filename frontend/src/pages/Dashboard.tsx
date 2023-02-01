@@ -1,10 +1,9 @@
-
 import "./Dashboard.css";
 import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
 import {Card} from "react-bootstrap";
 import Menu from "../components/Menu";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Project from "../types/Project";
 import axios from "axios";
@@ -25,13 +24,23 @@ export default function Dashboard () {
         }
     })()}, [])
 
+    const onNewProject = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
+        event.preventDefault();
+        try {
+            navigate(`/newproject`);
+        } catch (e) {
+            console.log("Error while creating a new project has occurred", e);
+        }
+    })()
+    }, [navigate]);
+
     return(
         <div className={"ScreenLimit"}>
-            <Menu/>
+            <Menu projects={allProjects}/>
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>
                     <Card.Header className={"target"}>Create a new project risk assessment</Card.Header>
-                    <button onClick={() => navigate("/newproject")}><BsPlusLg size={26}/></button>
+                    <button onClick={(event) => onNewProject(event)}><BsPlusLg size={26}/></button>
                 </Card>
 
                 <Accordion defaultActiveKey={""} className={"ProjectAccordion"}>

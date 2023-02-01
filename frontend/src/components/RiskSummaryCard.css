@@ -51,3 +51,20 @@
 .RiskComponents p{
     margin: 0;
 }
+
+.RiskDescription {
+    padding: 0 0 0 1rem;
+    text-align: left;
+    width: 100%;
+}
+
+.RiskReductionMeasures {
+    padding: 0 0 0 1rem;
+    text-align: left;
+    width: 100%;
+    border-bottom: 1px solid #ced4da;
+}
+
+.RiskEval {
+    padding: 0.5rem 1rem;
+}

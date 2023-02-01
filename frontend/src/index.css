@@ -14,7 +14,7 @@ code {
 }
 
 .ScreenLimit {
-  margin: 10% 15% 15% 15%;
+  margin: 5%;
   border: 1px solid black;
   text-align: center;
 }
@@ -23,4 +23,8 @@ code {
   height: 1.7rem;
   width: 10.0rem;
   border-radius: 15px;
+}
+
+.RiskSummaryCards {
+  padding: 1rem 1.5rem 1rem 1.5rem;
 }
