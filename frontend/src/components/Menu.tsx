@@ -31,7 +31,9 @@ export default function Menu({projects}:{projects: Project[]}) {
                         <NavDropdown.Divider/>
                         <NavDropdown.Item>Projects</NavDropdown.Item>
                         {projects.map((project) => (
-                            <NavDropdown.Item key={project.id}>{project.projectId}</NavDropdown.Item>)
+                            <NavDropdown.Item key={project.id}
+                                              onClick={() => navigate(`/projectdetails/${project.id}`)}>
+                                {project.projectId}</NavDropdown.Item>)
                         )}
 
                         <NavDropdown.Divider/>

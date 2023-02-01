@@ -1,7 +1,7 @@
 import "./NewProject.css"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
 import RiskSummaryCard from "../components/RiskSummaryCard";
@@ -26,8 +26,30 @@ export default function NewProject() {
     const [assessmentRdy, setAssessmentRdy] = useState<boolean>(false);
     const [risks, setRisks] = useState<Risk[]>([]);
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
+    const [reAssessment, setReAssessment] = useState<boolean>(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    let idString = location.pathname.toString().split("/").pop();
+
+    useEffect(() => {(async () => {
+        if (idString && idString.length === 24) {
+            try {
+                const projectResponse = await axios.get(`/api/projects/${idString}`);
+                setProject(projectResponse.data);
+                const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
+                setRisks(riskList.data);
+                setRiskOpen(true);
+                setAssessmentRdy(true);
+                setReAssessment(true)
+            } catch (e) {
+                console.log("Something went wrong", e)
+            }
+        }
+    })()}, [idString])
+
+
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -90,7 +112,9 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
-            <h4>New Project</h4>
+
+            {reAssessment && <h4>Project Reassessment</h4>}
+            {!reAssessment && <h4>New Project</h4>}
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
@@ -174,7 +198,8 @@ export default function NewProject() {
             }
             {assessmentRdy &&
                 <div>
-                    <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>
+                    {!reAssessment && <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
+                    {reAssessment && <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>Cancel Re-Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
                 </div>
             }
