@@ -84,7 +84,6 @@ export default function NewProject() {
                 setRisks(risks.filter((risk) => risk.id !== id));
             } catch (e) {
                 console.log("Error while deleting the project", e)
-            } finally {
             }
         })()
     }
