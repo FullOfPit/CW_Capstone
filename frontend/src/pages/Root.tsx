@@ -27,7 +27,7 @@ export default function Root() {
                     <Dashboard/>
                 </Authentication>
             }/>
-            <Route path={"/newproject"} element={
+            <Route path={"/newproject/*"} element={
                 <Authentication>
                     <NewProject/>
                 </Authentication>

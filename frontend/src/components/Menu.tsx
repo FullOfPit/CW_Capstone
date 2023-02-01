@@ -7,8 +7,9 @@ import "./Menu.css"
 import {useCallback} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
+import Project from "../types/Project";
 
-export default function Menu() {
+export default function Menu({projects}:{projects: Project[]}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -28,10 +29,11 @@ export default function Menu() {
                         <NavDropdown.Item onClick={() => navigate("/")}>Dashboard</NavDropdown.Item>
                         <NavDropdown.Item href={"/newproject"}>New Project</NavDropdown.Item>
                         <NavDropdown.Divider/>
-                        <NavDropdown.Item>Project</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => navigate("/")}>Planned Projects</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => navigate("/")}>Currently Ongoing Projects</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => navigate("/")}>Finished Projects</NavDropdown.Item>
+                        <NavDropdown.Item>Projects</NavDropdown.Item>
+                        {projects.map((project) => (
+                            <NavDropdown.Item key={project.id}>{project.projectId}</NavDropdown.Item>)
+                        )}
+
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
 

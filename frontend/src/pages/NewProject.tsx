@@ -1,8 +1,7 @@
 import "./NewProject.css"
-import Menu from "../components/Menu";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
-import React, {useCallback, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
 import Risk from "../types/Risk";
@@ -23,14 +22,18 @@ const emptyProject = {
 
 export default function NewProject() {
 
-    const [isReady, setIsReady] = useState<boolean>(false);
     const [project, setProject] = useState<Project>({...emptyProject, "id": ""});
-    const [projectSet, setProjectSet] = useState<boolean>(false);
     const [risks, setRisks] = useState<Risk[]>([]);
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    useEffect(() => {(async () => {
+        const projectId = location.pathname.toString().split("/").pop();
+        const response = await axios.get(`/api/projects/${projectId}`);
+        setProject(response.data);
+    })()}, [location.pathname])
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -42,38 +45,13 @@ export default function NewProject() {
         console.log(project);
         console.log(location.search);
     };
-    const projectCreation = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
-        event.preventDefault();
-        try {
-            const userId = await axios.get("/api/app-users/me");
-            const response = await axios.post("/api/projects", {...project, "createdBy": userId.data.id, "id": null});
-            navigate(`/newproject?${encodeURIComponent(response.data.id)}`);
-            setProject({...response.data});
-            setProjectSet(true);
-        } catch (e) {
-            console.log("Error while creating a new project has occurred", e);
-        } finally {
-            setIsReady(true);
-        }
-    })()
-    }, [navigate, project]);
-
-    const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
-        (async () => {
-            event.preventDefault();
-            try {
-                navigate("/")
-            } catch (e) {
-                console.log("Error while deleting the project", e)
-            }
-        })()};
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
             try {
-                await axios.put(`/api/projects/${project.id}`, {...project})
-                navigate("/")
+                const response = await axios.put(`/api/projects/${project.id}`, {...project})
+                setProject(response.data);
             } catch (e) {
                 console.log("Error while deleting the project", e)
             }
@@ -92,7 +70,6 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
-            <Menu/>
             <h4>New Project</h4>
 
                 <Form>
@@ -142,17 +119,6 @@ export default function NewProject() {
                                       onInput={editProject}
                         ></Form.Control>
                     </Form.Group>
-
-                    {!isReady &&
-                        <div>
-                            {!projectSet &&
-                                <Button onClick={(event) => onCancel(event)}>Cancel</Button>}
-                            <Button onClick={(event) => projectCreation(event)}>Assess Risks</Button>
-                        </div>
-                    }
-
-                    {isReady &&
-
                         <div>
                             <div className={"RiskDetailCards"}>
                                 {risks.filter((risk) => (risk.projectId === project.id))
@@ -181,12 +147,10 @@ export default function NewProject() {
                             </Form.Group>
 
                             <div>
-                                {projectSet &&
-                                    <Button onClick={() => navigate("/")}>Back</Button>}
-                            <Button type={"submit"} onClick={(event) => onSave(event)}>Save</Button>
+                                <Button onClick={() => navigate("/")}>Back</Button>
+                                <Button type={"submit"} onClick={(event) => onSave(event)}>Save</Button>
                             </div>
                         </div>
-                    }
                 </Form>
         </div>
     )
