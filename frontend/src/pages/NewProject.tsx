@@ -48,8 +48,6 @@ export default function NewProject() {
         }
     })()}, [idString])
 
-
-
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -57,7 +55,6 @@ export default function NewProject() {
             ...project,
             [name]: value,
         })
-        console.log(project);
     };
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -65,7 +62,8 @@ export default function NewProject() {
             event.preventDefault();
             try {
                 const userId = await axios.get(`/api/app-users/me`)
-                const response = await axios.post(`/api/projects`, {...project, "id":null, "createdBy": userId.data.id})
+                const response = await axios.post(`/api/projects`,
+                    {...project, "id":null, "createdBy": userId.data.id})
                 setProject(response.data);
             } catch (e) {
                 console.log("Error while posting the project", e)
@@ -111,9 +109,8 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
+            {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
 
-            {reAssessment && <h4>Project Reassessment</h4>}
-            {!reAssessment && <h4>New Project</h4>}
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
@@ -154,7 +151,9 @@ export default function NewProject() {
                     </Form.Group>
                     <Form.Group className={"NewProjectDescription"}>
                         <Form.Label>Project Description</Form.Label>
-                        <Form.Control placeholder={project.projectDetails || "Please enter specific details on your project"}
+                        <Form.Control placeholder={project.projectDetails
+                            ||
+                            "Please enter specific details on your project"}
                                       name={"projectDetails"}
                                       value={project.projectDetails}
                                       as={"textarea"}
@@ -197,8 +196,11 @@ export default function NewProject() {
             }
             {assessmentRdy &&
                 <div className={"ButtonBox"}>
-                    {!reAssessment && <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
-                    {reAssessment && <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>Cancel Re-Assessment</Button>}
+                    {reAssessment ?
+                        <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>
+                            Cancel Re-Assessment</Button>
+                        :
+                        <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
                 </div>
             }
