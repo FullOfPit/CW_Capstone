@@ -196,7 +196,7 @@ export default function NewProject() {
                 </div>
             }
             {assessmentRdy &&
-                <div>
+                <div className={"ButtonBox"}>
                     {!reAssessment && <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     {reAssessment && <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>Cancel Re-Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>

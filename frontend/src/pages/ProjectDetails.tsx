@@ -90,8 +90,10 @@ export default function ProjectDetails() {
                     </div>
                     <div className={"RiskSummaryCards"}>
                         {riskList.map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
-                        <Button onClick={() => navigate("/")}>Back</Button>
-                        <Button onClick={() => navigate(`/newproject/${project.id}`)}>Re-Assess this Project</Button>
+                        <div className={"ButtonBox"}>
+                            <Button onClick={() => navigate("/")}>Back</Button>
+                            <Button onClick={() => navigate(`/newproject/${project.id}`)}>Re-Assess this Project</Button>
+                        </div>
                     </div>
                 </div>
                 :

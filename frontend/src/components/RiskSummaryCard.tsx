@@ -22,6 +22,8 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                 return "#bfd977";
             case "Negligible Risk":
                 return "#9afaa7";
+            default:
+                return "white";
         }
     }
 
@@ -74,7 +76,6 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
             {risk.id &&
                 <Button onClick={() => onDelete(risk.id)}>Delete</Button>
             }
-
         </div>
     )
     }

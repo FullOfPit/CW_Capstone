@@ -12,8 +12,10 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
             return "Moderate Risk";
         } else if (riskFactor > 3) {
             return "Low Risk";
-        } else {
+        } else if (riskFactor > 0) {
             return "Negligible Risk";
+        } else {
+            return "Not yet assessed"
         }
     }
 
