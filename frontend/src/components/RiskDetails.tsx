@@ -64,9 +64,8 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
             setRiskOpen(false);
         }
     })()}
-
+    //Dummy function to satisfy the requirement for RiskSummaryCard
     const onDelete = (id: string) => {}
-
     return (
         <div>
             <div>

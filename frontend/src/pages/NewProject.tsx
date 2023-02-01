@@ -189,7 +189,7 @@ export default function NewProject() {
                         <Button onClick={() => {setRiskOpen(true)}}>
                             Assess New Risk Factor</Button>}
 
-                    {(riskOpen || !reAssessment) &&
+                    {(riskOpen) &&
                         <RiskDetails id={project.id}
                                      setRiskOpen={setRiskOpen}
                                      setRisks={setRisks}/>}
