@@ -10,6 +10,23 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
     const [assessmentReady, setAssessmentReady] = useState<boolean>(false)
     let riskFactorEvaluation = riskFactorEval(risk.healthHazard, risk.probability, risk.frequency);
 
+    const cardColor = (riskFactor: string) => {
+        switch (riskFactor) {
+            case "Extreme Risk":
+                return "#ff6d4f";
+            case "High Risk":
+                return "#db9f58";
+            case "Moderate Risk":
+                return "#f0de90";
+            case "Low Risk":
+                return "#bfd977";
+            case "Negligible Risk":
+                return "#9afaa7";
+            default:
+                return "white";
+        }
+    }
+
     useEffect(() => {
             if (risk.riskName !== "" &&
                 risk.riskDescription !== "" &&
@@ -21,7 +38,7 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
         },[risk.frequency, risk.healthHazard, risk.probability, risk.riskDescription, risk.riskName])
 
     return (
-        <div className={"RiskSumCard"}>
+        <div className={"RiskSumCard"} style={{background: cardColor(riskFactorEvaluation.riskFactor)}}>
             <div className={"RiskBody"}>
                 <div className={"RiskSumCardName"}>
                     <h5>{risk.riskName}</h5>
@@ -59,7 +76,6 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
             {risk.id &&
                 <Button onClick={() => onDelete(risk.id)}>Delete</Button>
             }
-
         </div>
     )
     }

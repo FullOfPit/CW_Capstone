@@ -6,14 +6,16 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
 
         if(riskFactor > 9 && healthHazard > 2) {
             return "Extreme Risk";
-        } else if (riskFactor > 7 && !(healthHazard === 2 && probability === 2 && frequency === 2)) {
+        } else if ((riskFactor > 7 && !(healthHazard === 2 && probability === 2 && frequency === 2))  || healthHazard >= 3) {
             return "High Risk";
         } else if (riskFactor > 5 || (healthHazard === 2 && probability === 2 && frequency === 2)) {
             return "Moderate Risk";
         } else if (riskFactor > 3) {
             return "Low Risk";
-        } else {
+        } else if (riskFactor > 0) {
             return "Negligible Risk";
+        } else {
+            return "Not yet assessed"
         }
     }
 
@@ -30,8 +32,6 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
         }
     }
 
-
-
     const probabilityEval = (probability: number) => {
         switch (probability) {
             case 4:
@@ -44,8 +44,6 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
                 return "Incident Occurrence unlikely";
         }
     }
-
-
 
     const finalRiskEval = (healthHazard: number, probability: number, frequency: number) => {
         if (healthHazard >= 3 && probability >= 3 && frequency >= 3) {
@@ -60,8 +58,8 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
                 "Further measures to reduce individual risk components are highly recommended. " +
                 "Only proceed after reconsideration.";
         } else if (healthHazard === 4) {
-            return "Task possibly lethal. Any possibility to reduce the chance " +
-                "of occurrence should be explored. Only proceed after reconsideration.";
+            return "Task possibly lethal. Any possibility to reduce potential impact on health and life " +
+                "should be explored. Only proceed after reconsideration.";
         } else if (healthHazard >= 3) {
             return "Potentially lethal Risk. Any possibility to reduce the chance " +
                 "of occurrence should be explored. Only proceed after reconsideration.";

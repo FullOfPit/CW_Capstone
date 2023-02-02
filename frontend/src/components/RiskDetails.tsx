@@ -64,9 +64,8 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
             setRiskOpen(false);
         }
     })()}
-
+    //Dummy function to satisfy the requirement for RiskSummaryCard
     const onDelete = (id: string) => {}
-
     return (
         <div>
             <div>
@@ -154,7 +153,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
-                        <div>
+                        <div className={"ButtonBox"}>
                             <Button onClick={() => setRiskOpen(false)}>Cancel</Button>
                             <Button type={"submit"} onClick={(event) => saveRisk(event)}>Save</Button>
                         </div>

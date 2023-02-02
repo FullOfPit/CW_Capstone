@@ -1,7 +1,7 @@
 import "./NewProject.css"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
 import RiskSummaryCard from "../components/RiskSummaryCard";
@@ -26,8 +26,27 @@ export default function NewProject() {
     const [assessmentRdy, setAssessmentRdy] = useState<boolean>(false);
     const [risks, setRisks] = useState<Risk[]>([]);
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
+    const [reAssessment, setReAssessment] = useState<boolean>(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    let idString = location.pathname.toString().split("/").pop();
+
+    useEffect(() => {(async () => {
+        if (idString && idString.length === 24) {
+            try {
+                const projectResponse = await axios.get(`/api/projects/${idString}`);
+                setProject(projectResponse.data);
+                const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
+                setRisks(riskList.data);
+                setAssessmentRdy(true);
+                setReAssessment(true)
+            } catch (e) {
+                console.log("Something went wrong", e)
+            }
+        }
+    })()}, [idString])
 
     const editProject = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -36,7 +55,6 @@ export default function NewProject() {
             ...project,
             [name]: value,
         })
-        console.log(project);
     };
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,7 +62,8 @@ export default function NewProject() {
             event.preventDefault();
             try {
                 const userId = await axios.get(`/api/app-users/me`)
-                const response = await axios.post(`/api/projects`, {...project, "id":null, "createdBy": userId.data.id})
+                const response = await axios.post(`/api/projects`,
+                    {...project, "id":null, "createdBy": userId.data.id})
                 setProject(response.data);
             } catch (e) {
                 console.log("Error while posting the project", e)
@@ -90,7 +109,8 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
-            <h4>New Project</h4>
+            {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
@@ -131,7 +151,9 @@ export default function NewProject() {
                     </Form.Group>
                     <Form.Group className={"NewProjectDescription"}>
                         <Form.Label>Project Description</Form.Label>
-                        <Form.Control placeholder={project.projectDetails || "Please enter specific details on your project"}
+                        <Form.Control placeholder={project.projectDetails
+                            ||
+                            "Please enter specific details on your project"}
                                       name={"projectDetails"}
                                       value={project.projectDetails}
                                       as={"textarea"}
@@ -162,23 +184,26 @@ export default function NewProject() {
                     {risks.filter((risk) => (risk.projectId === project.id))
                         .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
 
-                    {!riskOpen &&
+                    {(!riskOpen || reAssessment) &&
                         <Button onClick={() => {setRiskOpen(true)}}>
                             Assess New Risk Factor</Button>}
 
-                    {riskOpen &&
+                    {(riskOpen) &&
                         <RiskDetails id={project.id}
                                      setRiskOpen={setRiskOpen}
                                      setRisks={setRisks}/>}
                 </div>
             }
             {assessmentRdy &&
-                <div>
-                    <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>
+                <div className={"ButtonBox"}>
+                    {reAssessment ?
+                        <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>
+                            Cancel Re-Assessment</Button>
+                        :
+                        <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
                 </div>
             }
-
         </div>
     )
 }
