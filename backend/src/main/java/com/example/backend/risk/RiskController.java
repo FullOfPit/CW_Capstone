@@ -29,7 +29,7 @@ public class RiskController {
         return this.riskService.getById(id);
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/projects/{id}")
     List<Risk> getAllByProjectId(@PathVariable String id) throws ProjectNotRegisteredException {
         return this.riskService.getAllByProjectId(id);
     }
