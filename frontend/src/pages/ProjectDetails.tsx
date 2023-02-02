@@ -23,7 +23,7 @@ export default function ProjectDetails() {
         try {
             const projectResponse = await axios.get(`/api/projects/${idString}`);
             setProject(projectResponse.data);
-            const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
+            const riskList = await axios.get(`/api/risks/projects/${projectResponse.data.id}`)
             setRiskList(riskList.data);
         } catch (e) {
             console.log("Something went wrong", e)
@@ -52,7 +52,7 @@ export default function ProjectDetails() {
                     <header>
                         <h4>{project.projectName}</h4>
                     </header>
-                    <body className={"ProjectContent"}>
+                    <div className={"ProjectContent"}>
                         <div className={"ProjectData"}>
                             <table>
                                 <tbody>
@@ -87,10 +87,13 @@ export default function ProjectDetails() {
                             <h6>Project Details:</h6>
                             <p>{project.projectDetails}</p>
                         </div>
-                    </body>
+                    </div>
                     <div className={"RiskSummaryCards"}>
                         {riskList.map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
-                        <Button onClick={() => navigate("/")}>Back</Button>
+                        <div className={"ButtonBox"}>
+                            <Button onClick={() => navigate("/")}>Back</Button>
+                            <Button onClick={() => navigate(`/newproject/${project.id}`)}>Re-Assess this Project</Button>
+                        </div>
                     </div>
                 </div>
                 :

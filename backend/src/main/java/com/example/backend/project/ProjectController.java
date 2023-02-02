@@ -29,7 +29,7 @@ public class ProjectController {
         return this.projectService.getById(id);
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/app-users/{id}")
     public List<Project> getAllByUserId(@PathVariable String id) throws UserNotRegisteredException {
         return this.projectService.getAllByUserId(id);
     }

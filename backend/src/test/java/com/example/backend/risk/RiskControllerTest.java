@@ -287,7 +287,7 @@ class RiskControllerTest {
         this.riskRepository.save(riskProjectOne);
         this.riskRepository.save(riskProjectTwo);
 
-        mvc.perform(post("/api/risks/testprojectid2"))
+        mvc.perform(get("/api/risks/projects/testprojectid2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response));
     }
