@@ -55,6 +55,8 @@ export default function NewProject() {
             ...project,
             [name]: value,
         })
+        console.log(project.plannedFinishDate)
+        console.log(project.plannedStartDate)
     };
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -136,6 +138,7 @@ export default function NewProject() {
                             <Form.Label>Planned Start Date</Form.Label>
                             <Form.Control placeholder={project.plannedStartDate || "Planned Start Date"}
                                           type={"date"}
+                                          min={new Date().toISOString().slice(0, 10)}
                                           name={"plannedStartDate"}
                                           value={project.plannedStartDate}
                                           onInput={editProject}
@@ -145,6 +148,7 @@ export default function NewProject() {
                             <Form.Label>Planned Finish Date</Form.Label>
                             <Form.Control placeholder={project.plannedFinishDate || "Planned Finish Date"}
                                           type={"date"}
+                                          min={new Date().toISOString().slice(0, 10)}
                                           name={"plannedFinishDate"}
                                           value={project.plannedFinishDate}
                                           onInput={editProject}
