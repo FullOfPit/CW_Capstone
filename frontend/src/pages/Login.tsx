@@ -28,7 +28,7 @@ export default function Login () {
         [searchParams]
     );
     const navigate = useNavigate();
-    
+
     const login = useCallback(
         async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();

@@ -9,7 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Project from "../types/Project";
 
-export default function Menu({projects}:{projects: Project[]}) {
+export default function Menu({projects, username}:{projects: Project[], username: string}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -23,7 +23,7 @@ export default function Menu({projects}:{projects: Project[]}) {
     return (
         <Navbar variant={"light"} bg={"light"}>
             <Container fluid>
-                <Navbar.Brand>Hello Member</Navbar.Brand>
+                <Navbar.Brand>Welcome Back {username}!</Navbar.Brand>
                 <Nav>
                     <NavDropdown title={"Menu"}>
                         <NavDropdown.Item onClick={() => navigate("/")}>Dashboard</NavDropdown.Item>

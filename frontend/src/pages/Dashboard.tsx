@@ -15,11 +15,13 @@ export default function Dashboard () {
 
     const navigate = useNavigate();
     const [allProjects, setAllProjects] = useState<Project[]>([])
+    const [username, setUsername] = useState<string>("")
 
     useEffect(() => {(async () => {
         try {
             const user = await axios.get("/api/app-users/me");
             const response = await axios.get(`/api/projects/app-users/${user.data.id}`)
+            setUsername(user.data.username);
             setAllProjects(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
@@ -38,7 +40,7 @@ export default function Dashboard () {
 
     return(
         <div className={"ScreenLimit"}>
-            <Menu projects={allProjects}/>
+            <Menu projects={allProjects} username={username}/>
 
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>
