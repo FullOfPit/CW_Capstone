@@ -25,7 +25,7 @@ export default function Menu({projects, username}:{projects: Project[], username
             <Container fluid>
                 <Navbar.Brand>Welcome Back {username}!</Navbar.Brand>
                 <Nav>
-                    <NavDropdown title={"Menu"}>
+                    <NavDropdown title={"Menu"} drop={"start"}>
                         <NavDropdown.Item onClick={() => navigate("/")}>Dashboard</NavDropdown.Item>
                         <NavDropdown.Item href={"/newproject"}>New Project</NavDropdown.Item>
                         <NavDropdown.Divider/>
@@ -35,7 +35,6 @@ export default function Menu({projects, username}:{projects: Project[], username
                                               onClick={() => navigate(`/projectdetails/${project.id}`)}>
                                 {project.projectId}</NavDropdown.Item>)
                         )}
-
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
 
