@@ -52,7 +52,7 @@ export function riskValidation(risk: Risk) {
     } else if (risk.riskReductionMeasures.length < 1) {
         riskValid = false;
         riskValidationFails.push("Risk factors must include deliberation about risk reduction!");
-    } else if (risk.healthHazard === 0 || risk.probability === 0 || risk.frequency || 0) {
+    } else if (risk.healthHazard === 0 || risk.probability === 0 || risk.frequency === 0) {
         riskValid = false;
         riskValidationFails.push("Risk factor assessment must include assessment of all three parameters!")
     }
