@@ -8,7 +8,6 @@ import {useNavigate} from "react-router-dom";
 import Project from "../types/Project";
 import axios from "axios";
 import ProjectSummaryCard from "../components/ProjectSummaryCard";
-import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Dashboard () {

@@ -123,7 +123,7 @@ export default function NewProject() {
                     setAssessmentRdy(true);
                 }
             } else {
-                projectValid.validationFails.map((fail) => toast.error(fail, {
+                projectValid.validationFails.forEach((fail) => toast.error(fail, {
                     position: "top-center",
                         autoClose: 5000,
                         hideProgressBar: true,
@@ -149,14 +149,14 @@ export default function NewProject() {
                     navigate("/")
                 }
             } else {
-                projectValid.validationFails.map((fail) => toast.error(fail, {
+                projectValid.validationFails.forEach((fail) => toast.error(fail, {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,
                     closeOnClick: false,
                     pauseOnHover: false,
                 }));
-                riskListValid.validationFails.map((fail) => toast.error(fail, {
+                riskListValid.validationFails.forEach((fail) => toast.error(fail, {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,

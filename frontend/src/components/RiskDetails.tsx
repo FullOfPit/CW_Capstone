@@ -95,7 +95,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                 setRiskOpen(false);
             }
         } else {
-            riskValid.validationFails.map((fail) => toast.error((fail), {
+            riskValid.validationFails.forEach((fail) => toast.error((fail), {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: true,
