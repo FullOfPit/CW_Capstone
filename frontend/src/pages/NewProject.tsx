@@ -13,8 +13,8 @@ const emptyProject = {
     projectId: "",
     projectName: "",
     createdAt: "",
-    plannedStartDate: "2023-01-01",
-    plannedFinishDate: "2023-01-01",
+    plannedStartDate: new Date().toISOString().slice(0, 10),
+    plannedFinishDate: new Date().toISOString().slice(0, 10),
     projectStatus: "PLANNED",
     assessorName: "",
     projectDetails: ""
@@ -109,7 +109,9 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
-            {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+            <div className={"NewEditProjectHead"}>
+                {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+            </div>
 
                 <Form>
                     <Form.Group className={"NewProjectHead"}>

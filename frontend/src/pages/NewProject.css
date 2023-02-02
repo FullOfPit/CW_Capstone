@@ -1,3 +1,10 @@
+.NewEditProjectHead {
+    margin: 2rem 10%;
+    padding-bottom: 2rem;
+    width: 80%;
+    border-bottom: 1px solid black;
+}
+
 .NewProjectHead {
     display: flex;
     flex-direction: row;

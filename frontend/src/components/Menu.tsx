@@ -32,8 +32,9 @@ export default function Menu({projects, username}:{projects: Project[], username
                         <NavDropdown.Item>Projects</NavDropdown.Item>
                         {projects.map((project) => (
                             <NavDropdown.Item key={project.id}
-                                              onClick={() => navigate(`/projectdetails/${project.id}`)}>
-                                {project.projectId}</NavDropdown.Item>)
+                                              onClick={() => navigate(`/projectdetails/${project.id}`)}
+                                              className={"MenuBarProjectIDs"}
+                            >{project.projectId}</NavDropdown.Item>)
                         )}
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
