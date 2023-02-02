@@ -1,13 +1,15 @@
 import "./Dashboard.css";
 import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
-import {Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import Menu from "../components/Menu";
 import React, {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Project from "../types/Project";
 import axios from "axios";
 import ProjectSummaryCard from "../components/ProjectSummaryCard";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Dashboard () {
 
@@ -34,9 +36,18 @@ export default function Dashboard () {
     })()
     }, [navigate]);
 
+    const message = () => toast("wow so easy!");
+
+
     return(
         <div className={"ScreenLimit"}>
             <Menu projects={allProjects}/>
+
+
+            <Button onClick={message}>Notify!</Button>
+            <ToastContainer/>
+
+
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>
                     <Card.Header className={"target"}>Create a new project risk assessment</Card.Header>

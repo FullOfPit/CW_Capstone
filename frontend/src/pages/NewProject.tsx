@@ -1,6 +1,6 @@
 import "./NewProject.css"
 import {useNavigate} from "react-router-dom";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, ToastContainer} from "react-bootstrap";
 import React, {useState} from "react";
 import Project from "../types/Project";
 import axios from "axios";
@@ -91,6 +91,8 @@ export default function NewProject() {
     return (
         <div className={"ScreenLimit"}>
             <h4>New Project</h4>
+
+            <ToastContainer/>
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
