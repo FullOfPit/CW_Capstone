@@ -5,6 +5,7 @@ import {Button, Dropdown, Form} from "react-bootstrap";
 import axios from "axios";
 import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
+import {toast} from "react-toastify";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -52,17 +53,57 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
         })
     }
 
+    const riskValidation = (risk: Risk) => {
+
+        let riskValid = true;
+        let riskValidationFails = [];
+
+        if (risk.riskName.length < 1) {
+            riskValid = false;
+            riskValidationFails.push("Risk factors must be named!");
+        }
+        if (risk.riskDescription.length < 1) {
+            riskValid = false;
+            riskValidationFails.push("Risk factors must be described!")
+        }
+        if (risk.riskReductionMeasures.length < 1) {
+            riskValid = false;
+            riskValidationFails.push("Risk factors must include deliberation about risk reduction!");
+        }
+        if (risk.healthHazard === 0 || risk.probability === 0 || risk.frequency || 0) {
+            riskValid = false;
+            riskValidationFails.push("Risk factor assessment must include assessment of all three parameters!")
+        }
+
+        return {validation: riskValid, validationFails: riskValidationFails};
+
+    }
+
     const saveRisk = (e: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         e.preventDefault();
-        try {
-            await axios.post("/api/risks", {...currentRisk, "id": null});
-        } catch (e) {
-            console.log("Error posting new risk", e)
-        } finally {
-            const response = await axios.get(`/api/risks/projects/${id}`);
-            setRisks(response.data)
-            setRiskOpen(false);
+
+        let riskValid = riskValidation(currentRisk);
+
+        if (riskValid.validation) {
+            try {
+                await axios.post("/api/risks", {...currentRisk, "id": null});
+            } catch (e) {
+                console.log("Error posting new risk", e)
+            } finally {
+                const response = await axios.get(`/api/risks/projects/${id}`);
+                setRisks(response.data)
+                setRiskOpen(false);
+            }
+        } else {
+            riskValid.validationFails.map((fail) => toast.error((fail), {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+            }));
         }
+
     })()}
     //Dummy function to satisfy the requirement for RiskSummaryCard
     const onDelete = (id: string) => {}
