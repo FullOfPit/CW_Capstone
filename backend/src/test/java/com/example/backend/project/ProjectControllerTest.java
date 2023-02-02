@@ -306,7 +306,7 @@ class ProjectControllerTest {
                 }]
                 """;
 
-        mvc.perform(post("/api/projects/testuser2"))
+        mvc.perform(get("/api/projects/app-users/testuser2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(userTwoProjectString));
     }

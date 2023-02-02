@@ -59,7 +59,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
         } catch (e) {
             console.log("Error posting new risk", e)
         } finally {
-            const response = await axios.post(`/api/risks/${id}`);
+            const response = await axios.get(`/api/risks/projects/${id}`);
             setRisks(response.data)
             setRiskOpen(false);
         }
