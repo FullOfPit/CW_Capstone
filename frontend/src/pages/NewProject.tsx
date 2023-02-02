@@ -8,6 +8,7 @@ import RiskSummaryCard from "../components/RiskSummaryCard";
 import Risk from "../types/Risk";
 import RiskDetails from "../components/RiskDetails";
 import {toast, ToastContainer} from "react-toastify";
+import {projectValidation, riskListValidation} from "../validation/validation";
 
 const emptyProject = {
     createdBy: "",
@@ -57,53 +58,6 @@ export default function NewProject() {
             [name]: value,
         })
     };
-
-    const projectValidation = (project: Project) => {
-
-        let projectValid = true;
-        let projectValidationFails = [];
-
-        if (project.projectName.length < 1) {
-            projectValid = false;
-            projectValidationFails.push("Missing project name!");
-        }
-        if (project.projectId.length < 1) {
-            projectValid = false;
-            projectValidationFails.push("Missing project ID!");
-        }
-
-        if ((Date.parse(project.plannedFinishDate as string) - Date.parse(project.plannedStartDate as string)) <= 0) {
-            projectValid = false;
-            projectValidationFails.push("Project finish dates have to be set at least 1 day after start dates")
-        }
-
-        if (project.projectDetails.length < 1) {
-            projectValid = false;
-            projectValidationFails.push("Missing project description!");
-        }
-
-        if (project.assessorName.length < 1) {
-            projectValid = false;
-            projectValidationFails.push("Missing assessor name!");
-        }
-
-        return {validation: projectValid, validationFails: projectValidationFails}
-    }
-
-    const riskListValidation = (risks: Risk[]) => {
-
-        let riskListValid = true;
-        let riskListValidationFails = [];
-
-        if (risks.length < 1) {
-            riskListValid = false;
-            riskListValidationFails.push("At least one risk factor needs to be assessed!")
-        }
-
-        return {validation: riskListValid, validationFails: riskListValidationFails};
-    }
-
-
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {

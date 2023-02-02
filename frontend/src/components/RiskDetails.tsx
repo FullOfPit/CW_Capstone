@@ -6,6 +6,7 @@ import axios from "axios";
 import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 import {toast} from "react-toastify";
+import {riskValidation} from "../validation/validation";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -53,38 +54,10 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
         })
     }
 
-    const riskValidation = (risk: Risk) => {
-
-        let riskValid = true;
-        let riskValidationFails = [];
-
-        if (risk.riskName.length < 1) {
-            riskValid = false;
-            riskValidationFails.push("Risk factors must be named!");
-        }
-        if (risk.riskDescription.length < 1) {
-            riskValid = false;
-            riskValidationFails.push("Risk factors must be described!")
-        }
-        if (risk.riskReductionMeasures.length < 1) {
-            riskValid = false;
-            riskValidationFails.push("Risk factors must include deliberation about risk reduction!");
-        }
-        if (risk.healthHazard === 0 || risk.probability === 0 || risk.frequency || 0) {
-            riskValid = false;
-            riskValidationFails.push("Risk factor assessment must include assessment of all three parameters!")
-        }
-
-        return {validation: riskValid, validationFails: riskValidationFails};
-
-    }
-
     const saveRisk = (e: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         e.preventDefault();
 
-        let riskValid = riskValidation(currentRisk);
-
-        if (riskValid.validation) {
+        if (riskValidation(currentRisk).validation) {
             try {
                 await axios.post("/api/risks", {...currentRisk, "id": null});
             } catch (e) {
@@ -95,7 +68,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                 setRiskOpen(false);
             }
         } else {
-            riskValid.validationFails.forEach((fail) => toast.error((fail), {
+            riskValidation(currentRisk).validationFails.forEach((fail) => toast.error((fail), {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: true,
