@@ -38,7 +38,7 @@ export default function NewProject() {
             try {
                 const projectResponse = await axios.get(`/api/projects/${idString}`);
                 setProject(projectResponse.data);
-                const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
+                const riskList = await axios.get(`/api/risks/projects/${projectResponse.data.id}`)
                 setRisks(riskList.data);
                 setAssessmentRdy(true);
                 setReAssessment(true)

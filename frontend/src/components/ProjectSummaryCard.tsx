@@ -18,7 +18,7 @@ export default function ProjectSummaryCard({
     const onDelete = (id: string) => {(
         (async () => {
             await axios.delete(`/api/projects/${id}`);
-            const projectUpdate = await axios.post(`/api/projects/${project.createdBy}`);
+            const projectUpdate = await axios.get(`/api/projects/app-users/${project.createdBy}`);
             setAllProjects(projectUpdate.data);
         })())
     };

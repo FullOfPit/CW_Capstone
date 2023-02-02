@@ -17,7 +17,7 @@ export default function Dashboard () {
     useEffect(() => {(async () => {
         try {
             const user = await axios.get("/api/app-users/me");
-            const response = await axios.post(`/api/projects/${user.data.id}`)
+            const response = await axios.get(`/api/projects/app-users/${user.data.id}`)
             setAllProjects(response.data);
         } catch (e) {
             console.log("Something went wrong", e)

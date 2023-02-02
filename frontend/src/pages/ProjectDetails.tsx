@@ -23,7 +23,7 @@ export default function ProjectDetails() {
         try {
             const projectResponse = await axios.get(`/api/projects/${idString}`);
             setProject(projectResponse.data);
-            const riskList = await axios.post(`/api/risks/${projectResponse.data.id}`)
+            const riskList = await axios.get(`/api/risks/projects/${projectResponse.data.id}`)
             setRiskList(riskList.data);
         } catch (e) {
             console.log("Something went wrong", e)
