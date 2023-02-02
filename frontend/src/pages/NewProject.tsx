@@ -7,6 +7,7 @@ import axios from "axios";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import Risk from "../types/Risk";
 import RiskDetails from "../components/RiskDetails";
+import {toast, ToastContainer} from "react-toastify";
 
 const emptyProject = {
     createdBy: "",
@@ -55,35 +56,115 @@ export default function NewProject() {
             ...project,
             [name]: value,
         })
-        console.log(project.plannedFinishDate)
-        console.log(project.plannedStartDate)
     };
+
+    const projectValidation = (project: Project) => {
+
+        let projectValid = true;
+        let projectValidationFails = [];
+
+        if (project.projectName.length < 1) {
+            projectValid = false;
+            projectValidationFails.push("Missing project name!");
+        }
+        if (project.projectId.length < 1) {
+            projectValid = false;
+            projectValidationFails.push("Missing project ID!");
+        }
+
+        if ((Date.parse(project.plannedFinishDate as string) - Date.parse(project.plannedStartDate as string)) <= 0) {
+            projectValid = false;
+            projectValidationFails.push("Project finish dates have to be set at least 1 day after start dates")
+        }
+
+        if (project.projectDetails.length < 1) {
+            projectValid = false;
+            projectValidationFails.push("Missing project description!");
+        }
+
+        if (project.assessorName.length < 1) {
+            projectValid = false;
+            projectValidationFails.push("Missing assessor name!");
+        }
+
+        return {validation: projectValid, validationFails: projectValidationFails}
+    }
+
+    const riskListValidation = (risks: Risk[]) => {
+
+        let riskListValid = true;
+        let riskListValidationFails = [];
+
+        if (risks.length < 1) {
+            riskListValid = false;
+            riskListValidationFails.push("At least one risk factor needs to be assessed!")
+        }
+
+        return {validation: riskListValid, validationFails: riskListValidationFails};
+    }
+
+
 
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
-            try {
-                const userId = await axios.get(`/api/app-users/me`)
-                const response = await axios.post(`/api/projects`,
-                    {...project, "id":null, "createdBy": userId.data.id})
-                setProject(response.data);
-            } catch (e) {
-                console.log("Error while posting the project", e)
-            } finally {
-                setAssessmentRdy(true);
+
+            let projectValid = projectValidation(project);
+
+            if (projectValid.validation) {
+                try {
+                    const userId = await axios.get(`/api/app-users/me`)
+                    const response = await axios.post(`/api/projects`,
+                        {...project, "id":null, "createdBy": userId.data.id})
+                    setProject(response.data);
+                } catch (e) {
+                    console.log("Error while posting the project", e)
+                } finally {
+                    setAssessmentRdy(true);
+                }
+            } else {
+                projectValid.validationFails.map((fail) => toast.error(fail, {
+                    position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: false,
+                }))
             }
         })()}
 
     const onFinish = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
-            try {
-                await axios.put(`/api/projects/${project.id}`, {...project})
-            } catch (e) {
-                console.log("Error while posting the project", e)
-            } finally {
-                navigate("/")
+
+            let projectValid = projectValidation(project);
+            let riskListValid = riskListValidation(risks);
+
+            if(projectValid.validation && riskListValid.validation) {
+                try {
+                    await axios.put(`/api/projects/${project.id}`, {...project})
+                } catch (e) {
+                    console.log("Error while posting the project", e)
+                } finally {
+                    navigate("/")
+                }
+            } else {
+                projectValid.validationFails.map((fail) => toast.error(fail, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                }));
+                riskListValid.validationFails.map((fail) => toast.error(fail, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                }))
             }
+
         })()}
 
     const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -180,6 +261,7 @@ export default function NewProject() {
                                 <div>
                                     <Button onClick={() => navigate("/")}>Back</Button>
                                     <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
+                                    <ToastContainer />
                                 </div>
                             }
                         </div>
@@ -208,6 +290,7 @@ export default function NewProject() {
                         :
                         <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
+                    <ToastContainer/>
                 </div>
             }
         </div>
