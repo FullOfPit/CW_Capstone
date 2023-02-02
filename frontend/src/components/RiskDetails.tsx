@@ -5,6 +5,8 @@ import {Button, Dropdown, Form} from "react-bootstrap";
 import axios from "axios";
 import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
+import {toast} from "react-toastify";
+import {riskValidation} from "../validation/validation";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -54,15 +56,27 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
 
     const saveRisk = (e: React.MouseEvent<HTMLButtonElement>) => {(async () => {
         e.preventDefault();
-        try {
-            await axios.post("/api/risks", {...currentRisk, "id": null});
-        } catch (e) {
-            console.log("Error posting new risk", e)
-        } finally {
-            const response = await axios.get(`/api/risks/projects/${id}`);
-            setRisks(response.data)
-            setRiskOpen(false);
+
+        if (riskValidation(currentRisk).validation) {
+            try {
+                await axios.post("/api/risks", {...currentRisk, "id": null});
+            } catch (e) {
+                console.log("Error posting new risk", e)
+            } finally {
+                const response = await axios.get(`/api/risks/projects/${id}`);
+                setRisks(response.data)
+                setRiskOpen(false);
+            }
+        } else {
+            riskValidation(currentRisk).validationFails.forEach((fail) => toast.error((fail), {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+            }));
         }
+
     })()}
     //Dummy function to satisfy the requirement for RiskSummaryCard
     const onDelete = (id: string) => {}

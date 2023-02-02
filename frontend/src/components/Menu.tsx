@@ -9,7 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Project from "../types/Project";
 
-export default function Menu({projects}:{projects: Project[]}) {
+export default function Menu({projects, username}:{projects: Project[], username: string}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -23,19 +23,19 @@ export default function Menu({projects}:{projects: Project[]}) {
     return (
         <Navbar variant={"light"} bg={"light"}>
             <Container fluid>
-                <Navbar.Brand>Hello Member</Navbar.Brand>
+                <Navbar.Brand>Welcome Back {username}!</Navbar.Brand>
                 <Nav>
-                    <NavDropdown title={"Menu"}>
+                    <NavDropdown title={"Menu"} drop={"start"}>
                         <NavDropdown.Item onClick={() => navigate("/")}>Dashboard</NavDropdown.Item>
                         <NavDropdown.Item href={"/newproject"}>New Project</NavDropdown.Item>
                         <NavDropdown.Divider/>
                         <NavDropdown.Item>Projects</NavDropdown.Item>
                         {projects.map((project) => (
                             <NavDropdown.Item key={project.id}
-                                              onClick={() => navigate(`/projectdetails/${project.id}`)}>
-                                {project.projectId}</NavDropdown.Item>)
+                                              onClick={() => navigate(`/projectdetails/${project.id}`)}
+                                              className={"MenuBarProjectIDs"}
+                            >{project.projectId}</NavDropdown.Item>)
                         )}
-
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
 

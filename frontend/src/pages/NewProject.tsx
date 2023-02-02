@@ -7,14 +7,16 @@ import axios from "axios";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import Risk from "../types/Risk";
 import RiskDetails from "../components/RiskDetails";
+import {toast, ToastContainer} from "react-toastify";
+import {projectValidation, riskListValidation} from "../validation/validation";
 
 const emptyProject = {
     createdBy: "",
     projectId: "",
     projectName: "",
     createdAt: "",
-    plannedStartDate: "2023-01-01",
-    plannedFinishDate: "2023-01-01",
+    plannedStartDate: new Date().toISOString().slice(0, 10),
+    plannedFinishDate: new Date().toISOString().slice(0, 10),
     projectStatus: "PLANNED",
     assessorName: "",
     projectDetails: ""
@@ -60,28 +62,63 @@ export default function NewProject() {
     const onSave = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
-            try {
-                const userId = await axios.get(`/api/app-users/me`)
-                const response = await axios.post(`/api/projects`,
-                    {...project, "id":null, "createdBy": userId.data.id})
-                setProject(response.data);
-            } catch (e) {
-                console.log("Error while posting the project", e)
-            } finally {
-                setAssessmentRdy(true);
+
+            let projectValid = projectValidation(project);
+
+            if (projectValid.validation) {
+                try {
+                    const userId = await axios.get(`/api/app-users/me`)
+                    const response = await axios.post(`/api/projects`,
+                        {...project, "id":null, "createdBy": userId.data.id})
+                    setProject(response.data);
+                } catch (e) {
+                    console.log("Error while posting the project", e)
+                } finally {
+                    setAssessmentRdy(true);
+                }
+            } else {
+                projectValid.validationFails.forEach((fail) => toast.error(fail, {
+                    position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: false,
+                }))
             }
         })()}
 
     const onFinish = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
             event.preventDefault();
-            try {
-                await axios.put(`/api/projects/${project.id}`, {...project})
-            } catch (e) {
-                console.log("Error while posting the project", e)
-            } finally {
-                navigate("/")
+
+            let projectValid = projectValidation(project);
+            let riskListValid = riskListValidation(risks);
+
+            if(projectValid.validation && riskListValid.validation) {
+                try {
+                    await axios.put(`/api/projects/${project.id}`, {...project})
+                } catch (e) {
+                    console.log("Error while posting the project", e)
+                } finally {
+                    navigate("/")
+                }
+            } else {
+                projectValid.validationFails.forEach((fail) => toast.error(fail, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                }));
+                riskListValid.validationFails.forEach((fail) => toast.error(fail, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                }))
             }
+
         })()}
 
     const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -109,7 +146,9 @@ export default function NewProject() {
 
     return (
         <div className={"ScreenLimit"}>
-            {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+            <div className={"NewEditProjectHead"}>
+                {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+            </div>
 
                 <Form>
                     <Form.Group className={"NewProjectHead"}>
@@ -134,6 +173,7 @@ export default function NewProject() {
                             <Form.Label>Planned Start Date</Form.Label>
                             <Form.Control placeholder={project.plannedStartDate || "Planned Start Date"}
                                           type={"date"}
+                                          min={new Date().toISOString().slice(0, 10)}
                                           name={"plannedStartDate"}
                                           value={project.plannedStartDate}
                                           onInput={editProject}
@@ -143,6 +183,7 @@ export default function NewProject() {
                             <Form.Label>Planned Finish Date</Form.Label>
                             <Form.Control placeholder={project.plannedFinishDate || "Planned Finish Date"}
                                           type={"date"}
+                                          min={new Date().toISOString().slice(0, 10)}
                                           name={"plannedFinishDate"}
                                           value={project.plannedFinishDate}
                                           onInput={editProject}
@@ -174,6 +215,7 @@ export default function NewProject() {
                                 <div>
                                     <Button onClick={() => navigate("/")}>Back</Button>
                                     <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
+                                    <ToastContainer />
                                 </div>
                             }
                         </div>
@@ -202,6 +244,7 @@ export default function NewProject() {
                         :
                         <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
+                    <ToastContainer/>
                 </div>
             }
         </div>

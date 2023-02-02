@@ -7,7 +7,6 @@ import axios from "axios";
 import {Button} from "react-bootstrap";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 
-
 export default function ProjectDetails() {
 
     const [project, setProject] = useState<Project|null>(null);

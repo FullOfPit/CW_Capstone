@@ -3,44 +3,38 @@ import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
 import {Card} from "react-bootstrap";
 import Menu from "../components/Menu";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Project from "../types/Project";
 import axios from "axios";
 import ProjectSummaryCard from "../components/ProjectSummaryCard";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Dashboard () {
 
     const navigate = useNavigate();
     const [allProjects, setAllProjects] = useState<Project[]>([])
+    const [username, setUsername] = useState<string>("")
 
     useEffect(() => {(async () => {
         try {
             const user = await axios.get("/api/app-users/me");
             const response = await axios.get(`/api/projects/app-users/${user.data.id}`)
+            setUsername(user.data.username);
             setAllProjects(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
         }
     })()}, [])
 
-    const onNewProject = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {(async () => {
-        event.preventDefault();
-        try {
-            navigate(`/newproject`);
-        } catch (e) {
-            console.log("Error while creating a new project has occurred", e);
-        }
-    })()
-    }, [navigate]);
-
     return(
         <div className={"ScreenLimit"}>
-            <Menu projects={allProjects}/>
+            <Menu projects={allProjects} username={username}/>
+
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>
                     <Card.Header className={"target"}>Create a new project risk assessment</Card.Header>
-                    <button onClick={(event) => onNewProject(event)}><BsPlusLg size={26}/></button>
+                    <button onClick={() => navigate("/newproject")}><BsPlusLg size={26}/></button>
                 </Card>
 
                 <Accordion defaultActiveKey={""} className={"ProjectAccordion"}>
