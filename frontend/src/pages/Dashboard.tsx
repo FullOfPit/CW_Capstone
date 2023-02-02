@@ -1,7 +1,7 @@
 import "./Dashboard.css";
 import Accordion from 'react-bootstrap/Accordion';
 import {BsPlusLg} from 'react-icons/bs';
-import {Button, Card} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import Menu from "../components/Menu";
 import React, {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -36,17 +36,9 @@ export default function Dashboard () {
     })()
     }, [navigate]);
 
-    const message = () => toast("wow so easy!");
-
-
     return(
         <div className={"ScreenLimit"}>
             <Menu projects={allProjects}/>
-
-
-            <Button onClick={message}>Notify!</Button>
-            <ToastContainer/>
-
 
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>

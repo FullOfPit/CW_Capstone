@@ -1,9 +1,11 @@
 import "./Login.css"
 import Form from 'react-bootstrap/Form';
-
 import React, {FormEvent, useCallback, useMemo, useState} from "react";
 import axios from "axios";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login () {
     const [credentials, setCredentials] = useState({
@@ -26,13 +28,11 @@ export default function Login () {
         [searchParams]
     );
     const navigate = useNavigate();
-
+    
     const login = useCallback(
         async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-
             setErrors([]);
-
             try {
                 await axios.post("/api/app-users/login", null, {
                     headers: {
@@ -42,8 +42,16 @@ export default function Login () {
                 navigate(redirect);
             } catch (error) {
                 console.log(error);
+                toast.error(
+                    "Incorrect username/password!",
+                    {
+                        position: "top-center",
+                        autoClose: 2500,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: false,
+                    })
                 setErrors((errors) => [...errors]);
-
             }
         }, [credentials, navigate, redirect])
 
@@ -53,9 +61,7 @@ export default function Login () {
     return (
         <div className={"LoginPage"}>
             <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
-
             <Form onSubmit={login} className={"LoginPageInputForm"}>
-
                 <Form.Group className={"LoginPageInputFormInputField"}>
                     <Form.Label>Username</Form.Label>
                     <Form.Control type={"text"}
@@ -73,14 +79,12 @@ export default function Login () {
                                   value={credentials.password}
                                   onChange={changeCredentials}/>
                 </Form.Group>
-                <button className={"ButtonGeneral"}>Login</button>
-
+                <Button type={"submit"}>Login</Button>
+                <ToastContainer/>
             </Form>
-
             {errors.length > 0 && (
                 <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>
             )}
-
         </div>
 
 
