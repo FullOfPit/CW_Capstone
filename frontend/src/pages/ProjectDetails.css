@@ -26,3 +26,7 @@ header {
 .ProjectDataTableLeft {
     width: 20rem;
 }
+
+.ProjectPlots {
+    display: flex;
+}

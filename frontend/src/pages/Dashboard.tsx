@@ -16,18 +16,20 @@ export default function Dashboard () {
     const [allProjects, setAllProjects] = useState<Project[]>([])
     const [username, setUsername] = useState<string>("")
 
-    useEffect(() => {(async () => {
-        try {
-            const user = await axios.get("/api/app-users/me");
-            const response = await axios.get(`/api/projects/app-users/${user.data.id}`)
-            setUsername(user.data.username);
-            setAllProjects(response.data);
-        } catch (e) {
-            console.log("Something went wrong", e)
-        }
-    })()}, [])
+    useEffect(() => {
+        (async () => {
+            try {
+                const user = await axios.get("/api/app-users/me");
+                const response = await axios.get(`/api/projects/app-users/${user.data.id}`)
+                setUsername(user.data.username);
+                setAllProjects(response.data);
+            } catch (e) {
+                console.log("Something went wrong", e)
+            }
+        })()
+    }, [])
 
-    return(
+    return (
         <div className={"ScreenLimit"}>
             <Menu projects={allProjects} username={username}/>
 
@@ -42,27 +44,29 @@ export default function Dashboard () {
                         <Accordion.Header>View your risk assessments for planned projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "PLANNED"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project}
+                                                                      setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"2"}>
                         <Accordion.Header>View your risk assessments for current projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "CURRENT"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project}
+                                                                      setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"3"}>
                         <Accordion.Header>View your risk assessments for finished projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "FINISHED"))
-                                .map((project) => <ProjectSummaryCard key={project.id} project={project} setAllProjects={setAllProjects}/>)}
+                                .map((project) => <ProjectSummaryCard key={project.id} project={project}
+                                                                      setAllProjects={setAllProjects}/>)}
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
             </div>
         </div>
-
 
     );
 }
