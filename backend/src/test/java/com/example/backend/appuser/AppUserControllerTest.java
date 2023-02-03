@@ -25,8 +25,6 @@ class AppUserControllerTest {
     @Autowired
     private AppUserRepository appUserRepository;
 
-
-
     @Test
     void create_returnsCorrectUserData() throws Exception {
 
@@ -68,16 +66,13 @@ class AppUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isConflict());
-
     }
-
 
     @Test
     @WithMockUser(username = "Test User", password = "Test Password")
     void post_LoginWithRegisteredUser() throws Exception {
 
         appUserRepository.save(new AppUser("Test ID", "Test User", "Test Password", "BASIC"));
-
 
         this.mvc.perform(post("/api/app-users/login/"))
                 .andExpect(status().isOk())
@@ -90,7 +85,6 @@ class AppUserControllerTest {
                             }
                             """));
     }
-
 
 
     @Test
@@ -109,15 +103,13 @@ class AppUserControllerTest {
                             "role": "BASIC"
                         }
                         """));
-
-
     }
 
     @Test
     void getMe_WhenNotLoggedInReturns401() throws Exception {
+
         this.mvc.perform(get("/api/app-users/me"))
                 .andExpect(status().isUnauthorized());
-
     }
 
     @Test
@@ -127,8 +119,4 @@ class AppUserControllerTest {
         mvc.perform(get("/api/app-users/logout"))
                 .andExpect(status().isOk());
     }
-
-
-
-
 }

@@ -1,9 +1,7 @@
 package com.example.backend.appuser;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -35,6 +33,5 @@ public class AppUserController {
     public void logout (HttpSession httpSession) {
         httpSession.invalidate();
     }
-
 
 }

@@ -40,18 +40,6 @@ class ProjectServiceTest {
             "Test Assessor",
             "Test Details");
 
-    Project alternativeUserTestProject = new Project(
-            "Test ID",
-            "Test User ID 2",
-            "Test Project ID",
-            "Test Project Name",
-            LocalDate.of(1, 1, 1),
-            LocalDate.of(1, 1, 1),
-            LocalDate.of(1, 1, 1),
-            ProjectStatus.CURRENT,
-            "Test Assessor",
-            "Test Details");
-
     @Test
     void getAll_returnsEmptyListWhenNoProjectRegistered() {
         //Given
@@ -254,5 +242,196 @@ class ProjectServiceTest {
         //Then
         Assertions.assertThrows(UserNotRegisteredException.class, () -> projectService.getAllByUserId("Test User ID"));
         verify(appUserRepository).existsById("Test User ID");
+    }
+
+    @Test
+    void projectStatusCheck_StatusPlannedWhenStartDateAfterCurrentDate() throws ProjectNotRegisteredException {
+        //Given
+        Project testProject = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        Project actual = projectService.getById("Test ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.PLANNED, actual.getProjectStatus());
+    }
+
+    @Test
+    void projectStatusCheck_StatusCurrentWhenCurrentDateBetweenStartAndFinishDate() throws ProjectNotRegisteredException {
+        //Given
+        Project testProject = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of( 1, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        Project actual = projectService.getById("Test ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.CURRENT, actual.getProjectStatus());
+    }
+
+    @Test
+    void projectStatusCheck_StatusCurrentWhenCurrentDateIsStartDate() throws ProjectNotRegisteredException {
+        //Given
+        Project testProject = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.now(),
+                LocalDate.of(9999, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        Project actual = projectService.getById("Test ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.CURRENT, actual.getProjectStatus());
+    }
+
+    @Test
+    void projectStatusCheck_StatusFinishedWhenFinishDateBeforeCurrentDate() throws ProjectNotRegisteredException {
+        //Given
+        Project testProject = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        Project actual = projectService.getById("Test ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.FINISHED, actual.getProjectStatus());
+    }
+
+    @Test
+    void projectStatusCheck_StatusFinishedWhenFinishDateIsCurrentDate() throws ProjectNotRegisteredException {
+        //Given
+        Project testProject = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                LocalDate.now(),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        Project actual = projectService.getById("Test ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.FINISHED, actual.getProjectStatus());
+    }
+
+    @Test
+    void projectStatusCheck_WhenSeveralProjectsRequestedThroughGetAllByUserID_ReturnsProjectStatusesCorrectly()
+            throws UserNotRegisteredException {
+        //Given
+        Project testProjectOne = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        Project testProjectTwo = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(9999, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        Project testProjectThree = new Project(
+                "Test ID",
+                "Test User ID",
+                "Test Project ID",
+                "Test Project Name",
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                LocalDate.of(1, 1, 1),
+                ProjectStatus.PLANNED,
+                "Test Assessor",
+                "Test Details");
+
+        ProjectRepository projectRepository = mock(ProjectRepository.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        when(appUserRepository.existsById("Test User ID")).thenReturn(true);
+        when(projectRepository.findAllByCreatedBy("Test User ID"))
+                .thenReturn(List.of(testProjectOne, testProjectTwo, testProjectThree));
+
+        //When
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        List<Project> actual = projectService.getAllByUserId("Test User ID");
+
+        //Then
+        Assertions.assertEquals(ProjectStatus.PLANNED, actual.get(0).getProjectStatus());
+        Assertions.assertEquals(ProjectStatus.CURRENT, actual.get(1).getProjectStatus());
+        Assertions.assertEquals(ProjectStatus.FINISHED, actual.get(2).getProjectStatus());
     }
 }

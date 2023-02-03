@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppUser {
+
     @Id
     private String id;
     private String username;
