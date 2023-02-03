@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.10",
     "axios": "^1.2.4",
     "bootstrap": "^5.2.3",
+    "plotly.js-dist": "^2.18.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
