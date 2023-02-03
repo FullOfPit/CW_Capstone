@@ -1,6 +1,4 @@
 package com.example.backend.risk;
-import com.example.backend.project.Project;
-import com.example.backend.project.ProjectStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 
 @SpringBootTest
@@ -70,12 +66,17 @@ class RiskControllerTest {
     @WithMockUser
     void getAll_returnsListWhenFilled () throws Exception {
 
+        mvc.perform(post("/api/risks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testRiskJson))
+                .andExpect(status().isOk());
+
         String expected = """
                 [{
-                        "projectId": "Test Project ID",
-                        "riskName": "Test Risk",
-                        "riskDescription": "Test Description",
-                        "riskReductionMeasures": "Test Measure 1",
+                        "projectId": "testprojectid",
+                        "riskName": "Test Risk Name",
+                        "riskDescription": "Test Risk Description",
+                        "riskReductionMeasures": "Test Risk Reduction Measure",
                         "healthHazard": 1,
                         "probability": 1,
                         "frequency": 1
@@ -150,12 +151,17 @@ class RiskControllerTest {
     @WithMockUser
     void deleteById_ListSizeReducesWhenRiskCorrectlyDeleted() throws Exception {
 
+        mvc.perform(post("/api/risks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testRiskJson))
+                .andExpect(status().isOk());
+
         String response = """
                 [{
-                        "projectId": "Test Project ID",
-                        "riskName": "Test Risk",
-                        "riskDescription": "Test Description",
-                        "riskReductionMeasures": "Test Measure 1",
+                        "projectId": "testprojectid",
+                        "riskName": "Test Risk Name",
+                        "riskDescription": "Test Risk Description",
+                        "riskReductionMeasures": "Test Risk Reduction Measure",
                         "healthHazard": 1,
                         "probability": 1,
                         "frequency": 1
@@ -167,7 +173,7 @@ class RiskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(response));
 
-        mvc.perform(delete("/api/risks/testid"))
+        mvc.perform(delete("/api/risks/testriskid"))
                 .andExpect(status().isOk());
 
         mvc.perform(get("/api/risks"))
@@ -201,9 +207,14 @@ class RiskControllerTest {
     @WithMockUser
     void update_CorrectlyUpdatesRiskAndReturnsChanges() throws Exception {
 
+        mvc.perform(post("/api/risks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testRiskJson))
+                .andExpect(status().isOk());
+
         String request = """
                 {
-                        "projectId": "Test Project ID",
+                        "projectId": "testriskid",
                         "riskName": "Test Risk",
                         "riskDescription": "Alternative Test Description",
                         "riskReductionMeasures": "Test Measure 1",
@@ -214,7 +225,7 @@ class RiskControllerTest {
                
                 """;
 
-        mvc.perform(put("/api/risks/testid")
+        mvc.perform(put("/api/risks/testriskid")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
@@ -225,59 +236,88 @@ class RiskControllerTest {
     @WithMockUser
     void getAllByProjectId_ReturnsCorrectListOfRisksWhenCorrectUser() throws Exception {
 
-        Project projectOne = new Project(
-                "testprojectid1",
-                "Test User",
-                "Test Project ID",
-                "Test Project Name",
-                LocalDate.of(1,1,1),
-                LocalDate.of(1,1,1),
-                LocalDate.of(1,1,1),
-                ProjectStatus.CURRENT,
-                "Test Assessor",
-                "Test Details");
+        String testProjectOne = """
+                    {
+                        "id": "testprojectidone",
+                        "createdBy":"testuser1",
+                        "projectId": "Test Project ID 1",
+                        "projectName": "Test Project Name 1",
+                        "createdAt": "0001-01-01",
+                        "plannedStartDate": "0001-01-01",
+                        "plannedFinishDate": "0001-01-01",
+                        "projectStatus": "FINISHED",
+                        "assessorName": "Test Assessor 1",
+                        "projectDetails": "Test Details"
+                    }
+                    """;
 
-        Project projectTwo = new Project(
-                "testprojectid2",
-                "Test User",
-                "Test Project ID",
-                "Test Project Name",
-                LocalDate.of(1,1,1),
-                LocalDate.of(1,1,1),
-                LocalDate.of(1,1,1),
-                ProjectStatus.CURRENT,
-                "Test Assessor",
-                "Altered Test Details");
+        mvc.perform(post("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testProjectOne))
+                .andExpect(status().isOk());
 
+        String testProjectTwo = """
+                    {
+                        "id": "testprojectidtwo",
+                        "createdBy":"testuser1",
+                        "projectId": "Test Project ID 1",
+                        "projectName": "Test Project Name 1",
+                        "createdAt": "0001-01-01",
+                        "plannedStartDate": "0001-01-01",
+                        "plannedFinishDate": "0001-01-01",
+                        "projectStatus": "FINISHED",
+                        "assessorName": "Test Assessor 1",
+                        "projectDetails": "Test Details"
+                    }
+                    """;
 
-        Risk riskProjectOne = new Risk(
-                "testid1",
-                "testprojectid1",
-                "Test Risk",
-                "Test Risk Description",
-                "Test Risk Reduction Measures",
-                1,
-                1,
-                1
-        );
+        mvc.perform(post("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testProjectTwo))
+                .andExpect(status().isOk());
 
-        Risk riskProjectTwo = new Risk(
-                "testid2",
-                "testprojectid2",
-                "Test Risk",
-                "Test Risk Description",
-                "Test Risk Reduction Measures",
-                1,
-                1,
-                1
-        );
+        String testRiskOne = """
+            {
+                "id": "testriskid",
+                "projectId": "testprojectidone",
+                "riskName": "Test Risk Name",
+                "riskDescription": "Test Risk Description",
+                "riskReductionMeasures": "Test Risk Reduction Measure",
+                "healthHazard": 1,
+                "probability": 1,
+                "frequency": 1
+            }
+            """;
+
+        mvc.perform(post("/api/risks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testRiskOne))
+                .andExpect(status().isOk());
+
+        String testRiskTwo = """
+            {
+                "id": "testriskid",
+                "projectId": "testprojectidtwo",
+                "riskName": "Test Risk Name",
+                "riskDescription": "Alternative Test Risk Description",
+                "riskReductionMeasures": "Test Risk Reduction Measure",
+                "healthHazard": 1,
+                "probability": 1,
+                "frequency": 1
+            }
+            """;
+
+        mvc.perform(post("/api/risks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testRiskTwo))
+                .andExpect(status().isOk());
 
         String response = """
                 [{
-                        "projectId": "testprojectid2",
-                        "riskName": "Test Risk",
-                        "riskDescription": "Test Risk Description",
-                        "riskReductionMeasures": "Test Risk Reduction Measures",
+                        "projectId": "testprojectidtwo",
+                        "riskName": "Test Risk Name",
+                        "riskDescription": "Alternative Test Risk Description",
+                        "riskReductionMeasures": "Test Risk Reduction Measure",
                         "healthHazard": 1,
                         "probability": 1,
                         "frequency": 1
@@ -285,7 +325,7 @@ class RiskControllerTest {
                
                 """;
 
-        mvc.perform(get("/api/risks/projects/testprojectid2"))
+        mvc.perform(get("/api/risks/projects/testprojectidtwo"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response));
     }
