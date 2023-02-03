@@ -15,6 +15,22 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final AppUserRepository appUserRepository;
 
+    private Project projectStatusCheck(Project currentProject) {
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate projectStart = currentProject.getPlannedStartDate();
+        LocalDate projectFinish = currentProject.getPlannedFinishDate();
+
+        if ((currentDate.isAfter(projectStart) && currentDate.isBefore(projectFinish))
+                || currentDate.isEqual(projectStart)) {
+            currentProject.setProjectStatus(ProjectStatus.CURRENT);
+        } else if ((currentDate.isAfter(projectStart) && currentDate.isAfter(projectFinish))
+                || currentDate.isEqual(projectFinish)) {
+            currentProject.setProjectStatus(ProjectStatus.FINISHED);
+        }
+        return currentProject;
+    }
+
     public List<Project> getAll() {
         return this.projectRepository.findAll();
     }
@@ -25,7 +41,8 @@ public class ProjectService {
     }
 
     public Project getById(String id) throws ProjectNotRegisteredException {
-        return this.projectRepository.findById(id).orElseThrow(ProjectNotRegisteredException::new);
+        return projectStatusCheck(this.projectRepository.findById(id)
+                .orElseThrow(ProjectNotRegisteredException::new));
     }
 
     public void deleteById(String id) throws ProjectNotRegisteredException {
@@ -39,15 +56,19 @@ public class ProjectService {
     public Project update(String id, Project project) throws ProjectNotRegisteredException {
         project.setId(id);
 
-        if(!this.projectRepository.existsById(id)) {
+        if (!this.projectRepository.existsById(id)) {
             throw new ProjectNotRegisteredException();
         }
         return this.projectRepository.save(project);
     }
 
     public List<Project> getAllByUserId(String id) throws UserNotRegisteredException {
-        if(appUserRepository.existsById(id)) {
-            return this.projectRepository.findAllByCreatedBy(id);
+        if (appUserRepository.existsById(id)) {
+            return this.projectRepository
+                    .findAllByCreatedBy(id)
+                    .stream()
+                    .map((this::projectStatusCheck))
+                    .toList();
         }
         throw new UserNotRegisteredException();
     }

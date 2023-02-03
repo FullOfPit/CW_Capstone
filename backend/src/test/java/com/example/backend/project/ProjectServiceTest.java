@@ -40,18 +40,6 @@ class ProjectServiceTest {
             "Test Assessor",
             "Test Details");
 
-    Project alternativeUserTestProject = new Project(
-            "Test ID",
-            "Test User ID 2",
-            "Test Project ID",
-            "Test Project Name",
-            LocalDate.of(1, 1, 1),
-            LocalDate.of(1, 1, 1),
-            LocalDate.of(1, 1, 1),
-            ProjectStatus.CURRENT,
-            "Test Assessor",
-            "Test Details");
-
     @Test
     void getAll_returnsEmptyListWhenNoProjectRegistered() {
         //Given

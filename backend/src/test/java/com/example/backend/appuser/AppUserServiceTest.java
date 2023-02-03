@@ -150,7 +150,6 @@ class AppUserServiceTest {
                         "",
                         "BASIC")
         );
-
     }
 
     @Test
@@ -166,7 +165,5 @@ class AppUserServiceTest {
 
         Assertions.assertThrows(ResponseStatusException.class,
                 () -> appUserService.create(testUser));
-
     }
-
 }
