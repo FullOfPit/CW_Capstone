@@ -66,6 +66,5 @@ export default function Dashboard () {
                 </Accordion>
             </div>
         </div>
-
     );
 }
