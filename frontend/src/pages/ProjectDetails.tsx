@@ -6,6 +6,8 @@ import Risk from "../types/Risk";
 import axios from "axios";
 import {Button} from "react-bootstrap";
 import RiskSummaryCard from "../components/RiskSummaryCard";
+import RiskBarTwoD from "../plots/RiskBarTwoD";
+import RiskBarThreeD from "../plots/RiskBarThreeD";
 
 export default function ProjectDetails() {
 
@@ -87,13 +89,21 @@ export default function ProjectDetails() {
                             <p>{project.projectDetails}</p>
                         </div>
                     </div>
+
                     <div className={"RiskSummaryCards"}>
                         {riskList.map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
-                        <div className={"ButtonBox"}>
-                            <Button onClick={() => navigate("/")}>Back</Button>
-                            <Button onClick={() => navigate(`/newproject/${project.id}`)}>Re-Assess this Project</Button>
-                        </div>
                     </div>
+
+                    <div className={"ProjectPlots"}>
+                        <RiskBarTwoD risks={riskList}/>
+                        <RiskBarThreeD risks={riskList}/>
+                    </div>
+
+                    <div className={"ButtonBox"}>
+                        <Button onClick={() => navigate("/")}>Back</Button>
+                        <Button onClick={() => navigate(`/newproject/${project.id}`)}>Re-Assess this Project</Button>
+                    </div>
+
                 </div>
                 :
                 <div>Something went wrong</div>
