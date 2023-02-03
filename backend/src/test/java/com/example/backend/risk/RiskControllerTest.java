@@ -1,6 +1,5 @@
 package com.example.backend.risk;
 import com.example.backend.project.Project;
-import com.example.backend.project.ProjectRepository;
 import com.example.backend.project.ProjectStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,23 +26,31 @@ class RiskControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    /*
+
     @Autowired
     private RiskRepository riskRepository;
 
     @Autowired
     private ProjectRepository projectRepository;
 
+     */
+
 
     //                      -- Auxiliary
-    Risk testRisk = new Risk(
-                "testid",
-                "Test Project ID",
-                "Test Risk",
-                "Test Description",
-                "Test Measure 1",
-                1,
-                1,
-                1);
+
+    String testRiskJson = """
+            {
+                "id": "testriskid",
+                "projectId": "testprojectid",
+                "riskName": "Test Risk Name",
+                "riskDescription": "Test Risk Description",
+                "riskReductionMeasures": "Test Risk Reduction Measure",
+                "healthHazard": 1,
+                "probability": 1,
+                "frequency": 1
+            }
+            """;
 
     @Test
     void getAll_returns401WhenNotLoggedIn () throws Exception {
@@ -62,8 +69,6 @@ class RiskControllerTest {
     @Test
     @WithMockUser
     void getAll_returnsListWhenFilled () throws Exception {
-
-        this.riskRepository.save(testRisk);
 
         String expected = """
                 [{
@@ -100,7 +105,7 @@ class RiskControllerTest {
                         "probability": 1,
                         "frequency": 1
                     }
-               
+             
                 """;
 
         //When - Then
@@ -157,7 +162,6 @@ class RiskControllerTest {
                     }]
                
                 """;
-        this.riskRepository.save(testRisk);
 
         mvc.perform(get("/api/risks"))
                 .andExpect(status().isOk())
@@ -196,7 +200,6 @@ class RiskControllerTest {
     @Test
     @WithMockUser
     void update_CorrectlyUpdatesRiskAndReturnsChanges() throws Exception {
-        this.riskRepository.save(testRisk);
 
         String request = """
                 {
@@ -246,8 +249,6 @@ class RiskControllerTest {
                 "Test Assessor",
                 "Altered Test Details");
 
-        this.projectRepository.save(projectOne);
-        this.projectRepository.save(projectTwo);
 
         Risk riskProjectOne = new Risk(
                 "testid1",
@@ -284,12 +285,8 @@ class RiskControllerTest {
                
                 """;
 
-        this.riskRepository.save(riskProjectOne);
-        this.riskRepository.save(riskProjectTwo);
-
         mvc.perform(get("/api/risks/projects/testprojectid2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response));
     }
-
 }
