@@ -4,7 +4,7 @@ import Risk from "../types/Risk";
 
 export default function RiskGauge({risk}: {risk: Risk}) {
 
-    let riskFactor = risk.healthHazard * risk.probability * risk.frequency;
+    let riskFactor = risk.healthHazard * (risk.probability + risk.frequency);
 
         return (
             <Plot

@@ -3,7 +3,6 @@ import Risk from "../types/Risk";
 import riskFactorEval from "../evaluation/riskFactorEval";
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
-import RiskGauge from "../plots/RiskGauge";
 
 export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(id: string) => void})
 
@@ -52,7 +51,6 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                     <p>{`Hazard to Health: ${risk.healthHazard}`}</p>
                     <p>{`Probability: ${risk.probability}`}</p>
                     <p>{`Frequency: ${risk.frequency}`}</p>
-                    <RiskGauge risk={risk}/>
                 </div>
             </div>
             <div className={"RiskDescription"}>

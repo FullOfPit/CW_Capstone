@@ -73,11 +73,29 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
         }
     }
 
+    const riskColorCode = (factor: string) => {
+        switch (factor) {
+            case "Extreme Risk":
+                return "#ff6d4f";
+            case "High Risk":
+                return "#db9f58";
+            case "Moderate Risk":
+                return "#f0de90";
+            case "Low Risk":
+                return "#bfd977";
+            case "Negligible Risk":
+                return "#9afaa7";
+            default:
+                return "white";
+        }
+    }
+
     let evaluation = {
         riskFactor: overallRiskFactor(healthHazard, probability, frequency),
         healthComponent: healthHazardEval(healthHazard),
         probabilityComponent: probabilityEval(probability),
-        finalEval: finalRiskEval(healthHazard, probability, frequency)
+        finalEval: finalRiskEval(healthHazard, probability, frequency),
+        riskColor: riskColorCode(overallRiskFactor(healthHazard, probability, frequency))
     }
 
     return (evaluation);

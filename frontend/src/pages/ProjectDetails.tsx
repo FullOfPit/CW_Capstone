@@ -7,6 +7,7 @@ import axios from "axios";
 import {Button} from "react-bootstrap";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import RiskBarTwoD from "../plots/RiskBarTwoD";
+import RiskBarThreeD from "../plots/RiskBarThreeD";
 
 export default function ProjectDetails() {
 
@@ -95,6 +96,7 @@ export default function ProjectDetails() {
 
                     <div className={"ProjectPlots"}>
                         <RiskBarTwoD/>
+                        <RiskBarThreeD risks={riskList}/>
                     </div>
 
                     <div className={"ButtonBox"}>
