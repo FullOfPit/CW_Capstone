@@ -15,7 +15,7 @@ export default function RiskBarTwoD({risks}: {risks: Risk[]}) {
 
     let numberMedium = risks.filter(
         (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
-            === "Medium Risk").length;
+            === "Moderate Risk").length;
 
     let numberHigh = risks.filter(
         (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
@@ -31,7 +31,7 @@ export default function RiskBarTwoD({risks}: {risks: Risk[]}) {
             [
                 {type: 'bar', x: [1], y: [numberNegligible], name: "Negligible Risk", marker: {color: "#9afaa7"}},
                 {type: 'bar', x: [2], y: [numberLow], name: "Low Risk", marker: {color: "#bfd977"}},
-                {type: 'bar', x: [3], y: [numberMedium], name: "Medium Risk", marker: {color: "#f0de90"}},
+                {type: 'bar', x: [3], y: [numberMedium], name: "Moderate Risk", marker: {color: "#f0de90"}},
                 {type: 'bar', x: [4], y: [numberHigh], name: "High Risk", marker: {color: "#db9f58"}},
                 {type: 'bar', x: [5], y: [numberExtreme], name: "Extreme Risk", marker: {color: "#ff6d4f"}}
             ]}

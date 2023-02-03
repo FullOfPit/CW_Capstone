@@ -8,9 +8,9 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
 
     let dataList: Data[] = risks.map((risk) => {return ({
         type: "scatter3d",
-        x: [risk.probability],
-        y: [risk.frequency],
-        z: [risk.healthHazard],
+        y: [risk.probability],
+        z: [risk.frequency],
+        x: [risk.healthHazard],
         name: risk.riskName.slice(0, 35),
         marker: {
             color: riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskColor.toString()
@@ -25,9 +25,9 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
                     width: 800,
                     scene:
                         {
-                            xaxis: {title : "Probability"},
-                            yaxis: {title : "Frequency"},
-                            zaxis: {title : "Hazard to Health"}
+                            xaxis: {title : "Hazard to Health"},
+                            yaxis: {title : "Probability"},
+                            zaxis: {title : "Frequency"}
                         }}}
                 style={{width: "45%", height: "35rem", overflowX: "scroll"}}
             />
