@@ -95,7 +95,7 @@ export default function ProjectDetails() {
                     </div>
 
                     <div className={"ProjectPlots"}>
-                        <RiskBarTwoD/>
+                        <RiskBarTwoD risks={riskList}/>
                         <RiskBarThreeD risks={riskList}/>
                     </div>
 

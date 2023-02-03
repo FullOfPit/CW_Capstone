@@ -9,7 +9,6 @@ import Project from "../types/Project";
 import axios from "axios";
 import ProjectSummaryCard from "../components/ProjectSummaryCard";
 import 'react-toastify/dist/ReactToastify.css';
-
 export default function Dashboard () {
 
     const navigate = useNavigate();

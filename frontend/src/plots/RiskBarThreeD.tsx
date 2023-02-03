@@ -11,15 +11,11 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
         x: [risk.probability],
         y: [risk.frequency],
         z: [risk.healthHazard],
-        name: risk.riskName.slice(0, 15),
+        name: risk.riskName.slice(0, 35),
         marker: {
             color: riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskColor.toString()
         }
     })})
-
-
-
-
 
     return (
             <Plot
