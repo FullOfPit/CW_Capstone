@@ -9,6 +9,7 @@ import Risk from "../types/Risk";
 import RiskDetails from "../components/RiskDetails";
 import {toast, ToastContainer} from "react-toastify";
 import {projectValidation, riskListValidation} from "../validation/validation";
+import FileUploadForm from "../components/FileUploadForm";
 
 const emptyProject = {
     createdBy: "",
@@ -222,19 +223,25 @@ export default function NewProject() {
                 </Form>
 
             {assessmentRdy &&
-                <div className={"RiskSummaryCards"}>
-                    {risks.filter((risk) => (risk.projectId === project.id))
-                        .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
+                <div>
+                    <div className={"RiskSummaryCards"}>
+                        {risks.filter((risk) => (risk.projectId === project.id))
+                            .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
 
-                    {(!riskOpen || reAssessment) &&
-                        <Button onClick={() => {setRiskOpen(true)}}>
-                            Assess New Risk Factor</Button>}
+                        {(!riskOpen || reAssessment) &&
+                            <Button onClick={() => {setRiskOpen(true)}}>
+                                Assess New Risk Factor</Button>}
 
-                    {(riskOpen) &&
-                        <RiskDetails id={project.id}
-                                     setRiskOpen={setRiskOpen}
-                                     setRisks={setRisks}/>}
+                        {(riskOpen) &&
+                            <RiskDetails id={project.id}
+                                         setRiskOpen={setRiskOpen}
+                                         setRisks={setRisks}/>}
+                    </div>
+
+                    <FileUploadForm/>
+
                 </div>
+
             }
             {assessmentRdy &&
                 <div className={"ButtonBox"}>

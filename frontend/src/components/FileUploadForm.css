@@ -1,0 +1,15 @@
+.DocumentInputField {
+    width: 80%;
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    color: #343a40;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0 1rem;
+    height: 100%;
+    border: none;
+    border-radius: 0.375rem;
+}
