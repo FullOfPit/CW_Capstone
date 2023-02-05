@@ -20,7 +20,8 @@ const emptyProject = {
     plannedFinishDate: new Date().toISOString().slice(0, 10),
     projectStatus: "PLANNED",
     assessorName: "",
-    projectDetails: ""
+    projectDetails: "",
+    documentIds: []
 }
 
 export default function NewProject() {
@@ -30,6 +31,8 @@ export default function NewProject() {
     const [risks, setRisks] = useState<Risk[]>([]);
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
     const [reAssessment, setReAssessment] = useState<boolean>(false);
+
+    console.log(project);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -238,7 +241,7 @@ export default function NewProject() {
                                          setRisks={setRisks}/>}
                     </div>
 
-                    <FileUploadForm/>
+                    <FileUploadForm project={project} setProject={setProject}/>
 
                 </div>
 

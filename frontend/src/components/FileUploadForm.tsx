@@ -2,8 +2,9 @@ import {Button} from "react-bootstrap";
 import React, {useState} from "react";
 import "./FileUploadForm.css"
 import axios from "axios";
+import Project from "../types/Project";
 
-export default function FileUploadForm() {
+export default function FileUploadForm({project, setProject}: {project: Project, setProject: (project: Project) => void}) {
 
     const [file, setFile] = useState<File | null>(null);
     const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
@@ -16,7 +17,12 @@ export default function FileUploadForm() {
                 formData.append("file", file);
                 console.log(file);
 
-                const response = await axios.post("/api/files", formData);
+                const response = await axios.post(`/api/files/${project.id}`, formData);
+                project.documentIds.push(response.data.id)
+                setProject({
+                    ...project,
+                    documentIds: project.documentIds
+                })
                 setUploadedFiles(
                     [...uploadedFiles, {
                         id: response.data.id,
@@ -32,6 +38,10 @@ export default function FileUploadForm() {
         (async () => {
             event.preventDefault();
             await axios.delete(`/api/files/${id}`);
+            setProject({
+                ...project,
+                documentIds: project.documentIds.filter((documentId) => documentId !== id),
+            })
             setUploadedFiles([...uploadedFiles.filter((file) => file.id !== id)]);
         }) ()
     }
@@ -54,7 +64,7 @@ export default function FileUploadForm() {
             <form>
                 <input className={"DocumentInputField"}
                        type={"file"}
-                       accept={".pdf, .docx, .jpeg"}
+                       accept={".pdf, .docx"}
                        onChange={(event) => {
                            if (!event.target.files || event.target.files.length < 1) {
                                setFile(null);

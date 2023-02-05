@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,5 @@ public class Project {
     private ProjectStatus projectStatus;
     private String assessorName;
     private String projectDetails;
+    private List<String> documentIds;
 }

@@ -1,5 +1,8 @@
 package com.example.backend.file;
 
+import com.example.backend.exception.ProjectNotRegisteredException;
+import com.example.backend.project.Project;
+import com.example.backend.project.ProjectService;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,6 +28,7 @@ import java.util.Optional;
 public class FileService {
 
     private final GridFsTemplate gridFsTemplate;
+    private final ProjectService projectService;
 
     public GridFsResource getResource(String id) {
 
@@ -55,7 +61,7 @@ public class FileService {
         );
     }
 
-    public FileMetadata saveFile(MultipartFile multipartFile) throws IOException {
+    public FileMetadata saveFile(String projectId, MultipartFile multipartFile) throws IOException {
 
         if (multipartFile.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is Empty");
@@ -67,7 +73,7 @@ public class FileService {
                 multipartFile.getContentType(),
                 //userID needs to be the actual users ID
                 BasicDBObjectBuilder.start()
-                        .add("createdBy", "UsErId")
+                        .add("createdBy", projectId)
                         .get()
         );
         return getFileMetadata(objectId.toString());
@@ -76,5 +82,18 @@ public class FileService {
     public void deleteById(String id) {
 
         gridFsTemplate.delete(Query.query(Criteria.where("files_id").is(id)));
+    }
+
+    public List<FileMetadata> getFileMetadataByProjectId(String projectId) throws ProjectNotRegisteredException {
+
+        Project project = Optional.ofNullable(
+                this.projectService.getById(projectId))
+                .orElseThrow(ProjectNotRegisteredException::new);
+
+        List<FileMetadata> fileMetadataList = new ArrayList<>();
+
+        project.getDocumentIds().forEach((fileId) -> fileMetadataList.add(getFileMetadata(fileId)));
+
+        return fileMetadataList;
     }
 }

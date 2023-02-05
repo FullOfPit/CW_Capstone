@@ -8,7 +8,8 @@ type Project = {
     plannedFinishDate?: string,
     projectStatus: string,
     assessorName: string,
-    projectDetails: string
+    projectDetails: string,
+    documentIds: string[],
 }
 
 export default Project;

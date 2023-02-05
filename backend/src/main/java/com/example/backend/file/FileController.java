@@ -1,5 +1,6 @@
 package com.example.backend.file;
 
+import com.example.backend.exception.ProjectNotRegisteredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/files")
@@ -32,14 +34,18 @@ public class FileController {
         return this.fileService.getFileMetadata(id);
     }
 
-    @PostMapping
-    public FileMetadata uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return this.fileService.saveFile(file);
+    @GetMapping("/projects/{projectId}/metadata")
+    public List<FileMetadata> getFileMetadataByProjectId(@PathVariable String projectId) throws ProjectNotRegisteredException {
+        return this.fileService.getFileMetadataByProjectId(projectId);
+    }
+
+    @PostMapping("/{projectId}")
+    public FileMetadata uploadFile(@PathVariable String projectId, @RequestParam("file") MultipartFile file) throws IOException {
+        return this.fileService.saveFile(projectId, file);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable String id) {
-
         this.fileService.deleteById(id);
     }
 }
