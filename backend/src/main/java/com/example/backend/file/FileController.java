@@ -29,11 +29,17 @@ public class FileController {
 
     @GetMapping("/{id}/metadata")
     public FileMetadata getFileMetadata(@PathVariable String id) {
-        return fileService.getFileMetadata(id);
+        return this.fileService.getFileMetadata(id);
     }
 
     @PostMapping
     public FileMetadata uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return this.fileService.saveFile(file);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable String id) {
+
+        this.fileService.deleteById(id);
     }
 }

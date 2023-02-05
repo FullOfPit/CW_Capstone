@@ -6,50 +6,64 @@ import axios from "axios";
 export default function FileUploadForm() {
 
     const [file, setFile] = useState<File | null>(null);
-    const [docPreview, setDocPreview] = useState<string | null>(null)
-    const [fileNames, setFileNames] = useState<string[]>([]);
+    const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
+
+    const onFileUpload = (event: React.MouseEvent<HTMLButtonElement>) => {
+        (async () => {
+            event.preventDefault();
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+                console.log(file);
+
+                const response = await axios.post("/api/files", formData);
+                setUploadedFiles(
+                    [...uploadedFiles, {
+                        id: response.data.id,
+                        name: response.data.name,
+                        createdBy: response.data.createdBy
+                    }])
+                alert(JSON.stringify(response.data, null, 2));
+            }
+        }) ()
+    }
+
+    const onFileDelete = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
+        (async () => {
+            event.preventDefault();
+            await axios.delete(`/api/files/${id}`);
+            setUploadedFiles([...uploadedFiles.filter((file) => file.id !== id)]);
+        }) ()
+    }
 
     return(
-        <div>
+        <div className={"FileUploadForm"}>
 
-            {docPreview && (<img src={docPreview} alt={"preview"}/>)}
-            {fileNames && (<p>{fileNames}</p>)}
+            <h6>Additional Documents</h6>
 
-            <form onSubmit={async (event) => {
-                event.preventDefault();
-
-                if(file) {
-                    const formData = new FormData();
-                    formData.append("file", file);
-
-                    const response = await axios.post("/api/files", formData);
-                    setFileNames([...fileNames, response.data.name])
-                    alert(JSON.stringify(response.data, null, 2));
+            <div className={"UploadedFiles"}>
+                {uploadedFiles &&
+                    uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
+                            <h6>{file.name}</h6>
+                            <Button onClick={(event) => onFileDelete(event, file.id)}>Delete</Button>
+                    </div>)
                 }
-            }}>
+            </div>
+
+
+            <form>
                 <input className={"DocumentInputField"}
                        type={"file"}
                        accept={".pdf, .docx, .jpeg"}
                        onChange={(event) => {
                            if (!event.target.files || event.target.files.length < 1) {
                                setFile(null);
-                               setDocPreview(null);
                                return;
                            }
                            setFile(event.target.files[0]);
-
-                           const reader = new FileReader();
-
-                           reader.addEventListener("load", () => {
-                               setDocPreview(reader.result as string);
-                           }, false);
-
-                           if (file) {
-                               reader.readAsDataURL(file);
-                           }
                        }}/>
 
-                <Button type={"submit"}>Upload File</Button>
+                <Button type={"submit"} onClick={(event) => onFileUpload(event)}>Upload File</Button>
             </form>
         </div>
     )
