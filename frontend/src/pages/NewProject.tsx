@@ -1,4 +1,5 @@
 import "./NewProject.css"
+import "../index.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
@@ -10,6 +11,7 @@ import RiskDetails from "../components/RiskDetails";
 import {toast, ToastContainer} from "react-toastify";
 import {projectValidation, riskListValidation} from "../validation/validation";
 import FileUploadForm from "../components/FileUploadForm";
+import HeaderBar from "../components/HeaderBar";
 
 const emptyProject = {
     createdBy: "",
@@ -149,12 +151,14 @@ export default function NewProject() {
     }
 
     return (
+        <div>
+        <HeaderBar project={project} reAssessment={reAssessment}/>
         <div className={"ScreenLimit"}>
             <div className={"NewEditProjectHead"}>
                 {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
             </div>
 
-                <Form>
+                <Form className={"NewProjectForm"}>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
                         <Form.Control placeholder={project.projectName || "Project Name"}
@@ -205,7 +209,7 @@ export default function NewProject() {
                                       onInput={editProject}
                         ></Form.Control>
                     </Form.Group>
-                        <div>
+                        <div className={"AssessorStep"}>
                             <Form.Group className={"NewProjectHead"}>
                             <Form.Label>Assessed By:</Form.Label>
                             <Form.Control placeholder={"Name of project assessor"}
@@ -216,7 +220,7 @@ export default function NewProject() {
                             </Form.Group>
 
                             {!assessmentRdy &&
-                                <div>
+                                <div className={"ButtonBox"}>
                                     <Button onClick={() => navigate("/")}>Back</Button>
                                     <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
                                     <ToastContainer />
@@ -231,14 +235,14 @@ export default function NewProject() {
                         {risks.filter((risk) => (risk.projectId === project.id))
                             .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
 
-                        {(!riskOpen || reAssessment) &&
+                        {!riskOpen ?
                             <Button onClick={() => {setRiskOpen(true)}}>
-                                Assess New Risk Factor</Button>}
-
-                        {(riskOpen) &&
+                                Assess New Risk Factor</Button>
+                            :
                             <RiskDetails id={project.id}
                                          setRiskOpen={setRiskOpen}
-                                         setRisks={setRisks}/>}
+                                         setRisks={setRisks}/>
+                        }
                     </div>
 
                     <FileUploadForm project={project} setProject={setProject} fileUploadOption={true}/>
@@ -257,6 +261,7 @@ export default function NewProject() {
                     <ToastContainer/>
                 </div>
             }
+        </div>
         </div>
     )
 }

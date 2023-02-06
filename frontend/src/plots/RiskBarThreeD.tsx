@@ -30,7 +30,7 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
                             yaxis: {title : "Probability"},
                             zaxis: {title : "Frequency"}
                         }}}
-                style={{width: "45%", height: "35rem", overflowX: "scroll"}}
+                style={{width: "55%", height: "35rem"}}
             />
         );
 }

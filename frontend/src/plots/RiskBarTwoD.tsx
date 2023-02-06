@@ -36,7 +36,7 @@ export default function RiskBarTwoD({risks}: {risks: Risk[]}) {
                 {type: 'bar', x: [5], y: [numberExtreme], name: "Extreme Risk", marker: {color: "#c70039"}}
             ]}
             layout={{title: 'Risk Factor Distribution'}}
-            style={{width: "45%", height: "35rem", overflowX: "scroll"}}
+            style={{width: "45%", height: "35rem"}}
         />
     );
 }
