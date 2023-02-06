@@ -36,7 +36,7 @@ export default function ProjectSummaryCard({
                     <p>Planned Finish Date: {project.plannedFinishDate}</p>
                 </div>
                 <div>
-                    <p>Flags: MUCH BUSINESS LOGIC</p>
+                    <p></p>
                 </div>
 
             </div>

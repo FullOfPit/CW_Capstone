@@ -1,13 +1,24 @@
 import {Button} from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./FileUploadForm.css"
 import axios from "axios";
 import Project from "../types/Project";
 
-export default function FileUploadForm({project, setProject}: {project: Project, setProject: (project: Project) => void}) {
+export default function FileUploadForm({project, setProject, fileUploadOption}: {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
 
     const [file, setFile] = useState<File | null>(null);
     const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
+
+    useEffect(() => {(async () => {
+        try {
+            const response = await axios.get(`/api/files/projects/${project.id}/metadata`);
+            console.log(response.data);
+            setUploadedFiles(response.data);
+        } catch (e) {
+            console.log("Something went wrong", e)
+
+        }
+    })()}, [project.id])
 
     const onFileUpload = (event: React.MouseEvent<HTMLButtonElement>) => {
         (async () => {
@@ -60,21 +71,25 @@ export default function FileUploadForm({project, setProject}: {project: Project,
                 }
             </div>
 
+            {fileUploadOption &&
+                <form>
+                    <input className={"DocumentInputField"}
+                           type={"file"}
+                           accept={".pdf, .docx"}
+                           onChange={(event) => {
+                               if (!event.target.files || event.target.files.length < 1) {
+                                   setFile(null);
+                                   return;
+                               }
+                               setFile(event.target.files[0]);
+                           }}/>
 
-            <form>
-                <input className={"DocumentInputField"}
-                       type={"file"}
-                       accept={".pdf, .docx"}
-                       onChange={(event) => {
-                           if (!event.target.files || event.target.files.length < 1) {
-                               setFile(null);
-                               return;
-                           }
-                           setFile(event.target.files[0]);
-                       }}/>
+                    <Button type={"submit"} onClick={(event) => onFileUpload(event)}>Upload File</Button>
+                </form>
+            }
 
-                <Button type={"submit"} onClick={(event) => onFileUpload(event)}>Upload File</Button>
-            </form>
+
+
         </div>
     )
 }

@@ -29,13 +29,13 @@ export default function RiskBarTwoD({risks}: {risks: Risk[]}) {
         <Plot
             data={
             [
-                {type: 'bar', x: [1], y: [numberNegligible], name: "Negligible Risk", marker: {color: "#9afaa7"}},
-                {type: 'bar', x: [2], y: [numberLow], name: "Low Risk", marker: {color: "#bfd977"}},
-                {type: 'bar', x: [3], y: [numberMedium], name: "Moderate Risk", marker: {color: "#f0de90"}},
-                {type: 'bar', x: [4], y: [numberHigh], name: "High Risk", marker: {color: "#db9f58"}},
-                {type: 'bar', x: [5], y: [numberExtreme], name: "Extreme Risk", marker: {color: "#ff6d4f"}}
+                {type: 'bar', x: [1], y: [numberNegligible], name: "Negligible Risk", marker: {color: "#009e60"}},
+                {type: 'bar', x: [2], y: [numberLow], name: "Low Risk", marker: {color: "#478778"}},
+                {type: 'bar', x: [3], y: [numberMedium], name: "Moderate Risk", marker: {color: "#ffc300"}},
+                {type: 'bar', x: [4], y: [numberHigh], name: "High Risk", marker: {color: "#ff5733"}},
+                {type: 'bar', x: [5], y: [numberExtreme], name: "Extreme Risk", marker: {color: "#c70039"}}
             ]}
-            layout={{title: 'A Fancy Plot'}}
+            layout={{title: 'Risk Factor Distribution'}}
             style={{width: "45%", height: "35rem", overflowX: "scroll"}}
         />
     );

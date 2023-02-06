@@ -8,6 +8,7 @@ import {Button} from "react-bootstrap";
 import RiskSummaryCard from "../components/RiskSummaryCard";
 import RiskBarTwoD from "../plots/RiskBarTwoD";
 import RiskBarThreeD from "../plots/RiskBarThreeD";
+import FileUploadForm from "../components/FileUploadForm";
 
 export default function ProjectDetails() {
 
@@ -98,6 +99,8 @@ export default function ProjectDetails() {
                         <RiskBarTwoD risks={riskList}/>
                         <RiskBarThreeD risks={riskList}/>
                     </div>
+
+                    <FileUploadForm project={project} setProject={setProject} fileUploadOption={false}/>
 
                     <div className={"ButtonBox"}>
                         <Button onClick={() => navigate("/")}>Back</Button>

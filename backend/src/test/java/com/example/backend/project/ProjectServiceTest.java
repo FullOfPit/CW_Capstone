@@ -26,7 +26,8 @@ class ProjectServiceTest {
             LocalDate.of(1, 1, 1),
             ProjectStatus.CURRENT,
             "Test Assessor",
-            "Test Details");
+            "Test Details",
+            List.of("Test Document ID"));
 
     Project alternativeTestProject = new Project(
             "Test ID 2",
@@ -38,7 +39,8 @@ class ProjectServiceTest {
             LocalDate.of(1, 1, 1),
             ProjectStatus.CURRENT,
             "Test Assessor",
-            "Test Details");
+            "Test Details",
+            List.of("Test Document ID"));
 
     @Test
     void getAll_returnsEmptyListWhenNoProjectRegistered() {
@@ -88,7 +90,9 @@ class ProjectServiceTest {
                 LocalDate.of(1, 1, 1),
                 ProjectStatus.CURRENT,
                 "Test Assessor",
-                "Test Details"), actual);
+                "Test Details",
+                List.of("Test Document ID"))
+                , actual);
 
         verify(projectRepository).save(new Project(
                 "Test ID",
@@ -100,7 +104,8 @@ class ProjectServiceTest {
                 LocalDate.of(1, 1, 1),
                 ProjectStatus.CURRENT,
                 "Test Assessor",
-                "Test Details"));
+                "Test Details",
+                List.of("Test Document ID")));
     }
 
     @Test
@@ -257,7 +262,8 @@ class ProjectServiceTest {
                 LocalDate.of(9999, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -284,7 +290,8 @@ class ProjectServiceTest {
                 LocalDate.of(9999, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -311,7 +318,8 @@ class ProjectServiceTest {
                 LocalDate.of(9999, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -338,7 +346,8 @@ class ProjectServiceTest {
                 LocalDate.of(1, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -365,7 +374,8 @@ class ProjectServiceTest {
                 LocalDate.now(),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -393,7 +403,8 @@ class ProjectServiceTest {
                 LocalDate.of(9999, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         Project testProjectTwo = new Project(
                 "Test ID",
@@ -405,7 +416,8 @@ class ProjectServiceTest {
                 LocalDate.of(9999, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         Project testProjectThree = new Project(
                 "Test ID",
@@ -417,7 +429,8 @@ class ProjectServiceTest {
                 LocalDate.of(1, 1, 1),
                 ProjectStatus.PLANNED,
                 "Test Assessor",
-                "Test Details");
+                "Test Details",
+                List.of("Test Document ID"));
 
         ProjectRepository projectRepository = mock(ProjectRepository.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);

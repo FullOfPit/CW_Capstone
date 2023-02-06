@@ -241,7 +241,7 @@ export default function NewProject() {
                                          setRisks={setRisks}/>}
                     </div>
 
-                    <FileUploadForm project={project} setProject={setProject}/>
+                    <FileUploadForm project={project} setProject={setProject} fileUploadOption={true}/>
 
                 </div>
 

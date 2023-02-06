@@ -76,15 +76,15 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
     const riskColorCode = (factor: string) => {
         switch (factor) {
             case "Extreme Risk":
-                return "#ff6d4f";
+                return "#c70039";
             case "High Risk":
-                return "#db9f58";
+                return "#ff5733";
             case "Moderate Risk":
-                return "#f0de90";
+                return "#ffc300";
             case "Low Risk":
-                return "#bfd977";
+                return "#478778";
             case "Negligible Risk":
-                return "#9afaa7";
+                return "#009e60";
             default:
                 return "white";
         }

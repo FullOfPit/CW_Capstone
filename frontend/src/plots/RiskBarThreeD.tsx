@@ -21,6 +21,7 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
             <Plot
                 data={dataList}
                 layout={{
+                    title:"Risk Factor Component Analysis",
                     autosize: true,
                     width: 800,
                     scene:
