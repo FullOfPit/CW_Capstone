@@ -90,7 +90,7 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
         }
     }
 
-    let evaluation = {
+        let evaluation = {
         riskFactor: overallRiskFactor(healthHazard, probability, frequency),
         healthComponent: healthHazardEval(healthHazard),
         probabilityComponent: probabilityEval(probability),
@@ -99,4 +99,19 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
     }
 
     return (evaluation);
+}
+
+export const riskComponentColorCode = (factor: number) => {
+    switch (factor) {
+        case 4:
+            return "#c70039";
+        case 3:
+            return "#ff5733";
+        case 2:
+            return "#ffc300";
+        case 1:
+            return "#009e60";
+        default:
+            return "white";
+    }
 }

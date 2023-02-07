@@ -230,7 +230,7 @@ export default function NewProject() {
                 </Form>
 
             {assessmentRdy &&
-                <div>
+                <div className={"RiskAssessment"}>
                     <div className={"RiskSummaryCards"}>
                         {risks.filter((risk) => (risk.projectId === project.id))
                             .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}

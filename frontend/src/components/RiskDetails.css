@@ -7,12 +7,19 @@
 .RiskMetricButtonBar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 65%;
     padding: 2rem 0 2rem 0;
 }
 
+.RiskMetricButtonBar button {
+    width: 15rem;
+}
+
 .RiskDetailsContent {
-    width: 80%;
-    border: 1px solid black;
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
 }
 .RiskDetailsContent form{
     display: flex;
@@ -28,7 +35,7 @@
     align-items: center;
     width: 100%;
     padding: 1rem 0 1rem 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #ced4da;
 }
 
 .RiskDetailsFactor input{
@@ -39,5 +46,9 @@
     width: 100%;
     padding: 1rem 1.5rem 1rem 1.5rem;
     text-align: left;
+}
+
+.ButtonBox {
+    padding-bottom: 2rem;
 }
 

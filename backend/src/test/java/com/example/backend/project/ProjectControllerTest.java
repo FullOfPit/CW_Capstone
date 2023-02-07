@@ -34,7 +34,8 @@ class ProjectControllerTest {
                     "plannedFinishDate": "0001-01-01",
                     "projectStatus": "FINISHED",
                     "assessorName": "Test Assessor",
-                    "projectDetails": "Test Details"
+                    "projectDetails": "Test Details",
+                    "documentIds": ["documentidone", "documentidtwo"]
                 }
             """;
 
