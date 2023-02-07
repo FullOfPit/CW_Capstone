@@ -1,16 +1,13 @@
 .LoginPage {
-    margin: 10% 15% 15% 15%;
     padding: 5% 0 15% 0;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    border: 1px solid black;
     text-align: center;
 }
 
 .LoginPageTitle {
+    padding-bottom: 2rem;
     font-size: 2rem;
     font-style: italic;
 }
@@ -21,14 +18,20 @@
     align-items: center;
     width: 50%;
 
-    padding-bottom: 2rem;
-    border: 1px solid gray;
+    padding: 4rem 0;
     border-radius: 5px;
+    border: 1px solid #ced4da;
+    box-shadow: 4px 2px silver;
+}
+
+.LoginPageInputForm :nth-child(1) {
+    padding-bottom: 0.5rem;
 }
 
 .LoginPageInputFormInputField {
     width: 80%;
 }
+
 
 .LoginPageInputForm button {
     margin-top: 0.5rem;

@@ -14,12 +14,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 10rem;
     width: 100%;
 }
 
 .RiskSumCardName {
-    flex-grow: 1;
-    max-width: 56%;
+    width: 25%;
     padding: 0 1.5rem 0 1.5rem;
     text-align: left;
     overflow-wrap: break-word;
@@ -34,9 +34,6 @@
     display: flex;
     flex-direction: column;
     align-content: space-around;
-    min-width: 22%;
-    padding: 1rem 1rem 1rem 1rem;
-
     text-align: center;
 }
 
@@ -66,5 +63,17 @@
 }
 
 .RiskEval {
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
+    width: 30%;
+}
+
+.RiskAccordion {
+    z-index: 2;
+    width: 90%;
+}
+
+.Bin {
+    position: relative;
+    bottom: 38%;
+    border: #ced4da;
 }

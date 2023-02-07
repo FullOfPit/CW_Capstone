@@ -21,7 +21,7 @@ export default function Menu({projects, username}:{projects: Project[], username
     }, [location, navigate]);
 
     return (
-        <Navbar variant={"light"} bg={"light"}>
+        <Navbar variant={"dark"} bg={"primary"} className={"MenuBar"}>
             <Container fluid>
                 <Navbar.Brand>Welcome Back {username}!</Navbar.Brand>
                 <Nav>

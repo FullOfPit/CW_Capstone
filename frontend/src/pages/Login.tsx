@@ -63,7 +63,6 @@ export default function Login () {
             <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
             <Form onSubmit={login} className={"LoginPageInputForm"}>
                 <Form.Group className={"LoginPageInputFormInputField"}>
-                    <Form.Label>Username</Form.Label>
                     <Form.Control type={"text"}
                                   placeholder={"username"}
                                   name={"username"}
@@ -72,7 +71,6 @@ export default function Login () {
                 </Form.Group>
 
                 <Form.Group className={"LoginPageInputFormInputField"}>
-                    <Form.Label>Password</Form.Label>
                     <Form.Control type={"password"}
                                   placeholder={"password"}
                                   name={"password"}

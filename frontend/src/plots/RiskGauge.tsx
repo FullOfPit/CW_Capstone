@@ -1,38 +1,60 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import Risk from "../types/Risk";
+import riskFactorEval from "../evaluation/riskFactorEval";
+import './RiskGauge.css'
 
 export default function RiskGauge({risk}: {risk: Risk}) {
 
-    let riskFactor = risk.healthHazard * (risk.probability + risk.frequency);
+    let riskFactor = riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor;
+
+    const riskFactorValue = (factor: string) => {
+        switch (factor) {
+            case "Extreme Risk":
+                return 4.5;
+            case "High Risk":
+                return 3.5;
+            case "Moderate Risk":
+                return 2.5;
+            case "Low Risk":
+                return 1.5;
+            case "Negligible Risk":
+                return 0.5;
+            default:
+                return 0;
+        }
+    }
 
         return (
             <Plot
                 data={[
                     {
                         type: 'indicator',
-                        mode: 'gauge+number',
-                        value: riskFactor,
-                        title: {text: "Risk Multiplicator"},
-                        domain: {x:[0,1], y:[0,1]},
+                        mode: 'gauge',
+                        title: {text: "Risk Factor"},
+                        value: riskFactorValue(riskFactor),
                         gauge: {
-                            axis: {range : [null, 12], tickwidth: 2, tickcolor: "black"},
-                            //color needs to be adjusted to the risk factor
-                            bar: {color: "#525252"},
+                            axis: {range : [0, 5], tickwidth: 1, tickcolor: "black", visible: false},
+                            bar: {color: "black", thickness: 0.05},
                             bgcolor: "white",
                             bordercolor: "gray",
                             steps: [
-                                {range: [0, 3], color: "#9afaa7"},
-                                {range: [3, 5], color: "#bfd977"},
-                                {range: [5, 7], color: "#f0de90"},
-                                {range: [7, 9], color: "#FF9800"},
-                                {range: [9, 12], color: "#ff6d4f"}
-                            ]
+                                {range: [0, 1], color: "#009e60"},
+                                {range: [1, 2], color: "#478778"},
+                                {range: [2, 3], color: "#ffc300"},
+                                {range: [3, 4], color: "#ff5733"},
+                                {range: [4, 5], color: "#c70039"}
+                            ],
+                            threshold: {
+                                line: {color: "black", width: 3},
+                                thickness: 0.5,
+                                value: riskFactorValue(riskFactor)
+                            }
                         }
                     },
                 ]}
-                layout={{margin: {t:50, r:25, l:25, b:25},title: 'HH x P x F'}}
-                style={{width: "15rem", height: "15rem", overflowX: "scroll"}}
+                layout={{margin: {t:0, r:0, l:0, b:0}}}
+                className={"RiskGauge"}
             />
         );
 }

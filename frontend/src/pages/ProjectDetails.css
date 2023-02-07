@@ -1,12 +1,11 @@
 header {
+    width: 100%;
     padding: 2rem 0;
     border-bottom: 1px black solid;
 }
 
 .ProjectDescription {
     padding: 0.5rem 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.375rem;
 }
 
 .ProjectDescription p{
@@ -21,12 +20,22 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
+    width: 100%;
 }
 
-.ProjectDataTableLeft {
-    width: 20rem;
+.ProjectDetailsAccordion {
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.ProjectDataTable {
+    width: 15rem;
 }
 
 .ProjectPlots {
+    width: 100%;
     display: flex;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
 }
+

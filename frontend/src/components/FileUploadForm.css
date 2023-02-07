@@ -1,0 +1,36 @@
+.FileUploadForm {
+    margin: 2rem 1.5rem;
+    padding: 2rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+}
+
+.UploadedFiles {
+    width: 80%;
+    margin: 1rem 6%;
+    text-align: left;
+    list-style-type: none;
+}
+
+.FileContainer {
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.DocumentInputField {
+    width: 80%;
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    color: #343a40;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0 1rem;
+    height: 100%;
+    border: none;
+    border-radius: 0.375rem;
+}

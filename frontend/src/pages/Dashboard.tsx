@@ -1,6 +1,5 @@
 import "./Dashboard.css";
 import Accordion from 'react-bootstrap/Accordion';
-import {BsPlusLg} from 'react-icons/bs';
 import {Card} from "react-bootstrap";
 import Menu from "../components/Menu";
 import React, {useEffect, useState} from "react";
@@ -9,6 +8,7 @@ import Project from "../types/Project";
 import axios from "axios";
 import ProjectSummaryCard from "../components/ProjectSummaryCard";
 import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
 export default function Dashboard () {
 
     const navigate = useNavigate();
@@ -29,18 +29,18 @@ export default function Dashboard () {
     }, [])
 
     return (
-        <div className={"ScreenLimit"}>
+        <div>
             <Menu projects={allProjects} username={username}/>
 
             <div className={"DashboardPage"}>
                 <Card className={"DashboardPageProjectCreatorCard"}>
-                    <Card.Header className={"target"}>Create a new project risk assessment</Card.Header>
-                    <button onClick={() => navigate("/newproject")}><BsPlusLg size={26}/></button>
+                    <Card.Header className={"target"} onClick={() => navigate("/newproject")}>
+                        New Project Risk Assessment</Card.Header>
                 </Card>
 
-                <Accordion defaultActiveKey={""} className={"ProjectAccordion"}>
+                <Accordion defaultActiveKey={"2"} className={"ProjectAccordion"}>
                     <Accordion.Item eventKey={"1"}>
-                        <Accordion.Header>View your risk assessments for planned projects</Accordion.Header>
+                        <Accordion.Header>Planned Projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "PLANNED"))
                                 .map((project) => <ProjectSummaryCard key={project.id} project={project}
@@ -48,7 +48,7 @@ export default function Dashboard () {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"2"}>
-                        <Accordion.Header>View your risk assessments for current projects</Accordion.Header>
+                        <Accordion.Header>Current Projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "CURRENT"))
                                 .map((project) => <ProjectSummaryCard key={project.id} project={project}
@@ -56,7 +56,7 @@ export default function Dashboard () {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey={"3"}>
-                        <Accordion.Header>View your risk assessments for finished projects</Accordion.Header>
+                        <Accordion.Header>Finished Projects</Accordion.Header>
                         <Accordion.Body>
                             {allProjects.filter((project) => (project.projectStatus === "FINISHED"))
                                 .map((project) => <ProjectSummaryCard key={project.id} project={project}
@@ -64,6 +64,7 @@ export default function Dashboard () {
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
+                <ToastContainer limit={1}/>
             </div>
         </div>
     );
