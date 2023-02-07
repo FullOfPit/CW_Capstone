@@ -31,7 +31,6 @@ public class FileService {
     private final ProjectService projectService;
 
     public GridFsResource getResource(String id) {
-
         return gridFsTemplate.getResource(getFile(id));
     }
 

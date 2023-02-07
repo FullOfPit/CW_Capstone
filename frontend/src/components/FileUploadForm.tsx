@@ -65,7 +65,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             <div className={"UploadedFiles"}>
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
-                            <h6>{file.name}</h6>
+                            <h6><a href={`/api/files/${file.id}`} target={"_blank"}>{file.name}</a></h6>
                             <Button onClick={(event) => onFileDelete(event, file.id)}>Delete</Button>
                     </div>)
                 }
