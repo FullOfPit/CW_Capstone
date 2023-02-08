@@ -1,4 +1,4 @@
-name: CI/CD
+name: Deployment to Fly io
 
 on:
   push:
@@ -30,3 +30,15 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
           cache: maven
+
+      - name: Prepare backend resources
+        run: cd backend && rm -rf src/main/resources/static && cp -a ../frontend/build src/main/resources/static
+
+      - name: Build with Maven
+        run: cd backend && ./mvnw -B package --file pom.xml
+
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to flyctl
+        run: flyctl deploy --remote-only
