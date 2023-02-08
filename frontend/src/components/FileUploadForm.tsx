@@ -7,16 +7,15 @@ import Project from "../types/Project";
 export default function FileUploadForm({project, setProject, fileUploadOption}: {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
 
     const [file, setFile] = useState<File | null>(null);
-    const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
+    const [uploadedFilesMetadata, setUploadedFilesMetadata] = useState<{id: string, name: string, createdBy: string}[]>([]);
 
     useEffect(() => {(async () => {
         try {
             const response = await axios.get(`/api/files/projects/${project.id}/metadata`);
             console.log(response.data);
-            setUploadedFiles(response.data);
+            setUploadedFilesMetadata(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
-
         }
     })()}, [project.id])
 
@@ -34,8 +33,8 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                     ...project,
                     documentIds: project.documentIds
                 })
-                setUploadedFiles(
-                    [...uploadedFiles, {
+                setUploadedFilesMetadata(
+                    [...uploadedFilesMetadata, {
                         id: response.data.id,
                         name: response.data.name,
                         createdBy: response.data.createdBy
@@ -53,7 +52,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                 ...project,
                 documentIds: project.documentIds.filter((documentId) => documentId !== id),
             })
-            setUploadedFiles([...uploadedFiles.filter((file) => file.id !== id)]);
+            setUploadedFilesMetadata([...uploadedFilesMetadata.filter((file) => file.id !== id)]);
         }) ()
     }
 
@@ -63,11 +62,13 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             <h6>Additional Documents</h6>
 
             <div className={"UploadedFiles"}>
-                {uploadedFiles &&
-                    uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
-                            <h6><a href={`/api/files/${file.id}`} target={"_blank"}>{file.name}</a></h6>
+                {uploadedFilesMetadata &&
+                    uploadedFilesMetadata.map((file) =>
+                        <div key={file.id} className={"FileContainer"}>
+                            <h6><a href={`${process.env.REACT_APP_TEST}/api/files/${file.id}`}
+                                   target={"_blank"}>{file.name}</a></h6>
                             <Button onClick={(event) => onFileDelete(event, file.id)}>Delete</Button>
-                    </div>)
+                        </div>)
                 }
             </div>
 
