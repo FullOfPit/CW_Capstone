@@ -65,7 +65,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             <div className={"UploadedFiles"}>
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
-                            <h6><a href={`${process.env.REACT_APP_DISPLAY}/api/files/${file.id}`} target={"_blank"}>{file.name}</a></h6>
+                            <h6><a href={`${process.env.REACT_APP_DISPLAY}/api/files/${file.id}`} target={"blank"} rel={"noopener"}>{file.name}</a></h6>
                             <Button onClick={(event) => onFileDelete(event, file.id)}>Delete</Button>
                     </div>)
                 }
