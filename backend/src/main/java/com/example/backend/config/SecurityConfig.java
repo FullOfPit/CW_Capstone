@@ -24,13 +24,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .formLogin().disable()
                 .httpBasic().and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/app-users").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/app-users/login").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .build();
     }
