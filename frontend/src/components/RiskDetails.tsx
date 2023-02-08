@@ -7,6 +7,7 @@ import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 import {toast} from "react-toastify";
 import {riskValidation} from "../validation/validation";
+import {riskComponentColorCode} from "../evaluation/riskFactorEval";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -119,9 +120,14 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
 
                         <div className={"RiskMetricButtonBar"}>
                             <Dropdown>
-                                <Dropdown.Toggle className={"RiskMetricsButtons"}>
-                                    Hazard to Health
-                                </Dropdown.Toggle>
+                                <Dropdown.Toggle className={"RiskMetricsButtons"}
+                                                 style={{
+                                                     backgroundColor: riskComponentColorCode(currentRisk.healthHazard),
+                                                     borderColor: "black",
+                                                     color: "black"
+                                                 }}>
+                                    Hazard to Health {currentRisk.healthHazard || ""}
+                                </Dropdown.Toggle >
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={() => healthHazardModifier(1)}>
@@ -135,8 +141,13 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Menu>
                             </Dropdown>
                             <Dropdown>
-                                <Dropdown.Toggle className={"RiskMetricsButtons"}>
-                                    Probability
+                                <Dropdown.Toggle className={"RiskMetricsButtons"}
+                                                 style={{
+                                                     backgroundColor: riskComponentColorCode(currentRisk.probability),
+                                                     borderColor: "black",
+                                                     color: "black"
+                                                 }}>
+                                    Probability {currentRisk.probability || ""}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
@@ -151,8 +162,13 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Menu>
                             </Dropdown>
                             <Dropdown>
-                                <Dropdown.Toggle className={"RiskMetricsButtons"}>
-                                    Frequency
+                                <Dropdown.Toggle className={"RiskMetricsButtons"}
+                                                 style={{
+                                                     backgroundColor: riskComponentColorCode(currentRisk.frequency),
+                                                     borderColor: "black",
+                                                     color: "black"
+                                                 }}>
+                                    Frequency {currentRisk.frequency || ""}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
