@@ -40,7 +40,11 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                         name: response.data.name,
                         createdBy: response.data.createdBy
                     }])
-                alert(JSON.stringify(response.data, null, 2));
+                alert(JSON.stringify(
+                    `${response.data.name} has been uploaded successfully `,
+                    null,
+                    2)
+                );
             }
         }) ()
     }
