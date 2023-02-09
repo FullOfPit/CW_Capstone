@@ -70,7 +70,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
                             <h6><a
-                                href={`${process.env.REACT_APP_DISPLAY}/api/files/${file.id}`}
+                                href={`/api/files/${file.id}`}
                                 target={"blank"}
                                 rel={"noopener"}
                                 >
