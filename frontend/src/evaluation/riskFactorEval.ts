@@ -4,7 +4,7 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
 
         let riskFactor = healthHazard * probability * frequency;
 
-        if(riskFactor > 9 && healthHazard > 2) {
+        if(riskFactor > 9 && healthHazard > 3) {
             return "Extreme Risk";
         } else if ((riskFactor > 7 && !(healthHazard === 2 && probability === 2 && frequency === 2))  || healthHazard >= 3) {
             return "High Risk";
@@ -49,25 +49,49 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
         if (healthHazard >= 3 && probability >= 3 && frequency >= 3) {
             return "Intolerable Risk. Reconsideration of any tasks entailing " +
                 "this Risk Factor highly recommended. Only proceed when no alternatives have been identified.";
+
         } else if (healthHazard === 4 && probability >= 2 && frequency >= 2) {
             return "Dangerously high Risk to Health with considerable chance of Occurrence. " +
                 "Further measures to reduce individual risk components are highly recommended. " +
                 "Only proceed after reconsideration.";
+
         } else if ((healthHazard >= 2 && probability === 4 && frequency >= 2) || (healthHazard >= 2 && probability >= 2  && frequency >= 4)) {
             return "Dangerously high chance of an Incidence to occur. " +
                 "Further measures to reduce individual risk components are highly recommended. " +
                 "Only proceed after reconsideration.";
-        } else if (healthHazard === 4) {
+
+        } else if (healthHazard === 4 && probability > 1 && frequency > 1) {
             return "Task possibly lethal. Any possibility to reduce potential impact on health and life " +
-                "should be explored. Only proceed after reconsideration.";
-        } else if (healthHazard >= 3) {
+                " and further measure to reduce the likelihood of an incident to occur should be explored. " +
+                "Only proceed after reconsideration.";
+
+        } else if (healthHazard === 4 && probability === 1 && frequency >= 2) {
+            return "Task possibly lethal. Considering the assessed frequency of this task, exploration of" +
+                " any measures to decouple the risk to health and other parts of this task are highly recommended." +
+                "Only proceed after reconsideration.";
+
+
+        } else if (healthHazard === 4 && probability > 1 && frequency === 1) {
+            return "Task possibly lethal. Considering the assessed chance of an incidence to occur, exploration of " +
+                "measures to reduce the impact on health and life should be prioritised. " +
+                "Only proceed after reconsideration.";
+
+        } else if (healthHazard === 4) {
+            return "Task possibly lethal. Considering the assessed overall likelihood of an incident to occur," +
+                " any additional measure to reduce the potential impact on health and life should be explored. " +
+                "Reconsideration highly recommended.";
+
+        } else if (healthHazard >= 2) {
             return "Potentially lethal Risk. Any possibility to reduce the chance " +
                 "of occurrence should be explored. Only proceed after reconsideration.";
+
         } else if (healthHazard >= 2 && probability >= 2 && frequency >= 2) {
             return "Considerable Risk involved. Further measures to reduce risk should be explored. " +
                 "Proceed after reconsideration."
+
         } else if ((probability + frequency) >= 6) {
             return "Considerable chance of an Incidence to occur. Proceed with caution."
+
         } else {
             return "Risk factor tolerable. Proceed."
         }
