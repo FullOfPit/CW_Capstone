@@ -81,7 +81,7 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
                 " any additional measure to reduce the potential impact on health and life should be explored. " +
                 "Reconsideration highly recommended.";
 
-        } else if (healthHazard >= 2) {
+        } else if (healthHazard > 2) {
             return "Potentially lethal Risk. Any possibility to reduce the chance " +
                 "of occurrence should be explored. Only proceed after reconsideration.";
 
