@@ -4,8 +4,6 @@ import Navbar from "react-bootstrap/Navbar";
 
 export default function NotFoundPage() {
 
-
-
     return (
         <div className={"NotFound"}>
             <Navbar variant={"dark"} bg={"primary"} className={"MenuBar"}>
