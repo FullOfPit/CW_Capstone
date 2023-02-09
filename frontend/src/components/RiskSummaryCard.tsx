@@ -40,26 +40,13 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                     </div>
                 </div>
                 <RiskGauge risk={risk}/>
-                <div className={"RiskEval"}>
-                    {assessmentReady &&
-                        <div>
-                            <div className={"RiskComponents"}>
-                                <p>{riskFactorEvaluation.healthComponent}</p>
-                                <p>{riskFactorEvaluation.probabilityComponent}</p>
-                            </div>
-                            <div>
-                                <h6>{riskFactorEvaluation.finalEval}</h6>
-                            </div>
 
-                        </div>
-                    }
-                </div>
                 {risk.id &&
                     <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
                 }
             </div>
 
-            <Accordion className={"RiskAccordion"}>
+            <Accordion className={"RiskAccordion"} defaultActiveKey={"3"}>
                 <Accordion.Item eventKey={"1"}>
                     <Accordion.Header>Risk Factor Description</Accordion.Header>
                     <AccordionBody>
@@ -72,6 +59,25 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                         <p>{risk.riskReductionMeasures}</p>
                     </AccordionBody>
                 </Accordion.Item>
+                <Accordion.Item eventKey={"3"}>
+                    <Accordion.Header>Risk Factor Assessment Result</Accordion.Header>
+                    <div className={"RiskEval"}>
+                        {assessmentReady &&
+                            <AccordionBody>
+                                <div className={"RiskComponents"}>
+                                    <p>{riskFactorEvaluation.healthComponent}</p>
+                                    <p>{riskFactorEvaluation.probabilityComponent}</p>
+                                </div>
+                                <div>
+                                    <h6>{riskFactorEvaluation.finalEval}</h6>
+                                </div>
+                            </AccordionBody>
+                        }
+                    </div>
+
+                </Accordion.Item>
+
+
             </Accordion>
         </div>
     )
