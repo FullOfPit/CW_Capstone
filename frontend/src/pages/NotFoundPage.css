@@ -1,0 +1,9 @@
+.NotFound {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.NotFoundMessage {
+    margin: 15% 30%;
+}

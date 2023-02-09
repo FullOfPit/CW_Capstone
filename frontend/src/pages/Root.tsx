@@ -6,6 +6,7 @@ import NewProject from "./NewProject";
 import ProjectDetails from "./ProjectDetails";
 import React, {useMemo} from "react";
 import Authentication from "../components/Authentication";
+import NotFoundPage from "./NotFoundPage";
 
 export default function Root() {
 
@@ -38,6 +39,8 @@ export default function Root() {
                     <ProjectDetails/>
                 </Authentication>
             }/>
+
+            <Route path={"*"} element={<NotFoundPage/>}/>
         </Routes>
     )
 }

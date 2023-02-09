@@ -41,8 +41,6 @@ export default function Menu({projects, username}:{projects: Project[], username
 
                     </NavDropdown>
                 </Nav>
-
-
             </Container>
         </Navbar>
     )
