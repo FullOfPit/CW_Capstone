@@ -48,26 +48,26 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
     const finalRiskEval = (healthHazard: number, probability: number, frequency: number) => {
         if (healthHazard >= 3 && probability >= 3 && frequency >= 3) {
             return "Intolerable Risk. Reconsideration of any tasks entailing " +
-                "this Risk Factor highly recommended. Only proceed when no alternatives have been identified.";
+                "this risk factor highly recommended. Only proceed when no alternatives have been identified.";
 
         } else if (healthHazard === 4 && probability >= 2 && frequency >= 2) {
-            return "Dangerously high Risk to Health with considerable chance of Occurrence. " +
+            return "Dangerously high risk to health with considerable chance of occurrence. " +
                 "Further measures to reduce individual risk components are highly recommended. " +
                 "Only proceed after reconsideration.";
 
         } else if ((healthHazard >= 2 && probability === 4 && frequency >= 2) || (healthHazard >= 2 && probability >= 2  && frequency >= 4)) {
-            return "Dangerously high chance of an Incidence to occur. " +
+            return "Dangerously high chance of an incidence to occur. " +
                 "Further measures to reduce individual risk components are highly recommended. " +
                 "Only proceed after reconsideration.";
 
         } else if (healthHazard === 4 && probability > 1 && frequency > 1) {
             return "Task possibly lethal. Any possibility to reduce potential impact on health and life " +
-                " and further measure to reduce the likelihood of an incident to occur should be explored. " +
+                "and further measure to reduce the likelihood of an incident to occur should be explored. " +
                 "Only proceed after reconsideration.";
 
         } else if (healthHazard === 4 && probability === 1 && frequency >= 2) {
             return "Task possibly lethal. Considering the assessed frequency of this task, exploration of" +
-                " any measures to decouple the risk to health and other parts of this task are highly recommended." +
+                " any measures to decouple the risk to health from other parts of this task is highly recommended. " +
                 "Only proceed after reconsideration.";
 
 

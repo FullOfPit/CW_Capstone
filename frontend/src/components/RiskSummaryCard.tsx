@@ -67,8 +67,6 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                                 <div className={"RiskComponents"}>
                                     <p>{riskFactorEvaluation.healthComponent}</p>
                                     <p>{riskFactorEvaluation.probabilityComponent}</p>
-                                </div>
-                                <div>
                                     <h6>{riskFactorEvaluation.finalEval}</h6>
                                 </div>
                             </AccordionBody>
