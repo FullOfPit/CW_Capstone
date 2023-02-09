@@ -130,7 +130,7 @@ export default function ProjectDetails() {
                 </div>
                 </div>
                 :
-                <div>Something went wrong</div>
+                <div>Just a moment, please!</div>
 
             }
         </div>

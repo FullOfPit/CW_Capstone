@@ -40,7 +40,11 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                         name: response.data.name,
                         createdBy: response.data.createdBy
                     }])
-                alert(JSON.stringify(response.data, null, 2));
+                alert(JSON.stringify(
+                    `${response.data.name} has been uploaded successfully `,
+                    null,
+                    2)
+                );
             }
         }) ()
     }
@@ -65,7 +69,14 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             <div className={"UploadedFiles"}>
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
-                            <h6><a href={`${process.env.REACT_APP_DISPLAY}/api/files/${file.id}`} target={"blank"} rel={"noopener"}>{file.name}</a></h6>
+                            <h6><a
+                                href={`/api/files/${file.id}`}
+                                target={"blank"}
+                                rel={"noopener"}
+                                >
+                                {file.name}
+                                </a>
+                            </h6>
                             <Button onClick={(event) => onFileDelete(event, file.id)}>Delete</Button>
                     </div>)
                 }
@@ -87,9 +98,6 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                     <Button type={"submit"} onClick={(event) => onFileUpload(event)}>Upload File</Button>
                 </form>
             }
-
-
-
         </div>
     )
 }
