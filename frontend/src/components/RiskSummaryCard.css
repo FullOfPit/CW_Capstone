@@ -49,6 +49,10 @@
     margin: 0;
 }
 
+.RiskSummaryPlot {
+    padding-right: 5rem;
+}
+
 .RiskDescription {
     padding: 0 0 0 1rem;
     text-align: left;

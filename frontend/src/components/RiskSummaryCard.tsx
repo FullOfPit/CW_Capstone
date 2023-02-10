@@ -39,11 +39,13 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                         <p>{`Frequency: ${risk.frequency}`}</p>
                     </div>
                 </div>
-                <RiskGauge risk={risk}/>
+                <div className={"RiskSummaryPlot"}>
+                    <RiskGauge risk={risk}/>
+                </div>
 
-                {risk.id &&
-                    <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
-                }
+
+                <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
+
             </div>
 
             <Accordion className={"RiskAccordion"} defaultActiveKey={"3"}>
@@ -72,10 +74,7 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                             </AccordionBody>
                         }
                     </div>
-
                 </Accordion.Item>
-
-
             </Accordion>
         </div>
     )

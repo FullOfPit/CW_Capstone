@@ -251,6 +251,7 @@ export default function NewProject() {
 
             }
             {assessmentRdy &&
+
                 <div className={"ButtonBox"}>
                     {reAssessment ?
                         <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>
@@ -258,10 +259,10 @@ export default function NewProject() {
                         :
                         <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
                     <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
-                    <ToastContainer/>
                 </div>
             }
         </div>
+            <ToastContainer/>
         </div>
     )
 }
