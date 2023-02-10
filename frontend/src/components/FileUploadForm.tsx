@@ -83,7 +83,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             </div>
 
             {fileUploadOption &&
-                <form>
+                <form className={"DocumentInputForm"}>
                     <input className={"DocumentInputField"}
                            type={"file"}
                            accept={".pdf, .docx"}

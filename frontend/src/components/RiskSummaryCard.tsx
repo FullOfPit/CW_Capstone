@@ -43,9 +43,11 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                     <RiskGauge risk={risk}/>
                 </div>
 
-
-                <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
-
+                {risk.id ?
+                    <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
+                    :
+                    <Button className={"Bin"} variant={"outline-dark"}><BsTrash/></Button>
+                }
             </div>
 
             <Accordion className={"RiskAccordion"} defaultActiveKey={"3"}>
