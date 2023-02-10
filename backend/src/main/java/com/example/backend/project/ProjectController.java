@@ -13,7 +13,6 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
-
     @GetMapping
     List<Project> getAll() {
         return this.projectService.getAll();
