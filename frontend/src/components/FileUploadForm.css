@@ -21,6 +21,9 @@
 
 .DocumentInputForm {
     height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .DocumentInputField {
@@ -34,7 +37,7 @@
 input[type=file]::file-selector-button {
     margin-right: 1rem;
     padding: 0 1rem;
-    height: 34px;
+    height: 38px;
     border: none;
     border-radius: 0.375rem;
 }
