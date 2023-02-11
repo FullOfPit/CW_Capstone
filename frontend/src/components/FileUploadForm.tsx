@@ -4,7 +4,10 @@ import "./FileUploadForm.css"
 import axios from "axios";
 import Project from "../types/Project";
 
-export default function FileUploadForm({project, setProject, fileUploadOption}: {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
+export default function FileUploadForm(
+    {project, setProject, fileUploadOption}
+        :
+    {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
 
     const [file, setFile] = useState<File | null>(null);
     const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
@@ -16,7 +19,6 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             setUploadedFiles(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
-
         }
     })()}, [project.id])
 
@@ -97,5 +99,5 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                 </form>
             }
         </div>
-    )
+    );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import Risk from "../types/Risk";
 import {Data} from "plotly.js";
-import riskFactorEval from "../evaluation/riskFactorEval";
+import riskFactorEvaluation from "../evaluation/riskFactorEvaluation";
 
 export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
 
@@ -13,7 +13,7 @@ export default function RiskBarThreeD ({risks}: {risks: Risk[]}) {
         x: [risk.healthHazard],
         name: risk.riskName.slice(0, 35),
         marker: {
-            color: riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskColor.toString()
+            color: riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskColor.toString()
         }
     })})
 

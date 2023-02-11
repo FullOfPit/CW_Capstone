@@ -1,28 +1,28 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import Risk from "../types/Risk";
-import riskFactorEval from "../evaluation/riskFactorEval";
+import riskFactorEvaluation from "../evaluation/riskFactorEvaluation";
 
 export default function RiskBarTwoD({risks}: {risks: Risk[]}) {
 
     let numberNegligible = risks.filter(
-        (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
+        (risk) => riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor
             === "Negligible Risk").length;
 
     let numberLow = risks.filter(
-        (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
+        (risk) => riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor
             === "Low Risk").length;
 
     let numberMedium = risks.filter(
-        (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
+        (risk) => riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor
             === "Moderate Risk").length;
 
     let numberHigh = risks.filter(
-        (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
+        (risk) => riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor
             === "High Risk").length;
 
     let numberExtreme = risks.filter(
-        (risk) => riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor
+        (risk) => riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor
             === "Extreme Risk").length;
 
     return (

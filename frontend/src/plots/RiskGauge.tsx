@@ -1,12 +1,12 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import Risk from "../types/Risk";
-import riskFactorEval from "../evaluation/riskFactorEval";
+import riskFactorEvaluation from "../evaluation/riskFactorEvaluation";
 import './RiskGauge.css'
 
 export default function RiskGauge({risk}: {risk: Risk}) {
 
-    let riskFactor = riskFactorEval(risk.healthHazard, risk.probability, risk.frequency).riskFactor;
+    let riskFactor = riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency).riskFactor;
 
     const riskFactorValue = (factor: string) => {
         switch (factor) {

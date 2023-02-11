@@ -7,7 +7,7 @@ import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 import {toast} from "react-toastify";
 import {riskValidation} from "../validation/validation";
-import {riskComponentColorCode} from "../evaluation/riskFactorEval";
+import {riskComponentColorCode} from "../evaluation/riskFactorEvaluation";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
