@@ -55,13 +55,10 @@ export default function Login () {
             }
         }, [credentials, navigate, redirect])
 
-
-
-
     return (
         <div className={"LoginPage"}>
             <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
-            <Form onSubmit={login} className={"LoginPageInputForm"}>
+            <Form onSubmit={login} className={"LoginPageInputForm"} autoComplete={"off"}>
                 <Form.Group className={"LoginPageInputFormInputField"}>
                     <Form.Control type={"text"}
                                   placeholder={"username"}
@@ -84,7 +81,5 @@ export default function Login () {
                 <div>{errors.map((error) => <p key={error}> {error} </p>)}</div>
             )}
         </div>
-
-
     )
 }

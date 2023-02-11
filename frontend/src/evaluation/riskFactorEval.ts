@@ -70,7 +70,6 @@ export default function riskFactorEval (healthHazard: number, probability: numbe
                 " any measures to decouple the risk to health from other parts of this task is highly recommended. " +
                 "Only proceed after reconsideration.";
 
-
         } else if (healthHazard === 4 && probability > 1 && frequency === 1) {
             return "Task possibly lethal. Considering the assessed chance of an incidence to occur, exploration of " +
                 "measures to reduce the impact on health and life should be prioritised. " +

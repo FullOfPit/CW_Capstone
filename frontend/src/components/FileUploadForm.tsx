@@ -63,9 +63,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
 
     return(
         <div className={"FileUploadForm"}>
-
             <h6>Additional Documents</h6>
-
             <div className={"UploadedFiles"}>
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
@@ -83,7 +81,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             </div>
 
             {fileUploadOption &&
-                <form className={"DocumentInputForm"}>
+                <form className={"DocumentInputForm"} autoComplete={"false"}>
                     <input className={"DocumentInputField"}
                            type={"file"}
                            accept={".pdf, .docx"}

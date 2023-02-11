@@ -158,7 +158,7 @@ export default function NewProject() {
                 {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
             </div>
 
-                <Form className={"NewProjectForm"}>
+                <Form className={"NewProjectForm"} autoComplete={"off"}>
                     <Form.Group className={"NewProjectHead"}>
                         <Form.Label>Project Name:</Form.Label>
                         <Form.Control placeholder={project.projectName || "Project Name"}

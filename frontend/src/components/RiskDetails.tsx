@@ -88,7 +88,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
             </div>
             <div className={"RiskDetails"}>
                 <div className={"RiskDetailsContent"}>
-                    <Form>
+                    <Form autoComplete={"off"}>
                         <Form.Group className={"RiskDetailsFactor"}>
                             <Form.Label>Risk factor: </Form.Label>
                             <Form.Control className={"RiskDetailsFactorName"}
