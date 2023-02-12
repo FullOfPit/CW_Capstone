@@ -26,8 +26,8 @@ import java.util.Optional;
 public class FileService {
 
     private final GridFsTemplate gridFsTemplate;
-    private final String createdBy = "createdBy";
-    private final String contentType = "_contentType";
+    private final static String createdBy = "createdBy";
+    private final static String contentType = "_contentType";
 
     public GridFsResource getResource(String id) {
         return gridFsTemplate.getResource(getFile(id));
