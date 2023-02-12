@@ -1,6 +1,7 @@
 package com.example.backend.project;
 
 import com.example.backend.exception.ProjectNotRegisteredException;
+import com.example.backend.exception.RiskNotRegisteredException;
 import com.example.backend.exception.UserNotRegisteredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) throws ProjectNotRegisteredException {
+    public void delete(@PathVariable String id) throws ProjectNotRegisteredException, RiskNotRegisteredException {
         this.projectService.deleteById(id);
     }
 

@@ -1,9 +1,7 @@
 package com.example.backend.file;
 
-import com.example.backend.exception.ProjectNotRegisteredException;
-import com.example.backend.project.Project;
-import com.example.backend.project.ProjectService;
 import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
@@ -28,7 +26,7 @@ import java.util.Optional;
 public class FileService {
 
     private final GridFsTemplate gridFsTemplate;
-    private final ProjectService projectService;
+    private static final String CREATED_BY = "createdBy";
 
     public GridFsResource getResource(String id) {
         return gridFsTemplate.getResource(getFile(id));
@@ -37,16 +35,17 @@ public class FileService {
     public FileMetadata getFileMetadata(String id) {
 
         GridFSFile gridFSFile = getFile(id);
+        String contentType = "_contentType";
         Document metadata = Optional.ofNullable(
                         gridFSFile.getMetadata())
-                .orElse(new Document(Map.of("_contentType", "", "createdBy", "")));
+                .orElse(new Document(Map.of(contentType, "", CREATED_BY, "")));
 
         return new FileMetadata(
                 id,
                 gridFSFile.getFilename(),
-                metadata.getString("_contentType"),
+                metadata.getString(contentType),
                 gridFSFile.getLength(),
-                metadata.getString("createdBy")
+                metadata.getString(CREATED_BY)
         );
     }
 
@@ -58,6 +57,20 @@ public class FileService {
                         HttpStatus.NOT_FOUND, "File not found"
                 )
         );
+    }
+
+    public List<GridFSFile> getFilesByProjectId(String projectId) {
+
+        List<GridFSFile> fileList = new ArrayList<>();
+
+        GridFSFindIterable gridFSFindIterable = Optional.of(
+                gridFsTemplate.find(
+                Query.query(Criteria.where("metadata.createdBy").is(projectId)))
+                ).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+
+        gridFSFindIterable.forEach(fileList::add);
+
+        return fileList;
     }
 
     public FileMetadata saveFile(String projectId, MultipartFile multipartFile) throws IOException {
@@ -72,27 +85,29 @@ public class FileService {
                 multipartFile.getContentType(),
                 //userID needs to be the actual users ID
                 BasicDBObjectBuilder.start()
-                        .add("createdBy", projectId)
+                        .add(CREATED_BY, projectId)
                         .get()
         );
         return getFileMetadata(objectId.toString());
     }
 
     public void deleteById(String id) {
-
-        gridFsTemplate.delete(Query.query(Criteria.where("files_id").is(id)));
+        gridFsTemplate.delete(Query.query(Criteria.where("_id").is(id)));
     }
 
-    public List<FileMetadata> getFileMetadataByProjectId(String projectId) throws ProjectNotRegisteredException {
+    public List<FileMetadata> getFileMetadataByProjectId(String projectId) {
 
-        Project project = Optional.ofNullable(
-                this.projectService.getById(projectId))
-                .orElseThrow(ProjectNotRegisteredException::new);
+        List<GridFSFile> listOfFiles = this.getFilesByProjectId(projectId);
 
-        List<FileMetadata> fileMetadataList = new ArrayList<>();
-
-        project.getDocumentIds().forEach((fileId) -> fileMetadataList.add(getFileMetadata(fileId)));
-
-        return fileMetadataList;
+        return listOfFiles.stream()
+                .map(file -> {
+                    assert file.getMetadata() != null;
+                    return new FileMetadata(
+                            file.getId().toString(),
+                            file.getFilename(),
+                            file.getMetadata().getString("_contentType"),
+                            file.getLength(),
+                            file.getMetadata().getString(CREATED_BY));
+                }).toList();
     }
 }
