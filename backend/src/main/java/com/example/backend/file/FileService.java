@@ -26,6 +26,8 @@ import java.util.Optional;
 public class FileService {
 
     private final GridFsTemplate gridFsTemplate;
+    private final String createdBy = "createdBy";
+    private final String contentType = "_contentType";
 
     public GridFsResource getResource(String id) {
         return gridFsTemplate.getResource(getFile(id));
@@ -34,8 +36,7 @@ public class FileService {
     public FileMetadata getFileMetadata(String id) {
 
         GridFSFile gridFSFile = getFile(id);
-        String contentType = "_contentType";
-        String createdBy = "createdBy";
+
         Document metadata = Optional.ofNullable(
                         gridFSFile.getMetadata())
                 .orElse(new Document(Map.of(contentType, "", createdBy, "")));
@@ -85,7 +86,7 @@ public class FileService {
                 multipartFile.getContentType(),
                 //userID needs to be the actual users ID
                 BasicDBObjectBuilder.start()
-                        .add("createdBy", projectId)
+                        .add(createdBy, projectId)
                         .get()
         );
         return getFileMetadata(objectId.toString());
@@ -105,9 +106,9 @@ public class FileService {
                     return new FileMetadata(
                             file.getId().toString(),
                             file.getFilename(),
-                            file.getMetadata().getString("_contentType"),
+                            file.getMetadata().getString(contentType),
                             file.getLength(),
-                            file.getMetadata().getString("createdBy"));
+                            file.getMetadata().getString(createdBy));
                 }).toList();
     }
 }
