@@ -37,23 +37,23 @@ export default function riskFactorEvaluation (healthHazard: number, probability:
         } else if (p >= 2 && f >= 2) {
             return {
                 overallRiskFactor: "Extreme Risk",
-                factorEvaluation:  "Dangerously high risk. Reconsideration of any tasks entailing " +
+                factorEvaluation:  "Intolerable risk. Reconsideration of any tasks entailing " +
                     "this risk factor is highly recommended. Considering the assessed likelihood of an incident to occur, " +
                     "any task involving this risk factor should be restructured. " +
-                    "Only proceed after reconsideration."};
+                    "Only proceed when no alternatives have been identified."};
 
         } else if (p > 2 && f === 1) {
             return {
                 overallRiskFactor: "Extreme Risk",
                 factorEvaluation:  "Dangerously high risk. Considering the assessed likelihood of an incidence to occur, " +
-                    "the assessed task should be restructured. If restructuring is not possible, any measures that might " +
+                    "the assessed task should be restructured. If restructuring is not possible, any measure that might " +
                     "reduce the impact on health should be explored. Only proceed after reconsideration."};
 
         } else if (p === 1 && f > 2) {
             return {
                 overallRiskFactor: "High Risk",
                 factorEvaluation:  "Dangerously high risk. Considering the assessed frequency of this task, separation " +
-                    "of harmful steps should be explored and implemented. Any measures that might reduce the impact " +
+                    "of harmful steps should be explored and implemented. Any measure that might reduce the impact " +
                     "on health should be explored. Only proceed after reconsideration."};
 
         } else if (p === 1 && f === 1) {
@@ -67,7 +67,7 @@ export default function riskFactorEvaluation (healthHazard: number, probability:
             return {
                 overallRiskFactor: "High Risk",
                 factorEvaluation:  "Dangerously high risk. Considering the assessed probability and frequency parameter, " +
-                    "the occurrence of an incidence is low, but potentially lethal nevertheless. Any measures that might " +
+                    "the occurrence of an incidence is low, but potentially lethal nevertheless. Any measure that might " +
                     "reduce the impact on health should be explored. Only proceed after reconsideration."};
         }
     }
@@ -76,32 +76,38 @@ export default function riskFactorEvaluation (healthHazard: number, probability:
         if ((p * f) >= 8) {
             return {
                 overallRiskFactor: "Extreme Risk",
-                factorEvaluation: " "};
-
-        } else if (p >= 3 && f === 2) {
-            return {
-                overallRiskFactor: "High Risk",
-                factorEvaluation: " "};
-
-        } else if (p === 2 && f >= 3) {
-            return {
-                overallRiskFactor: "High Risk",
-                factorEvaluation: " "};
+                factorEvaluation: "Dangerously high risk. Considering the assessed likelihood of an incidence to occur, " +
+                    "the assessed task should be restructured. If restructuring is not possible, any measure that might " +
+                    "reduce the impact on health should be explored. Only proceed after reconsideration."};
 
         } else if ((p * f) >= 4) {
             return {
                 overallRiskFactor: "High Risk",
-                factorEvaluation: " "};
+                factorEvaluation: "High risk of critical hazard to health. Considering the assessed overall chance " +
+                    "of an incidence to occur, any measure that might reduce the impact on health should be explored " +
+                    "and any that could meaningfully reduce the chance of an incidence to occur should be implemented." +
+                    "Only proceed after reconsideration."};
 
-        } else if (p > 1 && f > 1) {
+        } else if (f >= 2) {
             return {
-                overallRiskFactor: "Moderate Risk",
-                factorEvaluation: ""
-            }
+                overallRiskFactor: "High Risk",
+                factorEvaluation: "Dangerously high risk. Any task involving this risk should be restructured, " +
+                    "due to the assessed likelihood of an incidence to occur. Any measure that might reduce " +
+                    "the impact on health should be explored. Only proceed after reconsideration."};
+
+        } else if (p >= 2) {
+            return {
+                overallRiskFactor: "High Risk",
+                factorEvaluation: "Dangerously high risk. Any task involving this risk should be restructured," +
+                    " due to the assessed frequency of this task. Any measure that might reduce the impact on" +
+                    " health should be explored. Only proceed after reconsideration."};
+
         } else {
             return {
                 overallRiskFactor: "Moderate Risk",
-                factorEvaluation: " "};
+                factorEvaluation: "This risk factor is assessed to be of moderate risk. Considering the potentially " +
+                    "critical impact on health, any task involving this should be restructured, if possible. Particular " +
+                    "emphasis should be placed on measures that reduce the hazard to health. Reconsideration recommended."};
         }
     }
 
@@ -109,26 +115,32 @@ export default function riskFactorEvaluation (healthHazard: number, probability:
         if (p >= 3 && f >= 3) {
             return {
                 overallRiskFactor: "High Risk",
-                factorEvaluation: " "};
+                factorEvaluation: "Dangerously high risk of an incidence to occur. Considering the assessed potential " +
+                    "to serious hazard to health, any measure that might reduce the any of the assessed risk components " +
+                    "should be explored. Restructuring of any tasks involving this risk factor is recommended. Only" +
+                    " proceed after reconsideration."};
 
-        } else if ((p * f) === 8) {
+        } else if ((p * f) >= 8) {
             return {
                 overallRiskFactor: "High Risk",
-                factorEvaluation: " "};
+                factorEvaluation: "High Risk of an incidence to occur with a serious risk to health. Considering the " +
+                    "overall chance of an incidence to occur, any tasks involving this risk factor should be restructured" +
+                    " or further measure to reduce the assessed risk components should be taken. Only proceed after " +
+                    "reconsideration."};
 
         }  else if (p === 4) {
-            return {
-                overallRiskFactor: "Moderate Risk",
-                factorEvaluation: "Considering the high frequency of this risk factor and potentially serious impact, " +
-                    "exploration of further measures to reduce this risk factor is recommended, despite the low probability. " +
-                    " Reconsideration recommended."};
-
-        } else if (f === 4) {
             return {
                 overallRiskFactor: "Moderate Risk",
                 factorEvaluation: "Considering the high probability of an incidence to occur and the potentially serious impact, " +
                     "exploration of further measures to reduce this risk factor is recommended, despite the one-time execution of " +
                     "this task. Reconsideration recommended."};
+
+        } else if (f === 4) {
+            return {
+                overallRiskFactor: "Moderate Risk",
+                factorEvaluation: "Considering the high frequency of this risk factor and potentially serious impact, " +
+                    "exploration of further measures to reduce this risk factor is recommended, despite the low probability. " +
+                    " Reconsideration recommended."};
 
         } else if ((p * f) >= 4) {
             return {
