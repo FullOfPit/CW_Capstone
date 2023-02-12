@@ -1,9 +1,9 @@
 import "./RiskSummaryCard.css"
 import Risk from "../types/Risk";
-import riskFactorEval from "../evaluation/riskFactorEval";
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
+import riskFactorEvaluation from "../evaluation/riskFactorEvaluation";
 import AccordionBody from "react-bootstrap/AccordionBody";
 import RiskGauge from "../plots/RiskGauge";
 import {BsTrash} from "react-icons/bs"
@@ -12,7 +12,7 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
 
     {
     const [assessmentReady, setAssessmentReady] = useState<boolean>(false)
-    let riskFactorEvaluation = riskFactorEval(risk.healthHazard, risk.probability, risk.frequency);
+    let riskFactorEval = riskFactorEvaluation(risk.healthHazard, risk.probability, risk.frequency);
 
     useEffect(() => {
             if (risk.riskName !== "" &&
@@ -32,17 +32,21 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                 </div>
                 <div className={"RiskFactor"}>
                     <h5>Risk Factor</h5>
-                    <h5>{assessmentReady ? riskFactorEvaluation.riskFactor : ""}</h5>
+                    <h5>{assessmentReady ? riskFactorEval.riskFactor : ""}</h5>
                     <div className={"RiskMetrics"}>
                         <p>{`Hazard to Health: ${risk.healthHazard}`}</p>
                         <p>{`Probability: ${risk.probability}`}</p>
                         <p>{`Frequency: ${risk.frequency}`}</p>
                     </div>
                 </div>
-                <RiskGauge risk={risk}/>
+                <div className={"RiskSummaryPlot"}>
+                    <RiskGauge risk={risk}/>
+                </div>
 
-                {risk.id &&
+                {risk.id ?
                     <Button className={"Bin"} onClick={() => onDelete(risk.id)} variant={"outline-dark"}><BsTrash/></Button>
+                    :
+                    <Button className={"Bin"} variant={"outline-dark"}><BsTrash/></Button>
                 }
             </div>
 
@@ -65,17 +69,14 @@ export default function RiskSummaryCard({risk, onDelete}:{risk: Risk, onDelete:(
                         {assessmentReady &&
                             <AccordionBody>
                                 <div className={"RiskComponents"}>
-                                    <p>{riskFactorEvaluation.healthComponent}</p>
-                                    <p>{riskFactorEvaluation.probabilityComponent}</p>
-                                    <h6>{riskFactorEvaluation.finalEval}</h6>
+                                    <p>{riskFactorEval.healthComponent}</p>
+                                    <p>{riskFactorEval.probabilityComponent}</p>
+                                    <h6>{riskFactorEval.finalEval}</h6>
                                 </div>
                             </AccordionBody>
                         }
                     </div>
-
                 </Accordion.Item>
-
-
             </Accordion>
         </div>
     )

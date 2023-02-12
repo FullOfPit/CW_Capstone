@@ -36,7 +36,7 @@ export default function ProjectSummaryCard({
             {position: "top-center",
                 autoClose: false,
                 hideProgressBar: true,
-                closeOnClick: false,
+                closeOnClick: true,
                 pauseOnHover: false,
             },
         );
@@ -54,10 +54,6 @@ export default function ProjectSummaryCard({
                     <p><strong>Start Date:</strong> {project.plannedStartDate}</p>
                     <p><strong>Finish Date:</strong> {project.plannedFinishDate}</p>
                 </div>
-                <div>
-                    <p></p>
-                </div>
-
             </div>
             <div className={"ProjectSummaryCardButtons"}>
                 <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>Details</Button>

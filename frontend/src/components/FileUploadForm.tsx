@@ -4,7 +4,10 @@ import "./FileUploadForm.css"
 import axios from "axios";
 import Project from "../types/Project";
 
-export default function FileUploadForm({project, setProject, fileUploadOption}: {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
+export default function FileUploadForm(
+    {project, setProject, fileUploadOption}
+        :
+    {project: Project, setProject: (project: Project) => void, fileUploadOption: boolean}) {
 
     const [file, setFile] = useState<File | null>(null);
     const [uploadedFiles, setUploadedFiles] = useState<{id: string, name: string, createdBy: string}[]>([]);
@@ -16,7 +19,6 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             setUploadedFiles(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
-
         }
     })()}, [project.id])
 
@@ -63,9 +65,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
 
     return(
         <div className={"FileUploadForm"}>
-
             <h6>Additional Documents</h6>
-
             <div className={"UploadedFiles"}>
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
@@ -83,7 +83,7 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
             </div>
 
             {fileUploadOption &&
-                <form>
+                <form className={"DocumentInputForm"} autoComplete={"false"}>
                     <input className={"DocumentInputField"}
                            type={"file"}
                            accept={".pdf, .docx"}
@@ -99,5 +99,5 @@ export default function FileUploadForm({project, setProject, fileUploadOption}: 
                 </form>
             }
         </div>
-    )
+    );
 }

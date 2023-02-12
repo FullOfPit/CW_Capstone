@@ -49,6 +49,13 @@
     margin: 0;
 }
 
+.RiskComponents h6{
+    padding-top: 1rem;
+}
+.RiskSummaryPlot {
+    padding-right: 5rem;
+}
+
 .RiskDescription {
     padding: 0 0 0 1rem;
     text-align: left;

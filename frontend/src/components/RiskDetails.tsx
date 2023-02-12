@@ -7,7 +7,7 @@ import Risk from "../types/Risk";
 import RiskSummaryCard from "./RiskSummaryCard";
 import {toast} from "react-toastify";
 import {riskValidation} from "../validation/validation";
-import {riskComponentColorCode} from "../evaluation/riskFactorEval";
+import {riskComponentColorCode} from "../evaluation/riskFactorEvaluation";
 
 export default function RiskDetails({id, setRiskOpen, setRisks}:
 {id: string, setRiskOpen: (riskOpen: boolean) => void, setRisks: (risks: Risk[]) => void})
@@ -34,24 +34,10 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
         })
     }
 
-    const healthHazardModifier = (int: number) => {
-        setRisk({
-            ...currentRisk,
-            healthHazard: int,
-        })
-    }
-
-    const probabilityModifier = (int: number) => {
+    const metricModifier = (metricName: string, metricValue: number) => {
         setRisk( {
             ...currentRisk,
-            probability: int,
-        })
-    }
-
-    const frequencyModifier = (int: number) => {
-        setRisk( {
-            ...currentRisk,
-            frequency: int,
+            [metricName]: metricValue,
         })
     }
 
@@ -88,7 +74,7 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
             </div>
             <div className={"RiskDetails"}>
                 <div className={"RiskDetailsContent"}>
-                    <Form>
+                    <Form autoComplete={"off"}>
                         <Form.Group className={"RiskDetailsFactor"}>
                             <Form.Label>Risk factor: </Form.Label>
                             <Form.Control className={"RiskDetailsFactorName"}
@@ -130,13 +116,17 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Toggle >
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => healthHazardModifier(1)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("healthHazard", 1)}>
                                         Minor: Level 1</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => healthHazardModifier(2)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("healthHazard", 2)}>
                                         Serious: Level 2</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => healthHazardModifier(3)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("healthHazard", 3)}>
                                         Critical: Level 3</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => healthHazardModifier(4)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("healthHazard", 4)}>
                                         Lethal: Level 4</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -151,13 +141,17 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => probabilityModifier(1)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("probability", 1)}>
                                         Highly Unlikely: Level 1</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => probabilityModifier(2)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("probability", 2)}>
                                         Possible: Level 2</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => probabilityModifier(3)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("probability", 3)}>
                                         Likely: Level 3</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => probabilityModifier(4)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("probability", 4)}>
                                         Highly Likely: Level 4</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -172,13 +166,17 @@ export default function RiskDetails({id, setRiskOpen, setRisks}:
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => frequencyModifier(1)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("frequency", 1)}>
                                         Once: Level 1</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => frequencyModifier(2)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("frequency", 2)}>
                                         Rarely: Level 2</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => frequencyModifier(3)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("frequency", 3)}>
                                         Occasionally: Level 3</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => frequencyModifier(4)}>
+                                    <Dropdown.Item
+                                        onClick={() => metricModifier("frequency", 4)}>
                                         Regularly: Level 4</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>

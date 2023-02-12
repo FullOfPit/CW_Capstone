@@ -28,7 +28,7 @@ code {
   padding-top: 2rem;
   width: 40%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .ButtonBox button {
