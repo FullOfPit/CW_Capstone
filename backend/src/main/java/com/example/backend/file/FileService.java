@@ -35,16 +35,17 @@ public class FileService {
 
         GridFSFile gridFSFile = getFile(id);
         String contentType = "_contentType";
+        String createdBy = "createdBy";
         Document metadata = Optional.ofNullable(
                         gridFSFile.getMetadata())
-                .orElse(new Document(Map.of(contentType, "", "createdBy", "")));
+                .orElse(new Document(Map.of(contentType, "", createdBy, "")));
 
         return new FileMetadata(
                 id,
                 gridFSFile.getFilename(),
                 metadata.getString(contentType),
                 gridFSFile.getLength(),
-                metadata.getString("createdBy")
+                metadata.getString(createdBy)
         );
     }
 
