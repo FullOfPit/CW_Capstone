@@ -34,14 +34,15 @@ public class FileService {
     public FileMetadata getFileMetadata(String id) {
 
         GridFSFile gridFSFile = getFile(id);
+        String contentType = "_contentType";
         Document metadata = Optional.ofNullable(
                         gridFSFile.getMetadata())
-                .orElse(new Document(Map.of("_contentType", "", "createdBy", "")));
+                .orElse(new Document(Map.of(contentType, "", "createdBy", "")));
 
         return new FileMetadata(
                 id,
                 gridFSFile.getFilename(),
-                metadata.getString("_contentType"),
+                metadata.getString(contentType),
                 gridFSFile.getLength(),
                 metadata.getString("createdBy")
         );
@@ -97,8 +98,8 @@ public class FileService {
 
         List<GridFSFile> listOfFiles = this.getFilesByProjectId(projectId);
 
-        List<FileMetadata> listOfMetadata = listOfFiles.stream()
-                .map((file) -> {
+        return listOfFiles.stream()
+                .map(file -> {
                     assert file.getMetadata() != null;
                     return new FileMetadata(
                             file.getId().toString(),
@@ -107,7 +108,5 @@ public class FileService {
                             file.getLength(),
                             file.getMetadata().getString("createdBy"));
                 }).toList();
-
-        return listOfMetadata;
     }
 }
