@@ -2,7 +2,11 @@ package com.example.backend.project;
 
 import com.example.backend.appuser.AppUserRepository;
 import com.example.backend.exception.ProjectNotRegisteredException;
+import com.example.backend.exception.RiskNotRegisteredException;
 import com.example.backend.exception.UserNotRegisteredException;
+import com.example.backend.file.FileService;
+import com.example.backend.risk.Risk;
+import com.example.backend.risk.RiskService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +19,13 @@ import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
 class ProjectServiceTest {
+
+    //                  -- Auxiliary
+
+    ProjectRepository projectRepository = mock(ProjectRepository.class);
+    AppUserRepository appUserRepository = mock(AppUserRepository.class);
+    RiskService riskService = mock(RiskService.class);
+    FileService fileService = mock(FileService.class);
 
     Project testProject = new Project(
             "Test ID",
@@ -45,10 +56,9 @@ class ProjectServiceTest {
     @Test
     void getAll_returnsEmptyListWhenNoProjectRegistered() {
         //Given
-        ProjectRepository projectRepository = mock(ProjectRepository.class);
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         List<Project> actual =  projectService.getAll();
         //Then
         Assertions.assertEquals(new ArrayList<>(), actual);
@@ -62,7 +72,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.findAll()).thenReturn(List.of(testProject));
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         List<Project> actual = projectService.getAll();
         //Then
         Assertions.assertEquals(List.of(testProject), actual);
@@ -76,7 +86,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.save(testProject)).thenReturn(testProject);
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.create(testProject);
         //Then
         Assertions.assertEquals(
@@ -115,7 +125,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
         //Then
         Assertions.assertEquals(testProject, actual);
@@ -129,19 +139,19 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.findById("Test ID")).thenReturn(Optional.empty());
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         //Then
         Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.getById("Test ID"));
     }
 
     @Test
-    void deleteById_correctlyDeletesProject() throws ProjectNotRegisteredException {
+    void deleteById_correctlyDeletesProject() throws ProjectNotRegisteredException, RiskNotRegisteredException {
         //Given
-        ProjectRepository projectRepository = mock(ProjectRepository.class);
-        AppUserRepository appUserRepository = mock(AppUserRepository.class);
-        when(projectRepository.existsById("Test ID")).thenReturn(true);
+        when(this.projectRepository.existsById("Test ID")).thenReturn(true);
+        when(this.projectRepository.findById("Test ID")).thenReturn(Optional.ofNullable(testProject));
+        when(this.riskService.getAllByProjectId("Test ID")).thenReturn(List.of(new Risk()));
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         projectService.deleteById("Test ID");
         //Then
         verify(projectRepository).deleteById("Test ID");
@@ -154,7 +164,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.existsById("Test ID")).thenReturn(false);
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         //Then
         Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.deleteById("Test ID"));
     }
@@ -167,7 +177,7 @@ class ProjectServiceTest {
         when(projectRepository.existsById("Test ID")).thenReturn(true);
         when(projectRepository.save(testProject)).thenReturn(testProject);
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.update("Test ID", testProject);
         //Then
         Assertions.assertEquals(testProject, actual);
@@ -183,7 +193,7 @@ class ProjectServiceTest {
         when(projectRepository.existsById("Test ID")).thenReturn(true);
         when(projectRepository.save(any())).then(returnsFirstArg());
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         projectService.create(testProject);
         Project actual = projectService.update("Test ID", alternativeTestProject);
         //Then
@@ -199,7 +209,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(projectRepository.existsById("Test ID")).thenReturn(false);
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         //Then
         Assertions.assertThrows(ProjectNotRegisteredException.class, () -> projectService.update("Test ID", testProject));
     }
@@ -212,7 +222,7 @@ class ProjectServiceTest {
         when(appUserRepository.existsById("Test User ID")).thenReturn(true);
         when(projectRepository.findAllByCreatedBy("Test User ID")).thenReturn(new ArrayList<>());
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         List<Project> actual = projectService.getAllByUserId("Test User ID");
         //Then
         Assertions.assertEquals(new ArrayList<>(), actual);
@@ -228,7 +238,7 @@ class ProjectServiceTest {
         when(appUserRepository.existsById("Test User ID")).thenReturn(true);
         when(projectRepository.findAllByCreatedBy("Test User ID")).thenReturn(List.of(testProject));
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         List<Project> actual = projectService.getAllByUserId("Test User ID");
         //Then
         Assertions.assertEquals(List.of(testProject), actual);
@@ -243,7 +253,7 @@ class ProjectServiceTest {
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
         when(appUserRepository.existsById("Test User ID")).thenReturn(false);
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         //Then
         Assertions.assertThrows(UserNotRegisteredException.class, () -> projectService.getAllByUserId("Test User ID"));
         verify(appUserRepository).existsById("Test User ID");
@@ -270,7 +280,7 @@ class ProjectServiceTest {
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
 
         //Then
@@ -298,7 +308,7 @@ class ProjectServiceTest {
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
 
         //Then
@@ -326,7 +336,7 @@ class ProjectServiceTest {
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
 
         //Then
@@ -354,7 +364,7 @@ class ProjectServiceTest {
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
 
         //Then
@@ -382,7 +392,7 @@ class ProjectServiceTest {
         when(projectRepository.findById("Test ID")).thenReturn(Optional.of(testProject));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         Project actual = projectService.getById("Test ID");
 
         //Then
@@ -439,7 +449,7 @@ class ProjectServiceTest {
                 .thenReturn(List.of(testProjectOne, testProjectTwo, testProjectThree));
 
         //When
-        ProjectService projectService = new ProjectService(projectRepository, appUserRepository);
+        ProjectService projectService = new ProjectService(projectRepository, appUserRepository, riskService, fileService);
         List<Project> actual = projectService.getAllByUserId("Test User ID");
 
         //Then

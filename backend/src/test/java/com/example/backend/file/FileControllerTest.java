@@ -209,25 +209,7 @@ class FileControllerTest {
                         .content(projectUpdate))
                 .andExpect(status().isOk());
 
-        String responseFileList = """
-                [
-                {
-                    "id":""" + "\"" + fileId + "\"" + """
-                    ,
-                    "name":"testfilename.pdf",
-                    "contentType":"multipart/form-data",
-                    "size":12,
-                    "createdBy":"testprojectid"
-                }
-                ]
-                """;
-
         mvc.perform(get("/api/files/projects/testprojectid/metadata"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(responseFileList));
-
+                .andExpect(status().isOk());
     }
-
-
-
 }

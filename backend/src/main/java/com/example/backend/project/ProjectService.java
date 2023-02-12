@@ -2,7 +2,11 @@ package com.example.backend.project;
 
 import com.example.backend.appuser.AppUserRepository;
 import com.example.backend.exception.ProjectNotRegisteredException;
+import com.example.backend.exception.RiskNotRegisteredException;
 import com.example.backend.exception.UserNotRegisteredException;
+import com.example.backend.file.FileService;
+import com.example.backend.risk.Risk;
+import com.example.backend.risk.RiskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,8 @@ import java.util.List;
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final AppUserRepository appUserRepository;
+    private final RiskService riskService;
+    private final FileService fileService;
 
     private Project projectStatusCheck(Project currentProject) {
 
@@ -45,12 +51,23 @@ public class ProjectService {
                 .orElseThrow(ProjectNotRegisteredException::new));
     }
 
-    public void deleteById(String id) throws ProjectNotRegisteredException {
+    public void deleteById(String id) throws ProjectNotRegisteredException, RiskNotRegisteredException {
         if (this.projectRepository.existsById(id)) {
+
+            List<Risk> risksToDelete = this.riskService.getAllByProjectId(id);
+            for (Risk risk : risksToDelete) {
+                this.riskService.deleteById(risk.getId());
+            }
+
+            for (String documentId : this.getById(id).getDocumentIds()) {
+                this.fileService.deleteById(documentId);
+            }
+
             this.projectRepository.deleteById(id);
         } else {
             throw new ProjectNotRegisteredException();
         }
+
     }
 
     public Project update(String id, Project project) throws ProjectNotRegisteredException {

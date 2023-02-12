@@ -22,17 +22,6 @@ class RiskControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    /*
-
-    @Autowired
-    private RiskRepository riskRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
-
-     */
-
-
     //                      -- Auxiliary
 
     String testRiskJson = """
