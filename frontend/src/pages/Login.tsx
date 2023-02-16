@@ -6,6 +6,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import logo from "../EasyRiskLogo.png";
 
 export default function Login () {
     const [credentials, setCredentials] = useState({
@@ -57,7 +58,7 @@ export default function Login () {
 
     return (
         <div className={"LoginPage"}>
-            <h4 className={"LoginPageTitle"}>EasyRisk - Login</h4>
+            <img className={"LogoFrontPage"} src={logo} alt={"Easy Risk Logo"}/>
             <Form onSubmit={login} className={"LoginPageInputForm"} autoComplete={"off"}>
                 <Form.Group className={"LoginPageInputFormInputField"}>
                     <Form.Control type={"text"}

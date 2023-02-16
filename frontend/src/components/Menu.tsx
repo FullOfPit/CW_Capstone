@@ -4,10 +4,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./Menu.css"
-import {useCallback} from "react";
+import React, {useCallback} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Project from "../types/Project";
+import logo from "../EasyRiskLogoSmall.png";
 
 export default function Menu({projects, username}:{projects: Project[], username: string}) {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function Menu({projects, username}:{projects: Project[], username
 
     return (
         <Navbar variant={"dark"} bg={"primary"} className={"MenuBar"}>
+            <img className={"LogoSmall"} src={logo} alt={"Easy Risk Logo"}/>
             <Container fluid>
                 <Navbar.Brand>Welcome Back {username}!</Navbar.Brand>
                 <Nav>
