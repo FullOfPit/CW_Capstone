@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.LogoFrontPage {
+  width: 25rem;
+}
+
+.LogoSmall {
+  position: fixed;
+  border-radius: 0.375rem;
+  left: 3.5rem;
+  width: 8.5%;
+  padding-top: 8px;
+}
+
+@media (max-width: 1100px) {
+  .LogoSmall {
+    display: none;
+  }
+}

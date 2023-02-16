@@ -4,6 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import {useNavigate} from "react-router-dom";
 import Project from "../types/Project";
+import logo from "../EasyRiskLogoSmall.png";
+import React from "react";
+
 
 export default function HeaderBar ({project, reAssessment}:{project: Project | null, reAssessment: boolean
 }) {
@@ -13,6 +16,7 @@ export default function HeaderBar ({project, reAssessment}:{project: Project | n
     return (
         <div>
             <Navbar variant={"dark"} bg={"primary"} className={"MenuBar"}>
+                <img className={"LogoSmall"} src={logo} alt={"Easy Risk Logo"}/>
                 <Container fluid>
                     {!reAssessment && project ?
                         <Navbar.Brand>Project Details: {project.projectId}</Navbar.Brand>
