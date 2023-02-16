@@ -42,7 +42,7 @@
 }
 
 .LogoSmall {
-  position: fixed;
+  position: absolute;
   border-radius: 0.375rem;
   left: 3.5rem;
   width: 8.5%;
