@@ -4,6 +4,15 @@
     padding: 2rem 1.5rem;
 }
 
+@media (max-width: 750px) {
+    .ProjectSummaryCard {
+        display: flex;
+        flex-direction: column;
+        margin: 0.5rem 0;
+        padding: 2rem 1.5rem;
+    }
+}
+
 .ProjectSummaryCardButtons {
     width: 20%;
     display: flex;
@@ -11,6 +20,18 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+@media (max-width: 750px) {
+    .ProjectSummaryCardButtons {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding-top: 1rem;
+    }
 }
 
 .ProjectSummaryCardButtons button{
@@ -23,6 +44,16 @@
     text-align: left;
     width: 80%;
     border-right: 1px solid black;
+}
+
+@media (max-width: 750px) {
+    .ProjectSummaryCardContent {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        width: 100%;
+        border-right: 1px solid black;
+    }
 }
 
 .ProjectSummaryCardContent p {
