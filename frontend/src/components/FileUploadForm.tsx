@@ -69,7 +69,7 @@ export default function FileUploadForm(
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
                             <h6><a
-                                href={`${process.env.REACT_APP_DISPLAY ?? ""}/api/files/${file.id}`}
+                                href={`${process.env.REACT_APP_DISPLAY ?? ""}/api/files/${file.id.slice(19, -1)}`}
                                 target={"blank"}
                                 rel={"noopener"}
                                 >
