@@ -7,13 +7,11 @@ import Root from "./pages/Root";
 function App() {
 
   return (
-      <div>
+      <div className={"Main"}>
           <BrowserRouter>
               <Root/>
           </BrowserRouter>
       </div>
-
-
   );
 }
 

@@ -262,7 +262,6 @@ export default function NewProject() {
                 </div>
             }
         </div>
-            <ToastContainer/>
         </div>
     )
 }
