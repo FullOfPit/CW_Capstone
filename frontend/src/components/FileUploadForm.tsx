@@ -28,7 +28,6 @@ export default function FileUploadForm(
             if (file) {
                 const formData = new FormData();
                 formData.append("file", file);
-                console.log(file);
 
                 const response = await axios.post(`/api/files/${project.id}`, formData);
                 project.documentIds.push(response.data.id)
