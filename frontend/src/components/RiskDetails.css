@@ -12,6 +12,13 @@
     padding: 2rem 0 2rem 0;
 }
 
+@media (max-width: 1300px) {
+    .RiskMetricButtonBar {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .RiskMetricButtonBar button {
     width: 15rem;
 }
