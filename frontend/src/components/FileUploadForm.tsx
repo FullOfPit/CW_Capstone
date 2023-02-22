@@ -15,7 +15,6 @@ export default function FileUploadForm(
     useEffect(() => {(async () => {
         try {
             const response = await axios.get(`/api/files/projects/${project.id}/metadata`);
-            console.log(response.data);
             setUploadedFiles(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
