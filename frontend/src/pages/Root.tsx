@@ -23,11 +23,14 @@ export default function Root() {
                     <Login/>
                 </NoAuth>
             }/>
+
+
             <Route path={"/"} element={
                 <Authentication>
                     <Dashboard/>
                 </Authentication>
             }/>
+
             <Route path={"/newproject/*"} element={
                 <Authentication>
                     <NewProject/>
