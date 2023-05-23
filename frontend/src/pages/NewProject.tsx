@@ -34,8 +34,6 @@ export default function NewProject() {
     const [riskOpen, setRiskOpen] = useState<boolean>(false);
     const [reAssessment, setReAssessment] = useState<boolean>(false);
 
-    console.log(project);
-
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -152,116 +150,117 @@ export default function NewProject() {
 
     return (
         <div>
-        <HeaderBar project={project} reAssessment={reAssessment}/>
-        <div className={"ScreenLimit"}>
-            <div className={"NewEditProjectHead"}>
-                {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
-            </div>
+            <HeaderBar project={project} reAssessment={reAssessment}/>
+            <div className={"ScreenLimit"}>
+                <div className={"NewEditProjectHead"}>
+                    {reAssessment ? <h4>Project Reassessment</h4> : <h4>New Project</h4>}
+                </div>
 
-                <Form className={"NewProjectForm"} autoComplete={"off"}>
-                    <Form.Group className={"NewProjectHead"}>
-                        <Form.Label>Project Name:</Form.Label>
-                        <Form.Control placeholder={project.projectName || "Project Name"}
-                                      name={"projectName"}
-                                      value={project.projectName}
-                                      onChange={editProject}
-                        ></Form.Control>
-                    </Form.Group>
-                    <Form.Group className={"NewProjectHead"}>
-                        <Form.Label>Project ID:</Form.Label>
-                        <Form.Control placeholder={project.projectId || "Project ID"}
-                                      name={"projectId"}
-                                      value={project.projectId}
-                                      maxLength={26}
-                                      onChange={editProject}></Form.Control>
-                    </Form.Group>
+                    <Form className={"NewProjectForm"} autoComplete={"off"}>
+                        <Form.Group className={"NewProjectHead"}>
+                            <Form.Label>Project Name:</Form.Label>
+                            <Form.Control placeholder={project.projectName || "Project Name"}
+                                          name={"projectName"}
+                                          value={project.projectName}
+                                          onChange={editProject}
+                            ></Form.Control>
+                        </Form.Group>
+                        <Form.Group className={"NewProjectHead"}>
+                            <Form.Label>Project ID:</Form.Label>
+                            <Form.Control placeholder={project.projectId || "Project ID"}
+                                          name={"projectId"}
+                                          value={project.projectId}
+                                          maxLength={26}
+                                          onChange={editProject}></Form.Control>
+                        </Form.Group>
 
-                    <Form.Group className={"NewProjectDates"}>
-                        <div>
-                            <Form.Label>Planned Start Date</Form.Label>
-                            <Form.Control placeholder={project.plannedStartDate || "Planned Start Date"}
-                                          type={"date"}
-                                          min={new Date().toISOString().slice(0, 10)}
-                                          name={"plannedStartDate"}
-                                          value={project.plannedStartDate}
+                        <Form.Group className={"NewProjectDates"}>
+                            <div>
+                                <Form.Label>Planned Start Date</Form.Label>
+                                <Form.Control placeholder={project.plannedStartDate || "Planned Start Date"}
+                                              type={"date"}
+                                              min={new Date().toISOString().slice(0, 10)}
+                                              name={"plannedStartDate"}
+                                              value={project.plannedStartDate}
+                                              onInput={editProject}
+                                ></Form.Control>
+                            </div>
+                            <div>
+                                <Form.Label>Planned Finish Date</Form.Label>
+                                <Form.Control placeholder={project.plannedFinishDate || "Planned Finish Date"}
+                                              type={"date"}
+                                              min={new Date().toISOString().slice(0, 10)}
+                                              name={"plannedFinishDate"}
+                                              value={project.plannedFinishDate}
+                                              onInput={editProject}
+                                ></Form.Control>
+                            </div>
+                        </Form.Group>
+                        <Form.Group className={"NewProjectDescription"}>
+                            <Form.Label>Project Description</Form.Label>
+                            <Form.Control placeholder={project.projectDetails
+                                ||
+                                "Please enter specific details on your project"}
+                                          name={"projectDetails"}
+                                          value={project.projectDetails}
+                                          as={"textarea"}
                                           onInput={editProject}
                             ></Form.Control>
-                        </div>
-                        <div>
-                            <Form.Label>Planned Finish Date</Form.Label>
-                            <Form.Control placeholder={project.plannedFinishDate || "Planned Finish Date"}
-                                          type={"date"}
-                                          min={new Date().toISOString().slice(0, 10)}
-                                          name={"plannedFinishDate"}
-                                          value={project.plannedFinishDate}
-                                          onInput={editProject}
-                            ></Form.Control>
-                        </div>
-                    </Form.Group>
-                    <Form.Group className={"NewProjectDescription"}>
-                        <Form.Label>Project Description</Form.Label>
-                        <Form.Control placeholder={project.projectDetails
-                            ||
-                            "Please enter specific details on your project"}
-                                      name={"projectDetails"}
-                                      value={project.projectDetails}
-                                      as={"textarea"}
-                                      onInput={editProject}
-                        ></Form.Control>
-                    </Form.Group>
-                        <div className={"AssessorStep"}>
-                            <Form.Group className={"NewProjectHead"}>
-                            <Form.Label>Assessed By:</Form.Label>
-                            <Form.Control placeholder={"Name of project assessor"}
-                            name={"assessorName"}
-                            value={project.assessorName}
-                            onInput={editProject}
-                            ></Form.Control>
-                            </Form.Group>
+                        </Form.Group>
+                            <div className={"AssessorStep"}>
+                                <Form.Group className={"NewProjectHead"}>
+                                <Form.Label>Assessed By:</Form.Label>
+                                <Form.Control placeholder={"Name of project assessor"}
+                                name={"assessorName"}
+                                value={project.assessorName}
+                                onInput={editProject}
+                                ></Form.Control>
+                                </Form.Group>
 
-                            {!assessmentRdy &&
-                                <div className={"ButtonBox"}>
-                                    <Button onClick={() => navigate("/")}>Back</Button>
-                                    <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
-                                    <ToastContainer />
-                                </div>
+                                {!assessmentRdy &&
+                                    <div className={"ButtonBox"}>
+                                        <Button onClick={() => navigate("/")}>Back</Button>
+                                        <Button type={"submit"} onClick={(event) => onSave(event)}>Save and Next</Button>
+
+                                    </div>
+                                }
+                            </div>
+                    </Form>
+
+                {assessmentRdy &&
+                    <div className={"RiskAssessment"}>
+                        <div className={"RiskSummaryCards"}>
+                            {risks.filter((risk) => (risk.projectId === project.id))
+                                .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
+
+                            {!riskOpen ?
+                                <Button onClick={() => {setRiskOpen(true)}}>
+                                    Assess New Risk Factor</Button>
+                                :
+                                <RiskDetails id={project.id}
+                                             setRiskOpen={setRiskOpen}
+                                             setRisks={setRisks}/>
                             }
                         </div>
-                </Form>
 
-            {assessmentRdy &&
-                <div className={"RiskAssessment"}>
-                    <div className={"RiskSummaryCards"}>
-                        {risks.filter((risk) => (risk.projectId === project.id))
-                            .map((risk) => <RiskSummaryCard key={risk.id} risk={risk} onDelete={onDelete}/>)}
+                        <FileUploadForm project={project} setProject={setProject} fileUploadOption={true}/>
 
-                        {!riskOpen ?
-                            <Button onClick={() => {setRiskOpen(true)}}>
-                                Assess New Risk Factor</Button>
-                            :
-                            <RiskDetails id={project.id}
-                                         setRiskOpen={setRiskOpen}
-                                         setRisks={setRisks}/>
-                        }
                     </div>
 
-                    <FileUploadForm project={project} setProject={setProject} fileUploadOption={true}/>
+                }
+                {assessmentRdy &&
 
-                </div>
-
-            }
-            {assessmentRdy &&
-
-                <div className={"ButtonBox"}>
-                    {reAssessment ?
-                        <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>
-                            Cancel Re-Assessment</Button>
-                        :
-                        <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
-                    <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
-                </div>
-            }
-        </div>
+                    <div className={"ButtonBox"}>
+                        {reAssessment ?
+                            <Button onClick={() => navigate(`/projectdetails/${project.id}`)}>
+                                Cancel Re-Assessment</Button>
+                            :
+                            <Button onClick={(event) => onCancel(event)}>Cancel Assessment</Button>}
+                        <Button onClick={(event) => onFinish(event)}>Finish Assessment</Button>
+                    </div>
+                }
+            </div>
+            <ToastContainer />
         </div>
     )
 }

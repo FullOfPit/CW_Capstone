@@ -25,6 +25,7 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .httpBasic().and()
+                .httpBasic().authenticationEntryPoint(new AuthenticationPopUpBlock()).and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/app-users").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/app-users/login").permitAll()

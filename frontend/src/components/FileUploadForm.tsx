@@ -15,7 +15,6 @@ export default function FileUploadForm(
     useEffect(() => {(async () => {
         try {
             const response = await axios.get(`/api/files/projects/${project.id}/metadata`);
-            console.log(response.data);
             setUploadedFiles(response.data);
         } catch (e) {
             console.log("Something went wrong", e)
@@ -28,7 +27,6 @@ export default function FileUploadForm(
             if (file) {
                 const formData = new FormData();
                 formData.append("file", file);
-                console.log(file);
 
                 const response = await axios.post(`/api/files/${project.id}`, formData);
                 project.documentIds.push(response.data.id)
@@ -70,7 +68,7 @@ export default function FileUploadForm(
                 {uploadedFiles &&
                     uploadedFiles.map((file) => <div key={file.id} className={"FileContainer"}>
                             <h6><a
-                                href={`${process.env.REACT_APP_DISPLAY ?? ""}/api/files/${file.id}`}
+                                href={`${process.env.REACT_APP_DISPLAY ?? ""}/api/files/${file.id.slice(19, -1)}`}
                                 target={"blank"}
                                 rel={"noopener"}
                                 >
